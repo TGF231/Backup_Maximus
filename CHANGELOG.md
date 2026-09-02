@@ -41,7 +41,9 @@ uma na sua casa.
     tela apagaria a configuração do conjunto em silêncio.
   - Caminhos **UNC entram pela aba Rede** e passam a aparecer na lista. É
     onde a credencial já está cadastrada — esperar por um caminho de rede
-    sem poder acessá-lo só produziria falha na hora do backup.
+    sem poder acessá-lo só produziria falha na hora do backup. O seletor lê
+    os compartilhamentos a cada abertura, então um cadastro novo aparece sem
+    fechar o programa.
 
 - Tela **Sobre**, com versão, licenças de terceiros e diagnóstico copiável.
   É o aviso visível que a LGPLv3 da Qt exige, e poupa o suporte de pedir

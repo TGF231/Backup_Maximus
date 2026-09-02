@@ -140,6 +140,13 @@ class BackupsTab(QWidget):
             listing.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
             listing.setTextElideMode(Qt.ElideRight)
 
+        # Os UNC vêm da aba Rede, onde já têm credencial cadastrada; sem isso
+        # o conjunto esperaria por um caminho que não conseguiria acessar.
+        # É uma função, não uma cópia da lista: um compartilhamento cadastrado
+        # depois desta tela existir precisa aparecer sem reabrir o programa.
+        self.set_wait.set_network_source(
+            lambda: [nc.unc_root for nc in self.cfg.net_creds])
+
         self.set_dest.kind = PathKind.DESTINATION
         self.set_staging.kind = PathKind.DESTINATION
         self.item_source.kind = PathKind.ANY
@@ -306,9 +313,6 @@ class BackupsTab(QWidget):
         self.set_dest.setText(bset.destination)
         self.set_mode.setCurrentIndex(_MODE_ORDER.index(bset.mode))
         self.set_staging.setText(bset.staging)
-        # Os UNC vêm da aba Rede, onde já têm credencial cadastrada; sem isso
-        # o conjunto esperaria por um caminho que não conseguiria acessar.
-        self.set_wait.set_network_paths(nc.unc_root for nc in self.cfg.net_creds)
         self.set_wait.setValue(bset.wait_for_path)
         self.set_wait_secs.setValue(bset.wait_timeout_sec)
         self.set_keep_last.setValue(bset.keep_last)

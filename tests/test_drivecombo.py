@@ -180,5 +180,71 @@ class DriveComboTest(unittest.TestCase):
                          ["", "C:\\", "E:\\", "F:\\", r"\\servidor\backup"])
 
 
+
+@unittest.skipIf(_sem_qt(), _sem_qt() or "sem Qt")
+class RedeAoVivoTest(unittest.TestCase):
+    """O UNC cadastrado agora precisa aparecer sem reabrir o programa.
+
+    Regressão: a lista de rede era copiada uma vez, ao carregar o conjunto.
+    Cadastrar um compartilhamento na aba Rede não chegava ao seletor, e só
+    fechar e abrir o Backup Maximus resolvia.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        from PySide6.QtWidgets import QApplication
+        cls.app = QApplication.instance() or QApplication([])
+
+    def setUp(self):
+        from backup_maximus import winapi
+        from backup_maximus.ui import drivecombo
+        self.drivecombo = drivecombo
+        self._orig = drivecombo.winapi.drives
+        drivecombo.winapi.drives = lambda: [
+            winapi.DriveInfo("C:\\", winapi.DRIVE_FIXED, "", "NTFS",
+                             500_000_000_000, 240_000_000_000),
+        ]
+        # Faz as vezes de cfg.net_creds, que a aba Rede altera no lugar.
+        self.cadastrados: list[str] = []
+        self.combo = drivecombo.DriveCombo()
+        self.combo.set_network_source(lambda: list(self.cadastrados))
+
+    def tearDown(self):
+        self.drivecombo.winapi.drives = self._orig
+
+    def _valores(self):
+        return [self.combo.itemData(i) for i in range(self.combo.count())]
+
+    def test_cadastro_posterior_aparece_ao_abrir_a_lista(self):
+        self.assertNotIn(r"\servidor\backup", self._valores())
+        self.cadastrados.append(r"\servidor\backup")
+        self.combo.showPopup()
+        self.combo.hidePopup()
+        self.assertIn(r"\servidor\backup", self._valores())
+
+    def test_remocao_na_aba_rede_tambem_chega(self):
+        self.cadastrados.append(r"\servidor\backup")
+        self.combo.refresh()
+        self.cadastrados.clear()
+        self.combo.refresh()
+        self.assertNotIn(r"\servidor\backup", self._valores())
+
+    def test_remover_o_unc_escolhido_nao_apaga_a_configuracao(self):
+        # Ele passa a constar como não conectado, e não some: o conjunto
+        # continua configurado para esperar por aquele caminho.
+        self.cadastrados.append(r"\servidor\backup")
+        self.combo.refresh()
+        self.combo.setValue(r"\servidor\backup")
+        self.cadastrados.clear()
+        self.combo.refresh()
+        self.assertEqual(self.combo.value(), r"\servidor\backup")
+
+    def test_origem_que_falha_nao_derruba_a_lista(self):
+        def explode():
+            raise RuntimeError("configuração ainda carregando")
+        self.combo.set_network_source(explode)
+        self.combo.refresh()
+        self.assertEqual(self._valores(), ["", "C:\\"])
+
 if __name__ == "__main__":
     unittest.main()

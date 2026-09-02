@@ -59,23 +59,33 @@ class DriveCombo(QComboBox):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        # O valor configurado que não corresponde a nenhuma unidade montada.
-        # Preservá-lo é o que impede a tela de apagar a configuração ao abrir.
-        self._ausente = ""
-        #: Caminhos UNC cadastrados na aba Rede. Sem digitação, é por lá que
-        #: um compartilhamento entra — e faz sentido: esperar por um caminho
-        #: de rede sem ter as credenciais dele só produziria falha na hora do
-        #: backup. `set_network_paths` é chamado pela aba de conjuntos.
-        self._unc: list[str] = []
+        #: De onde vêm os caminhos UNC. É uma função, e não uma lista copiada,
+        #: porque a aba Rede pode receber um compartilhamento novo enquanto
+        #: esta tela já existe — com a cópia, ele só apareceria depois de
+        #: fechar e reabrir o programa.
+        self._unc_source = lambda: ()
+        self.refresh()
+
+    def set_network_source(self, provedor) -> None:
+        """Registra de onde ler os compartilhamentos da aba Rede.
+
+        `provedor` é chamado a cada releitura, então um caminho cadastrado
+        agora aparece na próxima vez que a lista for aberta.
+        """
+        self._unc_source = provedor
         self.refresh()
 
     def set_network_paths(self, caminhos) -> None:
-        """Compartilhamentos vindos da aba Rede, na ordem em que estão lá."""
-        novos = [c.strip() for c in caminhos if c and c.strip()]
-        if novos == self._unc:
-            return
-        self._unc = novos
-        self.refresh()
+        """Lista fixa de compartilhamentos — atalho para uso em testes."""
+        fixos = tuple(caminhos)
+        self.set_network_source(lambda: fixos)
+
+    def _network_paths(self) -> list[str]:
+        try:
+            caminhos = list(self._unc_source() or ())
+        except Exception:      # a origem é externa; a lista não pode quebrar
+            return []
+        return [c.strip() for c in caminhos if c and c.strip()]
 
     # ------------------------------------------------------------- conteúdo
     def refresh(self, manter: str = "") -> None:
@@ -99,14 +109,14 @@ class DriveCombo(QComboBox):
                     "vazio ou disco ausente.", Qt.ToolTipRole)
 
         # Compartilhamentos de rede vêm da aba Rede, onde já têm credencial.
-        for unc in self._unc:
-            self.addItem(f"{unc}  (rede, cadastrado)", unc)
+        unc = self._network_paths()
+        for caminho in unc:
+            self.addItem(f"{caminho}  (rede, cadastrado)", caminho)
 
         # O que estava configurado e não está montado agora continua na lista.
         conhecidos = {i.letter.lower() for i in montadas}
-        conhecidos |= {u.lower() for u in self._unc}
+        conhecidos |= {c.lower() for c in unc}
         if escolhido and escolhido.lower() not in conhecidos:
-            self._ausente = escolhido
             self.addItem(f"{escolhido}  (não conectada agora)", escolhido)
             self.setItemData(
                 self.count() - 1,
@@ -130,7 +140,6 @@ class DriveCombo(QComboBox):
 
     def setValue(self, valor: str) -> None:
         valor = (valor or "").strip()
-        self._ausente = ""
         if valor and self._indice_de(valor) < 0:
             # Vem da configuração e a unidade não está conectada. É o caso
             # normal: espera-se que o pen drive apareça depois.
