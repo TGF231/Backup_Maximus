@@ -565,15 +565,9 @@
           </widget>
          </item>
          <item row="4" column="1" colspan="2">
-          <widget class="PathEdit" name="editSetWait">
-           <property name="placeholderText">
-            <string>vazio = não espera</string>
-           </property>
-           <property name="pathKind" stdset="0">
-            <string notr="true">none</string>
-           </property>
-           <property name="mono" stdset="0">
-            <string notr="true">true</string>
+          <widget class="DriveCombo" name="comboSetWait">
+           <property name="toolTip">
+            <string>Lista as unidades conectadas agora. O pen drive costuma não estar espetado ao configurar — pode digitar a letra mesmo assim.</string>
            </property>
           </widget>
          </item>
@@ -1116,6 +1110,11 @@
    <class>PathEdit</class>
    <extends>QLineEdit</extends>
    <header>backup_maximus.ui.pathedit</header>
+  </customwidget>
+  <customwidget>
+   <class>DriveCombo</class>
+   <extends>QComboBox</extends>
+   <header>backup_maximus.ui.drivecombo</header>
   </customwidget>
  </customwidgets>
  <resources/>

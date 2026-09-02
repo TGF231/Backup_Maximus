@@ -182,7 +182,7 @@ Cada linha de item mostra `nome → subpasta`, que é a forma de auditar de rela
 | **Modo** | **Completo** = zip novo por execução, compressão máxima. **Incremental** = um zip fixo atualizado, compressão rápida |
 | **Pasta de montagem** | A árvore intermediária. Vazio = `<pasta do app>\staging\<nome>`. Para reproduzir o `.bat`: `C:\BACKUP` |
 | **Manter últimos** | Quantos `.zip` preservar no destino. `0` = todos. Só no modo Completo — no Incremental existe um arquivo só |
-| **Aguardar unidade** | `U:\` faz esperar o pen drive antes de começar. Vazio = não espera. `0` seg = espera sem limite |
+| **Aguardar unidade** | Lista as unidades conectadas, com rótulo e espaço livre. Como o pen drive quase nunca está espetado na hora de configurar, o campo também aceita a letra digitada. Vazio = não espera. `0` seg = espera sem limite |
 | **Manter a pasta de montagem** | Deixe marcado: é o que torna a segunda execução rápida |
 
 Dois botões de inspeção ficam abaixo de **Executar backup agora**:
@@ -605,7 +605,7 @@ Saída esperada: `Ran 129 tests ... OK`.
 | Sintoma | Causa provável / correção |
 |---|---|
 | `gbak.exe não encontrado` | Informe o caminho completo no campo **Ferramenta** do item |
-| `Unidade U:\ não ficou disponível` | Pen drive não inserido, ou com outra letra. Confira em **Aguardar unidade** |
+| `Unidade U:\ não ficou disponível` | Pen drive não inserido, ou com outra letra. Espete-o e abra a lista de **Aguardar unidade**: ela é relida a cada abertura e mostra o rótulo do volume, que distingue dois pen drives |
 | `BACKUP DATABASE falhou` … *Operating system error 5* | A conta de serviço do SQL Server não escreve na pasta de montagem. Para servidor remoto, aponte a montagem para um UNC que essa conta enxergue |
 | Backup de rede falha com erro 1326 | Credencial errada na aba **Rede** |
 | Erro 1219 (conflito de credencial) | Já existe sessão com o servidor por outro usuário: `net use \\servidor /delete` |
@@ -724,7 +724,7 @@ precisa e quanto tem, e falha se faltar.
 
 ```
 backup_maximus/
-├── winapi.py       ctypes: DPAPI, métricas, rede (WNet), console
+├── winapi.py       ctypes: DPAPI, métricas, unidades, rede (WNet), console
 ├── util.py         formatação, caminhos, espera por unidade, execução de processos
 ├── logger.py       log diário em arquivo, thread-safe
 ├── config.py       modelo Conjunto→Itens, INI, DPAPI, hash de senha
@@ -748,6 +748,7 @@ backup_maximus/
     ├── theme.py        paletas clara/escura e folha de estilo (QSS)
     ├── icons.py        ícones desenhados em runtime, por paleta
     ├── widgets.py      pontos de status e papéis visuais
+    ├── drivecombo.py  seletor de unidade que aceita a que ainda não existe
     ├── pathedit.py     campo de caminho: arrastar-soltar e validação com atraso
     ├── password.py     trava de senha e diálogos
     ├── preview.py      prévia da árvore e painel de espaço/limpeza

@@ -32,6 +32,12 @@ uma na sua casa.
 
 ### Adicionado
 
+- **Aguardar unidade virou um seletor**: lista as unidades conectadas com
+  rótulo do volume, tipo e espaço livre, em vez de exigir que a letra seja
+  digitada de memória. Continua aceitando digitação, porque o pen drive quase
+  nunca está espetado na hora de configurar — esperar por ele é a função do
+  campo. A lista é relida ao abrir.
+
 - Tela **Sobre**, com versão, licenças de terceiros e diagnóstico copiável.
   É o aviso visível que a LGPLv3 da Qt exige, e poupa o suporte de pedir
   dados que o cliente digitaria errado.

@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QCombo
     QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
     QVBoxLayout, QWidget)
 
+from backup_maximus.ui.drivecombo import DriveCombo
 from backup_maximus.ui.pathedit import PathEdit
 
 class Ui_TabBackups(object):
@@ -294,12 +295,10 @@ class Ui_TabBackups(object):
 
         self.gridSet.addWidget(self.lblSetWait, 4, 0, 1, 1)
 
-        self.editSetWait = PathEdit(self.rightContents)
-        self.editSetWait.setObjectName(u"editSetWait")
-        self.editSetWait.setProperty(u"pathKind", u"none")
-        self.editSetWait.setProperty(u"mono", u"true")
+        self.comboSetWait = DriveCombo(self.rightContents)
+        self.comboSetWait.setObjectName(u"comboSetWait")
 
-        self.gridSet.addWidget(self.editSetWait, 4, 1, 1, 2)
+        self.gridSet.addWidget(self.comboSetWait, 4, 1, 1, 2)
 
         self.spinWaitSecs = QSpinBox(self.rightContents)
         self.spinWaitSecs.setObjectName(u"spinWaitSecs")
@@ -603,7 +602,9 @@ class Ui_TabBackups(object):
         self.editSetStaging.setPlaceholderText(QCoreApplication.translate("TabBackups", u"vazio = <pasta do app>\\staging\\<nome do conjunto>", None))
         self.btnBrowseStaging.setText(QCoreApplication.translate("TabBackups", u"\u2026", None))
         self.lblSetWait.setText(QCoreApplication.translate("TabBackups", u"Aguardar unidade", None))
-        self.editSetWait.setPlaceholderText(QCoreApplication.translate("TabBackups", u"vazio = n\u00e3o espera", None))
+#if QT_CONFIG(tooltip)
+        self.comboSetWait.setToolTip(QCoreApplication.translate("TabBackups", u"Lista as unidades conectadas agora. O pen drive costuma n\u00e3o estar espetado ao configurar \u2014 pode digitar a letra mesmo assim.", None))
+#endif // QT_CONFIG(tooltip)
         self.spinWaitSecs.setSuffix(QCoreApplication.translate("TabBackups", u" seg", None))
         self.lblSetHint.setText("")
         self.lblSetDestHint.setText("")

@@ -105,7 +105,7 @@ class BackupsTab(QWidget):
         self.set_dest = ui.editSetDest
         self.set_mode = ui.comboSetMode
         self.set_staging = ui.editSetStaging
-        self.set_wait = ui.editSetWait
+        self.set_wait = ui.comboSetWait
         self.set_wait_secs = ui.spinWaitSecs
         self.set_keep_last = ui.spinKeepLast
         self.set_keep = ui.chkKeepStaging
@@ -142,7 +142,6 @@ class BackupsTab(QWidget):
 
         self.set_dest.kind = PathKind.DESTINATION
         self.set_staging.kind = PathKind.DESTINATION
-        self.set_wait.kind = PathKind.NONE
         self.item_source.kind = PathKind.ANY
         self.item_tool.kind = PathKind.FILE
 
@@ -210,8 +209,11 @@ class BackupsTab(QWidget):
         self.btn_dest_info.clicked.connect(self.show_destination)
         self.btn_test.clicked.connect(self._test_connection)
 
-        for edit in (self.set_name, self.set_dest, self.set_staging, self.set_wait):
+        for edit in (self.set_name, self.set_dest, self.set_staging):
             edit.textChanged.connect(self._set_field_changed)
+        # O combo de unidade avisa por outro sinal: editTextChanged cobre tanto
+        # o que é digitado quanto o que é escolhido na lista.
+        self.set_wait.editTextChanged.connect(self._set_field_changed)
         self.set_mode.currentIndexChanged.connect(self._set_field_changed)
         self.set_wait_secs.valueChanged.connect(self._set_field_changed)
         self.set_keep_last.valueChanged.connect(self._set_field_changed)
@@ -306,7 +308,7 @@ class BackupsTab(QWidget):
         self.set_dest.setText(bset.destination)
         self.set_mode.setCurrentIndex(_MODE_ORDER.index(bset.mode))
         self.set_staging.setText(bset.staging)
-        self.set_wait.setText(bset.wait_for_path)
+        self.set_wait.setValue(bset.wait_for_path)
         self.set_wait_secs.setValue(bset.wait_timeout_sec)
         self.set_keep_last.setValue(bset.keep_last)
         self.set_keep.setChecked(bset.keep_staging)
@@ -469,7 +471,7 @@ class BackupsTab(QWidget):
         bset.destination = self.set_dest.text().strip()
         bset.mode = _MODE_ORDER[self.set_mode.currentIndex()]
         bset.staging = self.set_staging.text().strip()
-        bset.wait_for_path = self.set_wait.text().strip()
+        bset.wait_for_path = self.set_wait.value()
         bset.wait_timeout_sec = self.set_wait_secs.value()
         bset.keep_last = self.set_keep_last.value()
         bset.keep_staging = self.set_keep.isChecked()

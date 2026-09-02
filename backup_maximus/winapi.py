@@ -170,6 +170,78 @@ ERROR_SESSION_CREDENTIAL_CONFLICT = 1219
 _RESOURCETYPE_DISK = 0x1
 
 
+
+# ------------------------------------------------------------------ unidades
+#: Valores de GetDriveType. Os nomes são os da API; a tradução fica na
+#: interface, que é quem fala com o usuário.
+DRIVE_UNKNOWN = 0
+DRIVE_NO_ROOT_DIR = 1
+DRIVE_REMOVABLE = 2
+DRIVE_FIXED = 3
+DRIVE_REMOTE = 4
+DRIVE_CDROM = 5
+DRIVE_RAMDISK = 6
+
+
+class DriveInfo(NamedTuple):
+    letter: str          # "U:\\"
+    kind: int            # DRIVE_REMOVABLE, DRIVE_FIXED, ...
+    label: str           # rótulo do volume, "" se não houver
+    filesystem: str      # NTFS, FAT32, exFAT...
+    total_bytes: int
+    free_bytes: int
+
+    @property
+    def ready(self) -> bool:
+        """Falso para leitor de cartão vazio ou DVD sem disco.
+
+        A unidade existe na lista do Windows mas não responde — oferecê-la como
+        destino pronto seria mentira.
+        """
+        return self.total_bytes > 0
+
+
+def logical_drives() -> list[str]:
+    """Letras existentes agora, no formato 'C:\'."""
+    mask = ctypes.windll.kernel32.GetLogicalDrives()
+    return [f"{chr(ord('A') + i)}:\\" for i in range(26) if mask & (1 << i)]
+
+
+def drive_type(root: str) -> int:
+    return ctypes.windll.kernel32.GetDriveTypeW(ctypes.c_wchar_p(root))
+
+
+def volume_info(root: str) -> tuple[str, str]:
+    """(rótulo, sistema de arquivos). Vazios se a unidade não responder."""
+    label = ctypes.create_unicode_buffer(261)
+    fs = ctypes.create_unicode_buffer(261)
+    ok = ctypes.windll.kernel32.GetVolumeInformationW(
+        ctypes.c_wchar_p(root), label, len(label),
+        None, None, None, fs, len(fs))
+    if not ok:
+        return "", ""
+    return label.value, fs.value
+
+
+def drives() -> list[DriveInfo]:
+    """Todas as unidades montadas, com rótulo e espaço.
+
+    Nenhuma exceção escapa: uma unidade pode sumir entre a listagem e a
+    consulta — o pen drive que o usuário acabou de tirar — e isso não pode
+    derrubar a tela que está apenas oferecendo opções.
+    """
+    encontradas = []
+    for root in logical_drives():
+        try:
+            kind = drive_type(root)
+            label, fs = volume_info(root)
+            info = disk_info(root)
+        except OSError:
+            continue
+        encontradas.append(DriveInfo(root, kind, label, fs,
+                                     info.total_bytes, info.free_bytes))
+    return encontradas
+
 def net_connect(remote: str, user: str, password: str) -> int:
     """Conecta a um compartilhamento. Devolve o código de erro do Windows."""
     nr = _NetResource()
