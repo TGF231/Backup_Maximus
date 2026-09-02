@@ -16,12 +16,21 @@ relatório, o log e a barra de título leem de lá.
 
 ## Procedimento de lançamento
 
+A release é automática: o workflow `.github/workflows/release.yml` publica
+sozinho quando o código chega ao `main` com uma versão que ainda não tem tag.
+Não existe passo manual de empacotar nem de anexar arquivo.
+
 1. Mova o que está em **Não lançado** para uma seção nova com a versão e a data.
 2. Ajuste `__version__` no `__init__.py`.
-3. `python -m unittest discover -s tests -p "test_*.py"` e
-   `python -m backup_maximus.ui.fitcheck` — os dois têm de passar.
-4. `build_exe.bat`, e confira a versão em *Propriedades* do `.exe`.
-5. Commit `versão 2.1.0`, tag `v2.1.0`, e anexe o `.exe` à release do GitHub.
+3. `python release_info.py --conferir` — acusa versão sem notas, formato
+   inválido e conteúdo esquecido em "Não lançado".
+4. Commit e push para o `main`.
+
+O workflow então roda os testes e o `fitcheck`, baixa 7-Zip e rclone, gera os
+dois formatos, audita o pacote (reprova se a PyQt6 aparecer) e cria a tag com
+as notas desta seção. Se algum passo falhar, nada é publicado.
+
+Para republicar sem um commit novo, use *Run workflow* na aba Actions.
 
 A tag leva `v`; o `__version__`, não. É a convenção do Git e a do Python, cada
 uma na sua casa.
@@ -31,6 +40,14 @@ uma na sua casa.
 ## [Não lançado]
 
 ### Adicionado
+
+- **Release automática** pelo GitHub Actions: quando o `main` recebe uma
+  versão que ainda não tem tag, o workflow testa, empacota nos dois formatos,
+  audita o pacote e publica a release com as notas desta seção. O gatilho é a
+  ausência da tag, não a edição do arquivo — assim reexecutar não duplica
+  release e um comentário alterado não dispara build.
+- `release_info.py`, fonte única da versão e das notas para o workflow, com
+  `--conferir` que recusa publicar sem seção no CHANGELOG.
 
 - **Aguardar unidade virou um seletor fechado**, sem digitação. Lista as
   unidades com rótulo do volume, tipo e espaço livre — a letra sozinha não

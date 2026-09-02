@@ -1,0 +1,157 @@
+# Publica uma release sempre que a versão do aplicativo mudar.
+#
+# O gatilho não é "o arquivo __init__.py foi tocado", e sim "não existe tag
+# para a versão que está no código". A diferença importa: assim o workflow é
+# idempotente — reexecutar não duplica release —, funciona quando a versão
+# volta atrás, e não dispara por uma edição de comentário no mesmo arquivo.
+#
+# O build roda no Windows porque o produto é um .exe do Windows. As ferramentas
+# de terceiros (7-Zip e rclone) não estão no repositório — pesam 82 MB e cada
+# uma tem a sua licença —, então o runner as baixa das origens oficiais.
+
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:      # para republicar sem precisar de um commit novo
+
+# A release escreve tag e assets no próprio repositório.
+permissions:
+  contents: write
+
+# Dois pushes seguidos não podem publicar a mesma versão em paralelo.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  verificar:
+    name: A versão mudou?
+    runs-on: ubuntu-latest        # só lê arquivos; não precisa de Windows
+    outputs:
+      publicar: ${{ steps.decidir.outputs.publicar }}
+      versao: ${{ steps.decidir.outputs.versao }}
+      tag: ${{ steps.decidir.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # precisa das tags para saber o que já saiu
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Decidir
+        id: decidir
+        shell: bash
+        run: |
+          VERSAO=$(python release_info.py --versao)
+          TAG=$(python release_info.py --tag)
+          echo "versao=$VERSAO" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            echo "Versão $VERSAO já publicada na tag $TAG — nada a fazer."
+            echo "publicar=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Versão $VERSAO ainda não tem tag $TAG — vai publicar."
+            echo "publicar=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Conferir o CHANGELOG
+        # Falha aqui, antes de gastar um runner Windows: uma release sem notas
+        # é uma release que ninguém consegue avaliar.
+        if: steps.decidir.outputs.publicar == 'true'
+        run: python release_info.py --conferir
+
+  publicar:
+    name: Testar, empacotar e publicar
+    needs: verificar
+    if: needs.verificar.outputs.publicar == 'true'
+    runs-on: windows-latest
+    env:
+      # Sem sessão gráfica de verdade no runner; os testes de layout medem
+      # widgets, o que o backend offscreen resolve.
+      QT_QPA_PLATFORM: offscreen
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install PySide6 pyinstaller
+
+      - name: Testes
+        run: python -m unittest discover -s tests -p "test_*.py" -v
+
+      - name: Layout cabe sem rolar
+        run: python -m backup_maximus.ui.fitcheck
+
+      - name: Baixar 7-Zip e rclone
+        # O runner do Windows já traz um 7-Zip instalado, que é o que resolve
+        # o ovo-e-galinha de extrair o pacote .7z do próprio 7-Zip.
+        run: python vendor/baixar_ferramentas.py
+
+      - name: Empacotar
+        run: .\build_exe.bat
+
+      - name: Auditar o pacote
+        # Redundante com o build_exe.bat de propósito: é a verificação que
+        # impede uma biblioteca GPL de entrar num produto fechado, e ela não
+        # pode depender de ninguém ter lembrado de chamá-la.
+        run: python vendor/auditar_pacote.py
+
+      - name: Nomear os artefatos
+        id: artefatos
+        shell: pwsh
+        run: |
+          $v = "${{ needs.verificar.outputs.versao }}"
+          $exe = "BackupMaximus-$v.exe"
+          $pasta = "BackupMaximus-$v-pasta.zip"
+          Copy-Item dist\BackupMaximus.exe $exe
+          # A build em pasta não é opcional: a LGPLv3 da PySide6/Qt assegura ao
+          # usuário o direito de substituir a biblioteca Qt, e no executável
+          # único as DLLs estão fundidas.
+          Compress-Archive -Path dist\BackupMaximus\* -DestinationPath $pasta
+          "exe=$exe" >> $env:GITHUB_OUTPUT
+          "pasta=$pasta" >> $env:GITHUB_OUTPUT
+          Get-Item $exe, $pasta | Select-Object Name, @{n='MB';e={[math]::Round($_.Length/1MB,1)}}
+
+      - name: Notas da release
+        shell: bash
+        run: |
+          python release_info.py --notas > NOTAS.md
+          cat >> NOTAS.md <<'RODAPE'
+
+          ---
+
+          ### Como instalar
+
+          Baixe o `.exe`, copie para a pasta definitiva (ex.: `C:\BackupMaximus\`)
+          e execute. Não exige Python na máquina do cliente.
+
+          ### Sobre o arquivo `-pasta.zip`
+
+          É o mesmo programa com as bibliotecas do Qt separadas. Ele existe para
+          cumprir a LGPLv3 da PySide6/Qt, que assegura ao usuário o direito de
+          substituir a biblioteca Qt por outra versão compatível. Para instalar,
+          use o `.exe`.
+          RODAPE
+
+      - name: Publicar
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release create "${{ needs.verificar.outputs.tag }}" \
+            --title "Backup Maximus ${{ needs.verificar.outputs.versao }}" \
+            --notes-file NOTAS.md \
+            --target "$GITHUB_SHA" \
+            "${{ steps.artefatos.outputs.exe }}" \
+            "${{ steps.artefatos.outputs.pasta }}"
