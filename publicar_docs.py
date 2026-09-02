@@ -9,9 +9,14 @@ Duas cópias do mesmo documento divergem — sempre. Por isso a fonte é uma só
 `docs/` neste repositório, e o repositório público é **gerado**. Editar
 diretamente lá é o começo do problema que este script existe para evitar.
 
-    python publicar_docs.py                 monta em ../backup-maximus-docs
-    python publicar_docs.py --destino PASTA  monta em outro lugar
-    python publicar_docs.py --conferir       só relata o que mudaria
+    python publicar_docs.py                  monta em ../backup-maximus-docs
+    python publicar_docs.py --destino PASTA   monta em outro lugar
+    python publicar_docs.py --conferir        só relata o que mudaria
+    python publicar_docs.py --dominio X       grava o CNAME de um domínio próprio
+
+Arquivos que o script não conhece são preservados — é o que permite guardar
+ali o comprovante de propriedade do Google Search Console (`googleXXXX.html`),
+que precisa continuar acessível para o domínio seguir verificado.
 
 Depois de rodar, revise o `git diff` na pasta gerada e publique de lá.
 """
@@ -164,6 +169,13 @@ def montar(destino: str, conferir: bool = False, dominio: str = "") -> int:
         saidas[nome] = (CABECALHO.format(titulo=titulo, url=url,
                                          origem=origem_rel)
                         + _reescrever_links(texto))
+
+    # O comprovante do Search Console precisa sobreviver a cada geração: se
+    # ele sumir, o Google desverifica o domínio e a tela de consentimento do
+    # aplicativo para de funcionar, sem aviso nenhum.
+    for existente in sorted(os.listdir(destino) if os.path.isdir(destino) else []):
+        if existente.startswith("google") and existente.endswith(".html"):
+            print(f"  · {existente} (comprovante do Search Console, preservado)")
 
     for nome, conteudo in saidas.items():
         alvo = os.path.join(destino, nome)
