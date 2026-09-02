@@ -20,6 +20,15 @@ from PySide6.QtWidgets import QApplication, QDialog
 from .. import __version__, cloud, paths
 from . import forms
 
+#: Identificação do fornecedor, num lugar só. A mesma informação está nos
+#: documentos em docs/ e nas propriedades do executável (BackupMaximus.spec);
+#: ao mudar aqui, confira os três.
+EMPRESA = "WALYTECH SOLUÇÕES TECNOLÓGICAS LTDA"
+CNPJ = "50.449.577/0001-53"
+EMAIL = "tgf231.dev@gmail.com"
+SITE = "https://github.com/TGF231/Backup_Maximus"
+SITE_CURTO = "github.com/TGF231/Backup_Maximus"
+
 
 def _licenses_dir() -> str:
     """Pasta com os textos completos, dentro do pacote ou do código-fonte."""
@@ -32,11 +41,12 @@ def _texto_aplicativo() -> str:
 <p>Agente de backup para Windows. Copia bancos de dados e arquivos para uma
 árvore de pastas, compacta tudo em um único .zip e, opcionalmente, envia para
 um serviço de armazenamento em nuvem.</p>
-<p>© WalyTech Soluções Tecnológicas. Todos os direitos reservados.</p>
+<p>© 2026 {EMPRESA} — CNPJ {CNPJ}.<br>Todos os direitos reservados.</p>
 <p><b>Privacidade em uma linha:</b> o programa roda inteiramente nesta máquina.
 Não há telemetria, e nada é enviado ao desenvolvedor.</p>
 <p>Política de privacidade e termos de serviço acompanham a instalação e estão
-publicados em https://github.com/TGF231/Backup_Maximus.</p>
+publicados em <a href="{SITE}">{SITE_CURTO}</a>.</p>
+<p>Suporte: <a href="mailto:{EMAIL}">{EMAIL}</a></p>
 """
 
 

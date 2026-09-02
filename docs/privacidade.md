@@ -3,12 +3,12 @@
 **Última atualização:** 2 de setembro de 2026
 **Aplica-se a:** Backup Maximus, aplicativo de backup para Windows.
 
-> **Ainda falta preencher:** «ENDEREÇO» e «E-MAIL DE CONTATO».
-> São os únicos trechos entre «» que restam neste documento.
+O Backup Maximus é desenvolvido e distribuído por **WALYTECH SOLUÇÕES
+TECNOLÓGICAS LTDA**, inscrita no CNPJ 50.449.577/0001-53, com sede na R.
+Governador Valadares, 350, Andar 1, Sala 3, Cidade Nova, Capelinha/MG, CEP
+39.680-000 ("nós").
 
-O Backup Maximus é desenvolvido e distribuído por WALYTECH SOLUCOES TECNOLOGICAS LTDA, inscrita no
-CNPJ 50.449.577/0001-53, com sede em «ENDEREÇO» ("nós"). Dúvidas sobre esta política:
-**«E-MAIL DE CONTATO»**.
+Dúvidas sobre esta política: **tgf231.dev@gmail.com**.
 
 ---
 
@@ -171,7 +171,7 @@ correção, portabilidade, eliminação e informação sobre compartilhamento.
 Como não realizamos tratamento de dados pessoais de usuários do aplicativo,
 esses direitos são exercidos diretamente sobre os arquivos no computador do
 usuário, conforme a seção anterior. Para dúvidas ou solicitações relacionadas a
-esta política, escreva para **«E-MAIL DE CONTATO»**.
+esta política, escreva para **tgf231.dev@gmail.com**.
 
 **Atenção ao papel de cada um:** se o usuário utiliza o Backup Maximus para
 copiar bancos de dados que contêm dados pessoais de terceiros — clientes,
@@ -215,7 +215,12 @@ será refletida também na configuração do aplicativo no Google Cloud.
 
 ## 12. Contato
 
-WALYTECH SOLUCOES TECNOLOGICAS LTDA
+**WALYTECH SOLUÇÕES TECNOLÓGICAS LTDA**
+
 CNPJ 50.449.577/0001-53
-«ENDEREÇO»
-**«E-MAIL DE CONTATO»**
+
+R. Governador Valadares, 350 — Andar 1, Sala 3
+
+Cidade Nova — Capelinha/MG — CEP 39.680-000
+
+**tgf231.dev@gmail.com**

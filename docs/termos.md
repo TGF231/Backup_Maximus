@@ -2,12 +2,10 @@
 
 **Última atualização:** 2 de setembro de 2026
 
-> **Ainda falta preencher:** «ENDEREÇO», «E-MAIL DE CONTATO» e «CIDADE/UF»
-> (comarca do foro). São os únicos trechos entre «» que restam neste documento.
-
 Estes Termos regem o uso do **Backup Maximus**, aplicativo de backup para
-Windows desenvolvido e distribuído por WALYTECH SOLUCOES TECNOLOGICAS LTDA, CNPJ 50.449.577/0001-53, com sede em
-«ENDEREÇO» ("nós", "a desenvolvedora").
+Windows desenvolvido e distribuído por **WALYTECH SOLUÇÕES TECNOLÓGICAS LTDA**,
+CNPJ 50.449.577/0001-53, com sede na R. Governador Valadares, 350, Andar 1,
+Sala 3, Cidade Nova, Capelinha/MG, CEP 39.680-000 ("nós", "a desenvolvedora").
 
 Ao instalar ou usar o aplicativo, o usuário ("você") concorda com estes Termos.
 Se não concordar, não instale nem utilize o programa.
@@ -156,14 +154,20 @@ disponíveis. O uso continuado após a publicação significa concordância.
 ## 11. Lei aplicável e foro
 
 Estes Termos são regidos pelas leis da República Federativa do Brasil. Fica
-eleito o foro da comarca de «CIDADE/UF» para dirimir controvérsias, com renúncia
-a qualquer outro, ressalvadas as hipóteses de competência legal diversa.
+eleito o foro da comarca de **Capelinha, Estado de Minas Gerais**, sede da
+desenvolvedora, para dirimir controvérsias, com renúncia a qualquer outro,
+ressalvadas as hipóteses de competência legal diversa.
 
 ---
 
 ## 12. Contato
 
-WALYTECH SOLUCOES TECNOLOGICAS LTDA
+**WALYTECH SOLUÇÕES TECNOLÓGICAS LTDA**
+
 CNPJ 50.449.577/0001-53
-«ENDEREÇO»
-**«E-MAIL DE CONTATO»**
+
+R. Governador Valadares, 350 — Andar 1, Sala 3
+
+Cidade Nova — Capelinha/MG — CEP 39.680-000
+
+**tgf231.dev@gmail.com**
