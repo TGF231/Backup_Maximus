@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TabSettings</class>
+ <!--
+   Aba Configuracoes. Mesma grade de 5 colunas da aba Backups, para os campos
+   das duas telas alinharem na mesma posicao:
+
+     col 0  rotulo, largura fixa 124
+     col 1  campo principal (unica coluna que estica)
+     col 2  segundo campo
+     col 3  terceiro campo / caixa de selecao
+     col 4  botao "..."
+ -->
+ <widget class="QWidget" name="TabSettings">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>1000</width><height>640</height></rect>
+  </property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin"><number>16</number></property>
+   <property name="topMargin"><number>14</number></property>
+   <property name="rightMargin"><number>16</number></property>
+   <property name="bottomMargin"><number>12</number></property>
+   <property name="spacing"><number>8</number></property>
+
+   <item>
+    <widget class="QLabel" name="lblIdentSection">
+     <property name="role" stdset="0"><string notr="true">section</string></property>
+     <property name="text"><string>IDENTIFICAÇÃO E ALERTAS</string></property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridIdent">
+     <property name="horizontalSpacing"><number>8</number></property>
+     <property name="verticalSpacing"><number>7</number></property>
+     <property name="leftMargin"><number>0</number></property>
+     <property name="rightMargin"><number>0</number></property>
+
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblCompany">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Nome da empresa</string></property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="3">
+      <widget class="QLineEdit" name="editCompany"/>
+     </item>
+
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblEmail">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>E-mail de notificações</string></property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="3">
+      <widget class="QLineEdit" name="editEmail">
+       <property name="placeholderText"><string>ti@suaempresa.com.br</string></property>
+      </widget>
+     </item>
+
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblTimeout">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Alertar se sem backup há</string></property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="spinTimeout">
+       <property name="minimumSize"><size><width>120</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>120</width><height>16777215</height></size></property>
+       <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+       <property name="minimum"><number>1</number></property>
+       <property name="maximum"><number>8760</number></property>
+       <property name="suffix"><string> horas</string></property>
+      </widget>
+     </item>
+
+     <item row="3" column="1" colspan="3">
+      <widget class="QLabel" name="lblAlertHint">
+       <property name="role" stdset="0"><string notr="true">hintWarn</string></property>
+       <property name="wordWrap"><bool>true</bool></property>
+       <property name="text"><string/></property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="lblReminder">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Lembrar backup às</string></property>
+      </widget>
+     </item>
+     <item row="5" column="1" colspan="3">
+      <layout class="QHBoxLayout" name="reminderLayout">
+       <property name="spacing"><number>10</number></property>
+       <item>
+        <widget class="QTimeEdit" name="timeReminder">
+         <property name="minimumSize"><size><width>96</width><height>0</height></size></property>
+         <property name="maximumSize"><size><width>96</width><height>16777215</height></size></property>
+         <property name="displayFormat"><string>HH:mm</string></property>
+         <property name="buttonSymbols"><enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="chkReminder">
+         <property name="text"><string>Mostrar lembrete diário</string></property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="reminderSpacer">
+         <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+         <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item row="6" column="1" colspan="3">
+      <widget class="QLabel" name="lblReminderHint">
+       <property name="role" stdset="0"><string notr="true">hint</string></property>
+       <property name="wordWrap"><bool>true</bool></property>
+       <property name="text"><string/></property>
+      </widget>
+     </item>
+     <item row="4" column="1" colspan="3">
+      <widget class="QCheckBox" name="chkSendReport">
+       <property name="text"><string>Enviar relatório por e-mail a cada backup</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <widget class="QFrame" name="dividerIdent">
+     <property name="role" stdset="0"><string notr="true">divider</string></property>
+     <property name="minimumSize"><size><width>0</width><height>1</height></size></property>
+     <property name="maximumSize"><size><width>16777215</width><height>1</height></size></property>
+     <property name="frameShape"><enum>QFrame::HLine</enum></property>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QLabel" name="lblSmtpSection">
+     <property name="role" stdset="0"><string notr="true">section</string></property>
+     <property name="text"><string>SERVIDOR SMTP (RELATÓRIOS E ALERTAS)</string></property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridSmtp">
+     <property name="horizontalSpacing"><number>8</number></property>
+     <property name="verticalSpacing"><number>7</number></property>
+     <property name="leftMargin"><number>0</number></property>
+     <property name="rightMargin"><number>0</number></property>
+
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblSmtpHost">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Servidor / porta</string></property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="2">
+      <widget class="QLineEdit" name="editSmtpHost">
+       <property name="mono" stdset="0"><string notr="true">true</string></property>
+       <property name="placeholderText"><string>smtp.suaempresa.com.br</string></property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QSpinBox" name="spinSmtpPort">
+       <property name="minimumSize"><size><width>96</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>96</width><height>16777215</height></size></property>
+       <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
+       <property name="minimum"><number>1</number></property>
+       <property name="maximum"><number>65535</number></property>
+      </widget>
+     </item>
+
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblSmtpUser">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Usuário / senha</string></property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLineEdit" name="editSmtpUser"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLineEdit" name="editSmtpPass">
+       <property name="echoMode"><enum>QLineEdit::Password</enum></property>
+      </widget>
+     </item>
+
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblSmtpFrom">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Remetente (De)</string></property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="3">
+      <widget class="QLineEdit" name="editSmtpFrom">
+       <property name="placeholderText"><string>vazio = mesmo do usuário</string></property>
+      </widget>
+     </item>
+
+     <item row="3" column="1" colspan="3">
+      <layout class="QHBoxLayout" name="smtpActionsLayout">
+       <property name="spacing"><number>10</number></property>
+       <item><widget class="QCheckBox" name="chkSmtpSsl">
+        <property name="text"><string>Usar SSL/TLS</string></property></widget></item>
+       <item><widget class="QPushButton" name="btnTestMail">
+        <property name="text"><string>Testar e-mail</string></property></widget></item>
+       <item><spacer name="smtpActionsSpacer">
+        <property name="orientation"><enum>Qt::Horizontal</enum></property>
+        <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+       </spacer></item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <widget class="QFrame" name="dividerSmtp">
+     <property name="role" stdset="0"><string notr="true">divider</string></property>
+     <property name="minimumSize"><size><width>0</width><height>1</height></size></property>
+     <property name="maximumSize"><size><width>16777215</width><height>1</height></size></property>
+     <property name="frameShape"><enum>QFrame::HLine</enum></property>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QLabel" name="lblZipSection">
+     <property name="role" stdset="0"><string notr="true">section</string></property>
+     <property name="text"><string>COMPACTAÇÃO E MANUTENÇÃO</string></property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridZip">
+     <property name="horizontalSpacing"><number>8</number></property>
+     <property name="verticalSpacing"><number>7</number></property>
+     <property name="leftMargin"><number>0</number></property>
+     <property name="rightMargin"><number>0</number></property>
+
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblSevenZip">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Caminho do 7z.exe</string></property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="3">
+      <widget class="PathEdit" name="editSevenZip">
+           <property name="pathKind" stdset="0"><string notr="true">file</string></property>
+       <property name="mono" stdset="0"><string notr="true">true</string></property>
+       <property name="placeholderText"><string>vazio = autodetecta; sem 7-Zip usa o compactador nativo do Python</string></property>
+      </widget>
+     </item>
+     <item row="0" column="4">
+      <widget class="QPushButton" name="btnBrowseSevenZip">
+       <property name="role" stdset="0"><string notr="true">tiny</string></property>
+       <property name="minimumSize"><size><width>30</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>30</width><height>16777215</height></size></property>
+       <property name="text"><string>…</string></property>
+      </widget>
+     </item>
+
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblRclone">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Caminho do rclone.exe</string></property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="3">
+      <widget class="PathEdit" name="editRclone">
+       <property name="pathKind" stdset="0"><string notr="true">file</string></property>
+       <property name="mono" stdset="0"><string notr="true">true</string></property>
+       <property name="placeholderText"><string>vazio = empacotado com o app, ou do sistema</string></property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QPushButton" name="btnBrowseRclone">
+       <property name="role" stdset="0"><string notr="true">tiny</string></property>
+       <property name="minimumSize"><size><width>30</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>30</width><height>16777215</height></size></property>
+       <property name="text"><string>…</string></property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="3">
+      <widget class="QLabel" name="lblSevenZipHint">
+       <property name="role" stdset="0"><string notr="true">hint</string></property>
+       <property name="wordWrap"><bool>true</bool></property>
+       <property name="text"><string/></property>
+      </widget>
+     </item>
+     <item row="3" column="1" colspan="3">
+      <layout class="QHBoxLayout" name="maintenanceLayout">
+       <property name="spacing"><number>8</number></property>
+       <item><widget class="QPushButton" name="btnChangePassword">
+        <property name="text"><string>Alterar senha da interface</string></property></widget></item>
+       <item><widget class="QPushButton" name="btnShortcut">
+        <property name="text"><string>Criar atalho na área de trabalho</string></property></widget></item>
+       <item><spacer name="maintenanceSpacer">
+        <property name="orientation"><enum>Qt::Horizontal</enum></property>
+        <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+       </spacer></item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <spacer name="bottomSpacer">
+     <property name="orientation"><enum>Qt::Vertical</enum></property>
+     <property name="sizeHint" stdset="0"><size><width>0</width><height>1</height></size></property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+
+ <customwidgets>
+  <customwidget>
+   <class>PathEdit</class>
+   <extends>QLineEdit</extends>
+   <header>backup_maximus.ui.pathedit</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

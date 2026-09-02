@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AliasDialog</class>
+ <widget class="QDialog" name="AliasDialog">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>720</width><height>520</height></rect>
+  </property>
+  <property name="windowTitle"><string>Bancos registrados no Firebird</string></property>
+  <property name="modal"><bool>true</bool></property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin"><number>18</number></property>
+   <property name="topMargin"><number>16</number></property>
+   <property name="rightMargin"><number>18</number></property>
+   <property name="bottomMargin"><number>14</number></property>
+   <property name="spacing"><number>10</number></property>
+
+   <item>
+    <widget class="QFrame" name="ruleBox">
+     <property name="role" stdset="0"><string notr="true">rule</string></property>
+     <layout class="QVBoxLayout" name="ruleLayout">
+      <property name="leftMargin"><number>14</number></property>
+      <property name="topMargin"><number>10</number></property>
+      <property name="rightMargin"><number>14</number></property>
+      <property name="bottomMargin"><number>10</number></property>
+      <item>
+       <widget class="QLabel" name="lblIntro">
+        <property name="wordWrap"><bool>true</bool></property>
+        <property name="text"><string/></property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QTreeWidget" name="tree">
+     <property name="rootIsDecorated"><bool>false</bool></property>
+     <property name="alternatingRowColors"><bool>false</bool></property>
+     <column><property name="text"><string>Alias</string></property></column>
+     <column><property name="text"><string>Servidor</string></property></column>
+     <column><property name="text"><string>Tamanho</string></property></column>
+     <column><property name="text"><string>Arquivo</string></property></column>
+    </widget>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="selectLayout">
+     <property name="spacing">6</property>
+     <item>
+      <widget class="QPushButton" name="btnAll">
+       <property name="text"><string>Marcar todos</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnNone">
+       <property name="text"><string>Desmarcar todos</string></property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="selectSpacer">
+       <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+       <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblCount">
+       <property name="role" stdset="0"><string notr="true">hint</string></property>
+       <property name="text"><string/></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="optionsLayout">
+     <property name="spacing">16</property>
+     <item>
+      <widget class="QCheckBox" name="chkSubfolder">
+       <property name="text"><string>Criar uma subpasta por banco dentro do zip</string></property>
+       <property name="checked"><bool>true</bool></property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="optionsSpacer">
+       <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+       <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <widget class="QLabel" name="lblHint">
+     <property name="role" stdset="0"><string notr="true">hint</string></property>
+     <property name="wordWrap"><bool>true</bool></property>
+     <property name="text"><string>Cada banco marcado vira um item do tipo Firebird, com o alias como origem e o gbak da instalação correspondente. A senha do SYSDBA precisa ser preenchida depois, em cada item.</string></property>
+    </widget>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="actionsLayout">
+     <property name="spacing">8</property>
+     <item>
+      <widget class="QPushButton" name="btnRescan">
+       <property name="text"><string>Procurar de novo</string></property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="actionsSpacer">
+       <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+       <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnAdd">
+       <property name="role" stdset="0"><string notr="true">accent</string></property>
+       <property name="text"><string>Adicionar selecionados</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCancel">
+       <property name="text"><string>Cancelar</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

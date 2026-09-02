@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TabNetwork</class>
+ <!--
+   Aba Rede: lista de credenciais a esquerda, formulario de cadastro a direita.
+   Mesma grade de rotulo fixo das outras abas.
+ -->
+ <widget class="QWidget" name="TabNetwork">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>1000</width><height>640</height></rect>
+  </property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin"><number>16</number></property>
+   <property name="topMargin"><number>14</number></property>
+   <property name="rightMargin"><number>16</number></property>
+   <property name="bottomMargin"><number>12</number></property>
+   <property name="spacing"><number>8</number></property>
+
+   <item>
+    <widget class="QLabel" name="lblNetSection">
+     <property name="role" stdset="0"><string notr="true">section</string></property>
+     <property name="text"><string>CREDENCIAIS PARA COMPARTILHAMENTOS DE REDE (UNC)</string></property>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QFrame" name="ruleBox">
+     <property name="role" stdset="0"><string notr="true">rule</string></property>
+     <layout class="QVBoxLayout" name="ruleLayout">
+      <property name="leftMargin"><number>14</number></property>
+      <property name="topMargin"><number>10</number></property>
+      <property name="rightMargin"><number>14</number></property>
+      <property name="bottomMargin"><number>10</number></property>
+      <item>
+       <widget class="QLabel" name="lblRuleText">
+        <property name="wordWrap"><bool>true</bool></property>
+        <property name="text"><string>A credencial pertence ao compartilhamento, não ao item. Vários itens que gravam no mesmo servidor usam uma entrada só — quando a senha do serviço muda, você a troca aqui e acabou.</string></property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="bodyLayout">
+     <property name="spacing"><number>16</number></property>
+
+     <item>
+      <widget class="QListWidget" name="listCreds"/>
+     </item>
+
+     <item>
+      <widget class="QWidget" name="credPanel">
+       <property name="minimumSize"><size><width>380</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>380</width><height>16777215</height></size></property>
+       <layout class="QVBoxLayout" name="credLayout">
+        <property name="leftMargin"><number>0</number></property>
+        <property name="topMargin"><number>0</number></property>
+        <property name="rightMargin"><number>0</number></property>
+        <property name="bottomMargin"><number>0</number></property>
+        <property name="spacing"><number>7</number></property>
+
+        <item>
+         <layout class="QGridLayout" name="gridCred">
+          <property name="horizontalSpacing"><number>8</number></property>
+          <property name="verticalSpacing"><number>7</number></property>
+          <property name="leftMargin"><number>0</number></property>
+          <property name="rightMargin"><number>0</number></property>
+
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblUnc">
+            <property name="role" stdset="0"><string notr="true">field</string></property>
+            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+            <property name="text"><string>Compartilhamento</string></property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="editUnc">
+            <property name="mono" stdset="0"><string notr="true">true</string></property>
+            <property name="placeholderText"><string>\\servidor\backups</string></property>
+           </widget>
+          </item>
+
+          <item row="1" column="0">
+           <widget class="QLabel" name="lblNetUser">
+            <property name="role" stdset="0"><string notr="true">field</string></property>
+            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+            <property name="text"><string>Usuário</string></property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="editNetUser">
+            <property name="placeholderText"><string>DOMINIO\usuario</string></property>
+           </widget>
+          </item>
+
+          <item row="2" column="0">
+           <widget class="QLabel" name="lblNetPass">
+            <property name="role" stdset="0"><string notr="true">field</string></property>
+            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+            <property name="text"><string>Senha</string></property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="editNetPass">
+            <property name="echoMode"><enum>QLineEdit::Password</enum></property>
+           </widget>
+          </item>
+
+          <item row="3" column="1">
+           <layout class="QHBoxLayout" name="credActionsLayout">
+            <property name="spacing"><number>8</number></property>
+            <item><widget class="QPushButton" name="btnCredAdd">
+             <property name="role" stdset="0"><string notr="true">accent</string></property>
+             <property name="text"><string>Adicionar</string></property></widget></item>
+            <item><widget class="QPushButton" name="btnCredDel">
+             <property name="text"><string>Remover selecionada</string></property></widget></item>
+           </layout>
+          </item>
+
+          <item row="4" column="1">
+           <widget class="QLabel" name="lblCredHint">
+            <property name="role" stdset="0"><string notr="true">hint</string></property>
+            <property name="wordWrap"><bool>true</bool></property>
+            <property name="text"><string>Usada automaticamente quando a origem de um item ou o destino de um conjunto estiver nesse compartilhamento. A conexão é desfeita ao final do backup.</string></property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <item>
+         <spacer name="credSpacer">
+          <property name="orientation"><enum>Qt::Vertical</enum></property>
+          <property name="sizeHint" stdset="0"><size><width>0</width><height>1</height></size></property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

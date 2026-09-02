@@ -1,0 +1,66 @@
+# ---------------------------------------------------------------------------
+# DADOS REAIS — nunca versionar
+# ---------------------------------------------------------------------------
+# A pasta de montagem guarda o conteúdo do backup em si: dumps de banco,
+# relatórios, arquivos do cliente. Num repositório público isso seria um
+# vazamento de dados de terceiros, não um descuido de organização.
+staging/
+*.fbk
+*.gbk
+*.bak
+*.dbf
+
+# Configuração da instalação: nome da empresa, e-mails, servidor SMTP, hash da
+# senha da interface, caminhos internos da rede, credenciais cifradas.
+backup_maximus.ini
+x.ini
+*.ini
+!exemplos/*.ini
+
+# Execução: relatórios e logs trazem nome da máquina, caminhos e dados da
+# empresa que rodou o backup.
+logs/
+reports/
+
+# Credenciais do rclone (token OAuth da conta do cliente).
+rclone.conf
+
+# Chave de API do aplicativo, quando mantida fora do repositório.
+# Descomente se o repositório for público — veja o cabeçalho de oauth_app.py.
+# backup_maximus/oauth_app.py
+
+# ---------------------------------------------------------------------------
+# Artefatos de build
+# ---------------------------------------------------------------------------
+build/
+dist/
+*.spec.bak
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Ferramentas de terceiros: pesam 82 MB e vêm com documentação que não é
+# nossa para versionar. Do que é extraído em vendor/, só as licenças entram —
+# são elas que precisam acompanhar a distribuição.
+# Baixe as ferramentas com `python vendor/baixar_ferramentas.py`.
+vendor/*/*
+!vendor/*/License.txt
+
+# Compilação da versão C++ preservada em src/
+*.o
+*.obj
+*.exe
+CMakeCache.txt
+CMakeFiles/
+
+# ---------------------------------------------------------------------------
+# Ambiente
+# ---------------------------------------------------------------------------
+.venv/
+venv/
+.vscode/
+.idea/
+*.swp
+Thumbs.db
+desktop.ini

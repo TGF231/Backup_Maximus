@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TreePreviewDialog</class>
+ <widget class="QDialog" name="TreePreviewDialog">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>620</width><height>520</height></rect>
+  </property>
+  <property name="windowTitle"><string>Prévia da árvore</string></property>
+  <property name="modal"><bool>true</bool></property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin"><number>18</number></property>
+   <property name="topMargin"><number>16</number></property>
+   <property name="rightMargin"><number>18</number></property>
+   <property name="bottomMargin"><number>14</number></property>
+   <property name="spacing"><number>10</number></property>
+
+   <item>
+    <widget class="QFrame" name="ruleBox">
+     <property name="role" stdset="0"><string notr="true">rule</string></property>
+     <layout class="QVBoxLayout" name="ruleLayout">
+      <property name="leftMargin"><number>14</number></property>
+      <property name="topMargin"><number>10</number></property>
+      <property name="rightMargin"><number>14</number></property>
+      <property name="bottomMargin"><number>10</number></property>
+      <item>
+       <widget class="QLabel" name="lblIntro">
+        <property name="wordWrap"><bool>true</bool></property>
+        <property name="text"><string/></property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QTreeWidget" name="tree">
+     <property name="rootIsDecorated"><bool>true</bool></property>
+     <column><property name="text"><string>Caminho dentro do zip</string></property></column>
+     <column><property name="text"><string>Vem de</string></property></column>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QLabel" name="lblSummary">
+     <property name="role" stdset="0"><string notr="true">hint</string></property>
+     <property name="wordWrap"><bool>true</bool></property>
+     <property name="text"><string/></property>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation"><enum>Qt::Horizontal</enum></property>
+     <property name="standardButtons"><set>QDialogButtonBox::Close</set></property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

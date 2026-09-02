@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CloudSetupDialog</class>
+ <widget class="QDialog" name="CloudSetupDialog">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>660</width><height>560</height></rect>
+  </property>
+  <property name="windowTitle"><string>Adicionar serviço de nuvem</string></property>
+  <property name="modal"><bool>true</bool></property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin"><number>18</number></property>
+   <property name="topMargin"><number>16</number></property>
+   <property name="rightMargin"><number>18</number></property>
+   <property name="bottomMargin"><number>14</number></property>
+   <property name="spacing"><number>10</number></property>
+
+   <item>
+    <layout class="QGridLayout" name="gridTop">
+     <property name="horizontalSpacing"><number>8</number></property>
+     <property name="verticalSpacing"><number>7</number></property>
+
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblProvider">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Serviço</string></property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="comboProvider"/>
+     </item>
+
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblName">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
+       <property name="text"><string>Nome interno</string></property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="editName">
+       <property name="mono" stdset="0"><string notr="true">true</string></property>
+       <property name="placeholderText"><string>ex.: drive_loja1</string></property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="lblNameHint">
+       <property name="role" stdset="0"><string notr="true">hint</string></property>
+       <property name="wordWrap"><bool>true</bool></property>
+       <property name="text"><string>Como este serviço aparece na lista dos conjuntos. Letras, números, ponto, hífen e sublinhado.</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <widget class="QFrame" name="dividerTop">
+     <property name="role" stdset="0"><string notr="true">divider</string></property>
+     <property name="minimumSize"><size><width>0</width><height>1</height></size></property>
+     <property name="maximumSize"><size><width>16777215</width><height>1</height></size></property>
+     <property name="frameShape"><enum>QFrame::HLine</enum></property>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QLabel" name="lblStepHeader">
+     <property name="role" stdset="0"><string notr="true">section</string></property>
+     <property name="text"><string>ACESSO</string></property>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QStackedWidget" name="stack">
+     <property name="currentIndex"><number>0</number></property>
+
+     <widget class="QWidget" name="pageOauth">
+      <layout class="QVBoxLayout" name="oauthLayout">
+       <property name="leftMargin"><number>0</number></property>
+       <property name="topMargin"><number>0</number></property>
+       <property name="rightMargin"><number>0</number></property>
+       <property name="bottomMargin"><number>0</number></property>
+       <property name="spacing"><number>10</number></property>
+       <item>
+        <widget class="QFrame" name="oauthRule">
+         <property name="role" stdset="0"><string notr="true">rule</string></property>
+         <layout class="QVBoxLayout" name="oauthRuleLayout">
+          <property name="leftMargin"><number>14</number></property>
+          <property name="topMargin"><number>10</number></property>
+          <property name="rightMargin"><number>14</number></property>
+          <property name="bottomMargin"><number>10</number></property>
+          <item>
+           <widget class="QLabel" name="lblOauthIntro">
+            <property name="wordWrap"><bool>true</bool></property>
+            <property name="text"><string>O login acontece no site do próprio serviço, no seu navegador — a senha nunca passa por aqui. Ao autorizar, o serviço devolve uma credencial que fica guardada nesta máquina.</string></property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnAuthorize">
+         <property name="role" stdset="0"><string notr="true">accent</string></property>
+         <property name="text"><string>Entrar e autorizar no navegador</string></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblOauthStatus">
+         <property name="role" stdset="0"><string notr="true">hint</string></property>
+         <property name="wordWrap"><bool>true</bool></property>
+         <property name="text"><string/></property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="oauthLinkLayout">
+         <property name="spacing"><number>8</number></property>
+         <item>
+          <widget class="QPushButton" name="btnOpenAgain">
+           <property name="text"><string>Abrir o link de novo</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnCopyLink">
+           <property name="text"><string>Copiar link</string></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnCancelAuth">
+           <property name="text"><string>Cancelar</string></property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="oauthLinkSpacer">
+           <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+           <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblKeyWarn">
+         <property name="role" stdset="0"><string notr="true">hintWarn</string></property>
+         <property name="wordWrap"><bool>true</bool></property>
+         <property name="text"><string/></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="chkOwnKey">
+         <property name="text"><string>Usar uma chave de API própria neste computador</string></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QWidget" name="keyBox">
+         <layout class="QGridLayout" name="keyLayout">
+          <property name="leftMargin"><number>0</number></property>
+          <property name="topMargin"><number>0</number></property>
+          <property name="rightMargin"><number>0</number></property>
+          <property name="bottomMargin"><number>0</number></property>
+          <property name="horizontalSpacing"><number>10</number></property>
+          <property name="verticalSpacing"><number>6</number></property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblKeyId">
+            <property name="role" stdset="0"><string notr="true">field</string></property>
+            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="alignment"><set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignVCenter</set></property>
+            <property name="text"><string>ID do cliente</string></property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="editClientId">
+            <property name="placeholderText"><string>algo.apps.googleusercontent.com</string></property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="lblKeySecret">
+            <property name="role" stdset="0"><string notr="true">field</string></property>
+            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="alignment"><set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignVCenter</set></property>
+            <property name="text"><string>Segredo do cliente</string></property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="editClientSecret">
+            <property name="echoMode"><enum>QLineEdit::EchoMode::Password</enum></property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="lblKeyHint">
+            <property name="role" stdset="0"><string notr="true">hint</string></property>
+            <property name="wordWrap"><bool>true</bool></property>
+            <property name="text"><string>Só para quem criou a própria chave no console do serviço. Em branco, o programa usa a chave dele mesmo.</string></property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="oauthSpacer">
+         <property name="orientation"><enum>Qt::Orientation::Vertical</enum></property>
+         <property name="sizeHint" stdset="0"><size><width>0</width><height>1</height></size></property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+
+     <widget class="QWidget" name="pageFields">
+      <layout class="QVBoxLayout" name="fieldsLayout">
+       <property name="leftMargin"><number>0</number></property>
+       <property name="topMargin"><number>0</number></property>
+       <property name="rightMargin"><number>0</number></property>
+       <property name="bottomMargin"><number>0</number></property>
+       <property name="spacing"><number>8</number></property>
+       <item>
+        <widget class="QScrollArea" name="fieldsScroll">
+         <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+         <property name="horizontalScrollBarPolicy"><enum>Qt::ScrollBarAlwaysOff</enum></property>
+         <property name="widgetResizable"><bool>true</bool></property>
+         <widget class="QWidget" name="fieldsContents">
+          <property name="geometry">
+           <rect><x>0</x><y>0</y><width>600</width><height>240</height></rect>
+          </property>
+          <layout class="QGridLayout" name="gridFields">
+           <property name="horizontalSpacing"><number>8</number></property>
+           <property name="verticalSpacing"><number>7</number></property>
+           <property name="leftMargin"><number>0</number></property>
+           <property name="rightMargin"><number>0</number></property>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QLabel" name="lblResult">
+     <property name="role" stdset="0"><string notr="true">hint</string></property>
+     <property name="wordWrap"><bool>true</bool></property>
+     <property name="text"><string/></property>
+    </widget>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="actionsLayout">
+     <property name="spacing"><number>8</number></property>
+     <item>
+      <spacer name="actionsSpacer">
+       <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+       <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSave">
+       <property name="role" stdset="0"><string notr="true">accent</string></property>
+       <property name="text"><string>Cadastrar</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnClose">
+       <property name="text"><string>Cancelar</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
