@@ -567,7 +567,7 @@
          <item row="4" column="1" colspan="2">
           <widget class="DriveCombo" name="comboSetWait">
            <property name="toolTip">
-            <string>Lista as unidades conectadas agora. O pen drive costuma não estar espetado ao configurar — pode digitar a letra mesmo assim.</string>
+            <string>Unidades do computador, relidas cada vez que a lista é aberta. Caminhos de rede aparecem aqui depois de cadastrados na aba Rede.</string>
            </property>
           </widget>
          </item>

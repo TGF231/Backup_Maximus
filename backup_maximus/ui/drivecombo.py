@@ -1,18 +1,18 @@
-"""Seletor de unidade que continua aceitando o que ainda não existe.
+"""Seletor das unidades do computador, sem digitação.
 
-O campo "Aguardar unidade" tem uma particularidade que descarta a lista
-fechada: na hora de configurar, **o pen drive normalmente não está conectado**
-— esperar por ele é justamente a função do campo. Uma lista só com o que o
-Windows enxerga agora impediria o caso mais comum.
+A lista é reconstruída toda vez que é aberta: entre configurar o conjunto e
+escolher a unidade, o usuário costuma justamente espetar o pen drive.
 
-Daí o combo editável: oferece o que está montado, com rótulo e espaço livre
-para a escolha ser informada, e aceita `U:\\` digitado mesmo que nenhum U:
-exista. A lista é relida ao abrir, porque entre configurar e conferir o
-usuário costuma justamente espetar o pen drive.
+Há um caso que a lista precisa cobrir para não destruir configuração: o
+conjunto pode estar apontado para uma unidade que **não está conectada agora**
+— é a situação normal, já que esperar pelo pen drive é a função do campo. Essa
+unidade continua na lista, marcada como não conectada, para que abrir a tela
+não apague silenciosamente o que já estava configurado.
 """
 
 from __future__ import annotations
 
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QComboBox
 
 from .. import util, winapi
@@ -26,8 +26,8 @@ _TIPOS = {
     winapi.DRIVE_RAMDISK: "RAM",
 }
 
-#: Texto da primeira opção. Vazio no arquivo de configuração significa
-#: "não espera", e a lista precisa dizer isso com todas as letras.
+#: Primeira opção. Vazio no arquivo de configuração significa "não espera", e a
+#: lista precisa dizer isso com todas as letras em vez de deixar em branco.
 NAO_ESPERAR = "— não esperar —"
 
 
@@ -51,71 +51,99 @@ def describe(info: winapi.DriveInfo) -> str:
 
 
 class DriveCombo(QComboBox):
-    """Combo editável com as unidades montadas.
+    """Lista fechada das unidades montadas.
 
-    O valor guardado é sempre a raiz (`U:\\`), nunca a linha descritiva: o
-    `engine` usa isso como caminho, e um texto com rótulo e tamanho não
-    existiria em disco nenhum.
+    O valor é sempre a raiz (`U:\\`), nunca a linha descritiva: o `engine` usa
+    isso como caminho, e um texto com rótulo e tamanho não existiria em disco.
     """
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setEditable(True)
-        self.setInsertPolicy(QComboBox.NoInsert)
-        self.lineEdit().setPlaceholderText("vazio = não espera")
-        self.activated.connect(self._on_activated)
+        # O valor configurado que não corresponde a nenhuma unidade montada.
+        # Preservá-lo é o que impede a tela de apagar a configuração ao abrir.
+        self._ausente = ""
+        #: Caminhos UNC cadastrados na aba Rede. Sem digitação, é por lá que
+        #: um compartilhamento entra — e faz sentido: esperar por um caminho
+        #: de rede sem ter as credenciais dele só produziria falha na hora do
+        #: backup. `set_network_paths` é chamado pela aba de conjuntos.
+        self._unc: list[str] = []
+        self.refresh()
+
+    def set_network_paths(self, caminhos) -> None:
+        """Compartilhamentos vindos da aba Rede, na ordem em que estão lá."""
+        novos = [c.strip() for c in caminhos if c and c.strip()]
+        if novos == self._unc:
+            return
+        self._unc = novos
         self.refresh()
 
     # ------------------------------------------------------------- conteúdo
-    def refresh(self) -> None:
-        """Relê as unidades, preservando o que estiver digitado."""
-        atual = self.value()
+    def refresh(self, manter: str = "") -> None:
+        """Relê as unidades, sem perder o que está escolhido.
+
+        `manter` força um valor que ainda não está na lista — é o caminho por
+        onde a configuração de um conjunto chega antes de a unidade existir.
+        """
+        escolhido = manter or self.value()
         self.blockSignals(True)
         self.clear()
         self.addItem(NAO_ESPERAR, "")
-        for info in winapi.drives():
+
+        montadas = winapi.drives()
+        for info in montadas:
             self.addItem(describe(info), info.letter)
             if not info.ready:
-                indice = self.count() - 1
                 self.setItemData(
-                    indice,
+                    self.count() - 1,
                     "A unidade está montada mas não responde — leitor de cartão "
-                    "vazio ou disco ausente.", 3)      # Qt.ToolTipRole
+                    "vazio ou disco ausente.", Qt.ToolTipRole)
+
+        # Compartilhamentos de rede vêm da aba Rede, onde já têm credencial.
+        for unc in self._unc:
+            self.addItem(f"{unc}  (rede, cadastrado)", unc)
+
+        # O que estava configurado e não está montado agora continua na lista.
+        conhecidos = {i.letter.lower() for i in montadas}
+        conhecidos |= {u.lower() for u in self._unc}
+        if escolhido and escolhido.lower() not in conhecidos:
+            self._ausente = escolhido
+            self.addItem(f"{escolhido}  (não conectada agora)", escolhido)
+            self.setItemData(
+                self.count() - 1,
+                "Configurada neste conjunto, mas ausente no momento. É o "
+                "esperado: o backup aguarda esta unidade aparecer.",
+                Qt.ToolTipRole)
+
         self.blockSignals(False)
-        self.setValue(atual)
+        self._selecionar(escolhido)
 
     def showPopup(self) -> None:
-        # Entre abrir a tela e abrir a lista, o usuário costuma espetar o pen
-        # drive justamente para escolhê-lo aqui.
+        # Reconstrói a cada abertura, como pedido: entre abrir a tela e abrir a
+        # lista, o pen drive costuma ser espetado justamente para escolhê-lo.
         self.refresh()
         super().showPopup()
 
     # ---------------------------------------------------------------- valor
     def value(self) -> str:
-        texto = self.currentText().strip()
-        if texto == NAO_ESPERAR:
-            return ""
-        # Se o texto é a linha descritiva de um item, devolve a raiz dele.
-        indice = self.findText(texto)
-        if indice >= 0:
-            return self.itemData(indice) or ""
-        return texto
+        dado = self.currentData()
+        return dado if dado else ""
 
     def setValue(self, valor: str) -> None:
         valor = (valor or "").strip()
-        if not valor:
-            self.setCurrentIndex(0)
+        self._ausente = ""
+        if valor and self._indice_de(valor) < 0:
+            # Vem da configuração e a unidade não está conectada. É o caso
+            # normal: espera-se que o pen drive apareça depois.
+            self.refresh(manter=valor)
             return
+        self._selecionar(valor)
+
+    def _indice_de(self, valor: str) -> int:
         for indice in range(self.count()):
             if (self.itemData(indice) or "").lower() == valor.lower():
-                self.setCurrentIndex(indice)
-                # A caixa mostra a raiz, não a linha inteira: é o valor real,
-                # e o resto o usuário já leu ao escolher.
-                self.setEditText(valor)
-                return
-        # Unidade ainda não conectada — é o caso normal ao configurar.
-        self.setCurrentIndex(-1)
-        self.setEditText(valor)
+                return indice
+        return -1
 
-    def _on_activated(self, indice: int) -> None:
-        self.setEditText(self.itemData(indice) or "")
+    def _selecionar(self, valor: str) -> None:
+        indice = self._indice_de(valor) if valor else 0
+        self.setCurrentIndex(indice if indice >= 0 else 0)

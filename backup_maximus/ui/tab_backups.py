@@ -211,9 +211,7 @@ class BackupsTab(QWidget):
 
         for edit in (self.set_name, self.set_dest, self.set_staging):
             edit.textChanged.connect(self._set_field_changed)
-        # O combo de unidade avisa por outro sinal: editTextChanged cobre tanto
-        # o que é digitado quanto o que é escolhido na lista.
-        self.set_wait.editTextChanged.connect(self._set_field_changed)
+        self.set_wait.currentIndexChanged.connect(self._set_field_changed)
         self.set_mode.currentIndexChanged.connect(self._set_field_changed)
         self.set_wait_secs.valueChanged.connect(self._set_field_changed)
         self.set_keep_last.valueChanged.connect(self._set_field_changed)
@@ -308,6 +306,9 @@ class BackupsTab(QWidget):
         self.set_dest.setText(bset.destination)
         self.set_mode.setCurrentIndex(_MODE_ORDER.index(bset.mode))
         self.set_staging.setText(bset.staging)
+        # Os UNC vêm da aba Rede, onde já têm credencial cadastrada; sem isso
+        # o conjunto esperaria por um caminho que não conseguiria acessar.
+        self.set_wait.set_network_paths(nc.unc_root for nc in self.cfg.net_creds)
         self.set_wait.setValue(bset.wait_for_path)
         self.set_wait_secs.setValue(bset.wait_timeout_sec)
         self.set_keep_last.setValue(bset.keep_last)

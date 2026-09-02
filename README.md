@@ -182,7 +182,7 @@ Cada linha de item mostra `nome → subpasta`, que é a forma de auditar de rela
 | **Modo** | **Completo** = zip novo por execução, compressão máxima. **Incremental** = um zip fixo atualizado, compressão rápida |
 | **Pasta de montagem** | A árvore intermediária. Vazio = `<pasta do app>\staging\<nome>`. Para reproduzir o `.bat`: `C:\BACKUP` |
 | **Manter últimos** | Quantos `.zip` preservar no destino. `0` = todos. Só no modo Completo — no Incremental existe um arquivo só |
-| **Aguardar unidade** | Lista as unidades conectadas, com rótulo e espaço livre. Como o pen drive quase nunca está espetado na hora de configurar, o campo também aceita a letra digitada. Vazio = não espera. `0` seg = espera sem limite |
+| **Aguardar unidade** | Seletor das unidades do computador, com rótulo do volume, tipo e espaço livre; reescaneado a cada abertura. A unidade já configurada continua na lista mesmo desconectada. Caminhos de rede aparecem aqui **depois de cadastrados na aba Rede**. Vazio = não espera. `0` seg = espera sem limite |
 | **Manter a pasta de montagem** | Deixe marcado: é o que torna a segunda execução rápida |
 
 Dois botões de inspeção ficam abaixo de **Executar backup agora**:

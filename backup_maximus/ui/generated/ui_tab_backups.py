@@ -603,7 +603,7 @@ class Ui_TabBackups(object):
         self.btnBrowseStaging.setText(QCoreApplication.translate("TabBackups", u"\u2026", None))
         self.lblSetWait.setText(QCoreApplication.translate("TabBackups", u"Aguardar unidade", None))
 #if QT_CONFIG(tooltip)
-        self.comboSetWait.setToolTip(QCoreApplication.translate("TabBackups", u"Lista as unidades conectadas agora. O pen drive costuma n\u00e3o estar espetado ao configurar \u2014 pode digitar a letra mesmo assim.", None))
+        self.comboSetWait.setToolTip(QCoreApplication.translate("TabBackups", u"Unidades do computador, relidas cada vez que a lista \u00e9 aberta. Caminhos de rede aparecem aqui depois de cadastrados na aba Rede.", None))
 #endif // QT_CONFIG(tooltip)
         self.spinWaitSecs.setSuffix(QCoreApplication.translate("TabBackups", u" seg", None))
         self.lblSetHint.setText("")

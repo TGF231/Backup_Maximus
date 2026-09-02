@@ -32,11 +32,16 @@ uma na sua casa.
 
 ### Adicionado
 
-- **Aguardar unidade virou um seletor**: lista as unidades conectadas com
-  rótulo do volume, tipo e espaço livre, em vez de exigir que a letra seja
-  digitada de memória. Continua aceitando digitação, porque o pen drive quase
-  nunca está espetado na hora de configurar — esperar por ele é a função do
-  campo. A lista é relida ao abrir.
+- **Aguardar unidade virou um seletor fechado**, sem digitação. Lista as
+  unidades com rótulo do volume, tipo e espaço livre — a letra sozinha não
+  distingue dois pen drives espetados. As unidades são reescaneadas a cada
+  abertura da lista.
+  - A unidade configurada continua listada mesmo **ausente**, marcada como
+    tal: configurar com o pen drive fora é o caso normal, e sem isso abrir a
+    tela apagaria a configuração do conjunto em silêncio.
+  - Caminhos **UNC entram pela aba Rede** e passam a aparecer na lista. É
+    onde a credencial já está cadastrada — esperar por um caminho de rede
+    sem poder acessá-lo só produziria falha na hora do backup.
 
 - Tela **Sobre**, com versão, licenças de terceiros e diagnóstico copiável.
   É o aviso visível que a LGPLv3 da Qt exige, e poupa o suporte de pedir
