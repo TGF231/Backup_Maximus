@@ -32,11 +32,11 @@ def _texto_aplicativo() -> str:
 <p>Agente de backup para Windows. Copia bancos de dados e arquivos para uma
 árvore de pastas, compacta tudo em um único .zip e, opcionalmente, envia para
 um serviço de armazenamento em nuvem.</p>
-<p>© «EMPRESA». Todos os direitos reservados.</p>
+<p>© WalyTech Soluções Tecnológicas. Todos os direitos reservados.</p>
 <p><b>Privacidade em uma linha:</b> o programa roda inteiramente nesta máquina.
 Não há telemetria, e nada é enviado ao desenvolvedor.</p>
 <p>Política de privacidade e termos de serviço acompanham a instalação e estão
-publicados em «SITE».</p>
+publicados em https://github.com/TGF231/Backup_Maximus.</p>
 """
 
 

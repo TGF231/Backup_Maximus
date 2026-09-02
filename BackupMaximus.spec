@@ -42,11 +42,11 @@ VERSION_INFO = VSVersionInfo(
     ffi=FixedFileInfo(filevers=_n[:4], prodvers=_n[:4]),
     kids=[
         StringFileInfo([StringTable("040904B0", [
-            StringStruct("CompanyName", "«EMPRESA»"),
+            StringStruct("CompanyName", "WalyTech Soluções Tecnológicas"),
             StringStruct("FileDescription", "Backup Maximus — agente de backup"),
             StringStruct("FileVersion", VERSAO),
             StringStruct("InternalName", "BackupMaximus"),
-            StringStruct("LegalCopyright", "© «EMPRESA»"),
+            StringStruct("LegalCopyright", "© WalyTech Soluções Tecnológicas"),
             StringStruct("OriginalFilename", "BackupMaximus.exe"),
             StringStruct("ProductName", "Backup Maximus"),
             StringStruct("ProductVersion", VERSAO),

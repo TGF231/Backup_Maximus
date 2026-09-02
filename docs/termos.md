@@ -1,13 +1,12 @@
 # Termos de Serviço — Backup Maximus
 
-**Última atualização:** 1 de setembro de 2026
+**Última atualização:** 2 de setembro de 2026
 
-> **Preencher antes de publicar:** «RAZÃO SOCIAL», «CNPJ», «ENDEREÇO»,
-> «E-MAIL DE CONTATO», «CIDADE/UF» (foro). Os trechos entre «» são os únicos
-> que faltam.
+> **Ainda falta preencher:** «ENDEREÇO», «E-MAIL DE CONTATO» e «CIDADE/UF»
+> (comarca do foro). São os únicos trechos entre «» que restam neste documento.
 
 Estes Termos regem o uso do **Backup Maximus**, aplicativo de backup para
-Windows desenvolvido e distribuído por «RAZÃO SOCIAL», CNPJ «CNPJ», com sede em
+Windows desenvolvido e distribuído por WALYTECH SOLUCOES TECNOLOGICAS LTDA, CNPJ 50.449.577/0001-53, com sede em
 «ENDEREÇO» ("nós", "a desenvolvedora").
 
 Ao instalar ou usar o aplicativo, o usuário ("você") concorda com estes Termos.
@@ -164,7 +163,7 @@ a qualquer outro, ressalvadas as hipóteses de competência legal diversa.
 
 ## 12. Contato
 
-«RAZÃO SOCIAL»
-CNPJ «CNPJ»
+WALYTECH SOLUCOES TECNOLOGICAS LTDA
+CNPJ 50.449.577/0001-53
 «ENDEREÇO»
 **«E-MAIL DE CONTATO»**

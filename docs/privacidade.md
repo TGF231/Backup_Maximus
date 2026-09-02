@@ -1,13 +1,13 @@
 # Política de Privacidade — Backup Maximus
 
-**Última atualização:** 1 de setembro de 2026
+**Última atualização:** 2 de setembro de 2026
 **Aplica-se a:** Backup Maximus, aplicativo de backup para Windows.
 
-> **Preencher antes de publicar:** «RAZÃO SOCIAL», «CNPJ», «ENDEREÇO»,
-> «E-MAIL DE CONTATO», «SITE». Os trechos entre «» são os únicos que faltam.
+> **Ainda falta preencher:** «ENDEREÇO» e «E-MAIL DE CONTATO».
+> São os únicos trechos entre «» que restam neste documento.
 
-O Backup Maximus é desenvolvido e distribuído por «RAZÃO SOCIAL», inscrita no
-CNPJ «CNPJ», com sede em «ENDEREÇO» ("nós"). Dúvidas sobre esta política:
+O Backup Maximus é desenvolvido e distribuído por WALYTECH SOLUCOES TECNOLOGICAS LTDA, inscrita no
+CNPJ 50.449.577/0001-53, com sede em «ENDEREÇO» ("nós"). Dúvidas sobre esta política:
 **«E-MAIL DE CONTATO»**.
 
 ---
@@ -215,7 +215,7 @@ será refletida também na configuração do aplicativo no Google Cloud.
 
 ## 12. Contato
 
-«RAZÃO SOCIAL»
-CNPJ «CNPJ»
+WALYTECH SOLUCOES TECNOLOGICAS LTDA
+CNPJ 50.449.577/0001-53
 «ENDEREÇO»
 **«E-MAIL DE CONTATO»**
