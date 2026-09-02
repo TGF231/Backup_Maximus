@@ -21,24 +21,30 @@ from __future__ import annotations
 import argparse
 import os
 import re
-import shutil
 import sys
 
 RAIZ = os.path.dirname(os.path.abspath(__file__))
 DESTINO_PADRAO = os.path.join(os.path.dirname(RAIZ), "backup-maximus-docs")
 
-#: O que vai para o repositório público, e com que nome.
+#: O que vai para o repositório público: origem -> (arquivo, título, URL).
+#: A URL é fixada aqui porque ela vai colada no console do Google Cloud —
+#: deixá-la a cargo do padrão do Jekyll faria o endereço mudar sozinho numa
+#: atualização da plataforma, e um link de política de privacidade quebrado
+#: derruba o consentimento do aplicativo.
 ARQUIVOS = {
-    "docs/privacidade.md": "privacidade.md",
-    "docs/termos.md": "termos.md",
-    "THIRD_PARTY_NOTICES.md": "avisos-de-terceiros.md",
+    "docs/privacidade.md": ("privacidade.md", "Política de Privacidade",
+                            "/privacidade/"),
+    "docs/termos.md": ("termos.md", "Termos de Serviço", "/termos/"),
+    "THIRD_PARTY_NOTICES.md": ("avisos-de-terceiros.md",
+                               "Avisos de componentes de terceiros",
+                               "/avisos-de-terceiros/"),
 }
 
 #: Links relativos que só fazem sentido dentro do repositório privado. Apontar
 #: para lá deixaria o leitor diante de um 404 ou de um pedido de acesso.
 REESCRITAS = {
-    "../THIRD_PARTY_NOTICES.md": "avisos-de-terceiros.md",
-    "privacidade.md": "privacidade.md",
+    "../THIRD_PARTY_NOTICES.md": "../avisos-de-terceiros/",
+    "privacidade.md": "../privacidade/",
     "../CHANGELOG.md": "",          # vazio = remove o link, mantém o texto
     "backup_maximus/oauth_app.py": "",
     "vendor/conferir.py": "",
@@ -49,9 +55,9 @@ INDICE = """# Backup Maximus — documentos
 Documentos oficiais do **Backup Maximus**, aplicativo de backup para Windows da
 WALYTECH SOLUÇÕES TECNOLÓGICAS LTDA.
 
-- [Política de Privacidade](privacidade.md)
-- [Termos de Serviço](termos.md)
-- [Avisos de componentes de terceiros](avisos-de-terceiros.md)
+- [Política de Privacidade](privacidade/)
+- [Termos de Serviço](termos/)
+- [Avisos de componentes de terceiros](avisos-de-terceiros/)
 
 Este repositório contém apenas os documentos. O código-fonte do aplicativo não
 é público.
@@ -75,8 +81,26 @@ tgf231.dev@gmail.com
 <!-- Gerado por publicar_docs.py; edite os originais em docs/, não aqui. -->
 """
 
-AVISO = ("<!-- Gerado a partir de {origem} pelo publicar_docs.py.\n"
-         "     Edite o original, nunca este arquivo. -->\n\n")
+#: Front matter do Jekyll. Precisa ser a primeira coisa do arquivo, antes de
+#: qualquer comentário, senão o GitHub Pages o trata como texto comum.
+CABECALHO = ("---\n"
+             "title: {titulo}\n"
+             "permalink: {url}\n"
+             "---\n\n"
+             "<!-- Gerado a partir de {origem} pelo publicar_docs.py.\n"
+             "     Edite o original, nunca este arquivo. -->\n\n")
+
+#: Configuração do site. O tema é um dos que o GitHub Pages já hospeda, então
+#: não há dependência a instalar nem build a manter.
+CONFIG = """title: Backup Maximus
+description: >-
+  Documentos oficiais do Backup Maximus —
+  WALYTECH SOLUÇÕES TECNOLÓGICAS LTDA
+theme: jekyll-theme-cayman
+lang: pt-BR
+
+# Nada neste repositório é escrito à mão: tudo vem de publicar_docs.py.
+"""
 
 
 def _reescrever_links(texto: str) -> str:
@@ -92,20 +116,54 @@ def _reescrever_links(texto: str) -> str:
     return texto
 
 
-def montar(destino: str, conferir: bool = False) -> int:
+def _links_quebrados(saidas: dict[str, str]) -> list[str]:
+    """Links internos que não chegam a nenhuma página deste site.
+
+    A verificação é por destino, não por formato: um link que sobreviva
+    apontando para `../THIRD_PARTY_NOTICES.md` levaria o leitor a um 404 —
+    e é justamente na política de privacidade que um 404 custa caro, porque
+    o Google confere esse endereço para liberar o aplicativo.
+    """
+    validos = {"", "index"}
+    for _, (_nome, _titulo, url) in ARQUIVOS.items():
+        validos.add(url.strip("/"))
+
+    quebrados = []
+    for pagina, conteudo in saidas.items():
+        if not pagina.endswith(".md"):
+            continue
+        for alvo in re.findall(r"\]\(([^)]+)\)", conteudo):
+            if alvo.startswith(("http://", "https://", "mailto:", "#")):
+                continue
+            # O caminho é relativo à página; o que interessa é onde ele para.
+            destino = alvo.split("#")[0].strip()
+            destino = re.sub(r"^(\.\./|\./)+", "", destino).strip("/")
+            if destino not in validos:
+                quebrados.append(f"{pagina} -> {alvo}")
+    return quebrados
+
+
+def montar(destino: str, conferir: bool = False, dominio: str = "") -> int:
     if not conferir:
         os.makedirs(destino, exist_ok=True)
 
     mudancas = 0
-    saidas = {"README.md": INDICE}
-    for origem_rel, nome in ARQUIVOS.items():
+    saidas = {"README.md": INDICE, "_config.yml": CONFIG}
+    if dominio:
+        # O CNAME é o que faz o GitHub Pages atender por um domínio próprio.
+        # Sem ele, o site responde só em <usuário>.github.io.
+        saidas["CNAME"] = dominio.strip() + "\n"
+
+    for origem_rel, (nome, titulo, url) in ARQUIVOS.items():
         origem = os.path.join(RAIZ, origem_rel.replace("/", os.sep))
         if not os.path.isfile(origem):
             print(f"  [!] falta {origem_rel}")
             return 1
         with open(origem, encoding="utf-8") as fh:
             texto = fh.read()
-        saidas[nome] = AVISO.format(origem=origem_rel) + _reescrever_links(texto)
+        saidas[nome] = (CABECALHO.format(titulo=titulo, url=url,
+                                         origem=origem_rel)
+                        + _reescrever_links(texto))
 
     for nome, conteudo in saidas.items():
         alvo = os.path.join(destino, nome)
@@ -122,14 +180,9 @@ def montar(destino: str, conferir: bool = False) -> int:
             with open(alvo, "w", encoding="utf-8", newline="\n") as fh:
                 fh.write(conteudo)
 
-    # Um link relativo esquecido levaria o leitor a um 404 no repositório
-    # público; melhor falhar aqui do que descobrir pelo cliente.
-    pendentes = []
-    for nome, conteudo in saidas.items():
-        for alvo in re.findall(r"\]\((\.\./[^)]+)\)", conteudo):
-            pendentes.append(f"{nome} -> {alvo}")
+    pendentes = _links_quebrados(saidas)
     if pendentes:
-        print("\n  [!] links para fora do repositório público:")
+        print("\n  [!] links que não resolvem no site público:")
         for p in pendentes:
             print(f"      {p}")
         return 1
@@ -144,6 +197,9 @@ def main() -> int:
     ap.add_argument("--destino", default=DESTINO_PADRAO)
     ap.add_argument("--conferir", action="store_true",
                     help="apenas relata, sem escrever")
+    ap.add_argument("--dominio", default="",
+                    help="domínio próprio do site (grava o CNAME); "
+                         "sem isso o site responde em <usuário>.github.io")
     args = ap.parse_args()
 
     print("=" * 66)
@@ -151,7 +207,7 @@ def main() -> int:
     print("=" * 66)
     print(f"Origem : {RAIZ}")
     print(f"Destino: {args.destino}\n")
-    return montar(args.destino, args.conferir)
+    return montar(args.destino, args.conferir, args.dominio)
 
 
 if __name__ == "__main__":
