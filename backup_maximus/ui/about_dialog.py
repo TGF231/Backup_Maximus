@@ -26,8 +26,8 @@ from . import forms
 EMPRESA = "WALYTECH SOLUÇÕES TECNOLÓGICAS LTDA"
 CNPJ = "50.449.577/0001-53"
 EMAIL = "tgf231.dev@gmail.com"
-SITE = "https://github.com/TGF231/Backup_Maximus"
-SITE_CURTO = "github.com/TGF231/Backup_Maximus"
+SITE = "https://github.com/TGF231/backup-maximus-docs"
+SITE_CURTO = "github.com/TGF231/backup-maximus-docs"
 
 
 def _licenses_dir() -> str:

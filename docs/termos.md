@@ -125,8 +125,9 @@ aplicável à relação.
 
 ## 8. Atualizações e versões
 
-O aplicativo é versionado de forma semântica. O histórico de mudanças está em
-[CHANGELOG.md](../CHANGELOG.md).
+O aplicativo é versionado de forma semântica (MAIOR.MENOR.CORREÇÃO). A versão
+instalada aparece na barra de título e na tela **Sobre**, e o histórico de
+mudanças acompanha cada versão distribuída.
 
 Podemos publicar atualizações a nosso critério. Não somos obrigados a manter
 compatibilidade indefinida com versões antigas do Windows, de bancos de dados ou
