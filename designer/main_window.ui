@@ -157,6 +157,12 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="btnAbout">
+         <property name="toolTip"><string>Versão, licenças e avisos de terceiros</string></property>
+         <property name="text"><string>Sobre</string></property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="btnTheme">
          <property name="toolTip">
           <string>Alterna entre tema claro e escuro</string>

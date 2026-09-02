@@ -1,9 +1,17 @@
 @echo off
 REM ============================================================
-REM  Backup Maximus - gera BackupMaximus.exe com PyInstaller
+REM  Backup Maximus - gera os dois formatos de distribuicao
 REM
-REM  O executavel resultante nao exige Python instalado na maquina
-REM  do cliente. Copie o .exe para C:\BackupMaximus\ e pronto.
+REM    dist\BackupMaximus.exe        arquivo unico, para copiar
+REM    dist\BackupMaximus\           pasta com as DLLs do Qt a vista
+REM
+REM  A pasta nao e opcional: a LGPLv3 da PySide6/Qt exige que o
+REM  usuario possa substituir a biblioteca Qt, o que o executavel
+REM  unico impede. Publique as duas nas releases.
+REM
+REM  Toda a configuracao esta em BackupMaximus.spec - este arquivo
+REM  so o invoca. Nao acrescente flags aqui: duas listas de opcao
+REM  divergindo foi como a PyQt6 quase entrou no pacote.
 REM
 REM  Antes de gerar, para embutir 7-Zip e rclone:
 REM      python vendor\baixar_ferramentas.py
@@ -12,10 +20,7 @@ setlocal
 cd /d "%~dp0"
 
 where python >nul 2>&1
-if errorlevel 1 (
-  echo [ERRO] Python nao encontrado no PATH.
-  exit /b 1
-)
+if errorlevel 1 (echo [ERRO] Python nao encontrado no PATH. & exit /b 1)
 
 python -c "import PySide6" >nul 2>&1
 if errorlevel 1 (echo [ERRO] PySide6 nao instalado. Rode: pip install PySide6 & exit /b 1)
@@ -27,43 +32,33 @@ if errorlevel 1 (
   if errorlevel 1 (echo [ERRO] falha ao instalar o PyInstaller & exit /b 1)
 )
 
-echo [1/3] Compilando formularios do Qt Designer...
+echo [1/5] Compilando formularios do Qt Designer...
 call "%~dp0build_ui.bat" >nul
 if errorlevel 1 (echo [ERRO] falha ao compilar os .ui & exit /b 1)
 
-echo [2/3] Verificando ferramentas de terceiros...
-REM O conferir.py aceita qualquer arrumacao de pasta dentro de vendor/ e escolhe
-REM o binario da arquitetura desta maquina. Embutimos so os arquivos
-REM necessarios: o pacote do 7-Zip traz tres arquiteturas, e o rclone pesa 80 MB.
+echo [2/5] Verificando ferramentas de terceiros...
 python vendor\conferir.py
-set "VENDOR_ARGS="
-for /f "usebackq delims=" %%A in (`python vendor\conferir.py --pyinstaller`) do (
-  set "VENDOR_ARGS=%%A"
-)
+if errorlevel 1 (echo [ERRO] falha ao conferir vendor & exit /b 1)
 
-echo [3/3] Empacotando...
-REM --noconsole: sem janela preta ao rodar pelo atalho.
-REM --onefile:   um unico .exe para copiar na maquina do cliente.
-REM Os modulos Qt nao usados sao excluidos para o .exe nao passar de ~45 MB.
-python -m PyInstaller ^
-  --noconfirm --clean --onefile --noconsole ^
-  --name BackupMaximus ^
-  --exclude-module PySide6.QtWebEngineCore ^
-  --exclude-module PySide6.QtWebEngineWidgets ^
-  --exclude-module PySide6.Qt3DCore ^
-  --exclude-module PySide6.QtMultimedia ^
-  --exclude-module PySide6.QtQuick ^
-  --exclude-module PySide6.QtQml ^
-  --exclude-module PySide6.QtCharts ^
-  --exclude-module PySide6.QtDataVisualization ^
-  --exclude-module tkinter ^
-  --exclude-module unittest ^
-  %VENDOR_ARGS% ^
-  BackupMaximus.pyw
+echo [3/5] Empacotando arquivo unico...
+set "BM_ONEDIR="
+python -m PyInstaller --noconfirm --clean BackupMaximus.spec
 if errorlevel 1 (echo [ERRO] compilacao falhou & exit /b 1)
 
+echo [4/5] Empacotando pasta (exigencia da LGPL do Qt)...
+set "BM_ONEDIR=1"
+python -m PyInstaller --noconfirm --distpath dist BackupMaximus.spec
+if errorlevel 1 (echo [ERRO] compilacao em pasta falhou & exit /b 1)
+set "BM_ONEDIR="
+
+echo [5/5] Auditando o pacote...
+python vendor\auditar_pacote.py
+if errorlevel 1 (echo [ERRO] auditoria reprovou o pacote & exit /b 1)
+
 echo.
-echo OK -^> dist\BackupMaximus.exe
+echo OK
+echo   dist\BackupMaximus.exe    para instalar na maquina do cliente
+echo   dist\BackupMaximus\       publique junto, para cumprir a LGPL
 echo.
 echo Proximos passos:
 echo   1. Copie dist\BackupMaximus.exe para a pasta definitiva (ex.: C:\BackupMaximus\)

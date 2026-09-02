@@ -22,7 +22,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QVBoxLayou
 
 from .. import __version__, logger, util
 from ..config import Config
-from . import forms, password, theme
+from . import about_dialog, forms, password, theme
 from .tab_backups import BackupsTab
 from .tab_settings import NetworkTab, SettingsTab
 
@@ -61,6 +61,7 @@ class MainWindow(QMainWindow):
         self.tab_settings.password_change_requested.connect(self._change_password)
         self.tab_settings.shortcut_requested.connect(self._create_shortcut)
 
+        self.ui.btnAbout.clicked.connect(self._show_about)
         self.btn_theme.clicked.connect(self._toggle_theme)
         self.btn_save.clicked.connect(self._save)
         self.ui.btnClose.clicked.connect(self.close)
@@ -126,6 +127,15 @@ class MainWindow(QMainWindow):
     def _sync_theme_button(self) -> None:
         # O botão anuncia o destino, não o estado atual.
         self.btn_theme.setText("Tema claro" if theme.is_dark() else "Tema escuro")
+
+    def _show_about(self) -> None:
+        """Versão, licenças e diagnóstico.
+
+        O aviso sobre a LGPL da Qt precisa ser alcançável pelo usuário: um
+        arquivo de texto na pasta de instalação cumpre a letra da licença,
+        não a intenção dela.
+        """
+        about_dialog.show(self.app_dir, self)
 
     def _toggle_theme(self) -> None:
         self.cfg.dark_theme = not theme.is_dark()

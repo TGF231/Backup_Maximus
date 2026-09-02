@@ -30,7 +30,29 @@ uma na sua casa.
 
 ## [Não lançado]
 
-Nada ainda.
+### Adicionado
+
+- Tela **Sobre**, com versão, licenças de terceiros e diagnóstico copiável.
+  É o aviso visível que a LGPLv3 da Qt exige, e poupa o suporte de pedir
+  dados que o cliente digitaria errado.
+- `vendor/auditar_pacote.py`, executado no fim do build: reprova o pacote se
+  encontrar biblioteca copyleft forte ou se faltar a licença de algum
+  componente embutido.
+- Textos da LGPLv3 e da GPLv3 em `licenses/`, embutidos na distribuição — o
+  wheel da PySide6 não os traz.
+- Build em pasta (`--onedir`) além do executável único, para cumprir o direito
+  de substituir a biblioteca Qt que a LGPLv3 assegura.
+- Teste que exige que todo `designer/*.ui` esteja registrado em `forms.FORMS`.
+
+### Corrigido
+
+- O `build_exe.bat` repetia as opções na linha de comando e ignorava o
+  `.spec`, que existia sem efeito nenhum. Agora o `.spec` é a fonte única.
+- **PyQt6 (GPLv3) não estava excluída do empacotamento.** Ela está instalada
+  na máquina de desenvolvimento ao lado da PySide6; se um hook a arrastasse
+  para o pacote, o produto distribuído herdaria a GPL.
+- A tela "Sobre" não era compilada por falta de registro em `forms.FORMS`, e
+  o build informava sucesso — daí o teste novo.
 
 ---
 

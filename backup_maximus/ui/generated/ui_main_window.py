@@ -73,6 +73,11 @@ class Ui_MainWindow(object):
 
         self.footerLayout.addItem(self.footerSpacer)
 
+        self.btnAbout = QPushButton(self.footerBar)
+        self.btnAbout.setObjectName(u"btnAbout")
+
+        self.footerLayout.addWidget(self.btnAbout)
+
         self.btnTheme = QPushButton(self.footerBar)
         self.btnTheme.setObjectName(u"btnTheme")
 
@@ -108,6 +113,10 @@ class Ui_MainWindow(object):
         self.tabs.setTabText(self.tabs.indexOf(self.pageSettings), QCoreApplication.translate("MainWindow", u"Configura\u00e7\u00f5es", None))
         self.tabs.setTabText(self.tabs.indexOf(self.pageNetwork), QCoreApplication.translate("MainWindow", u"Rede", None))
         self.lblFooter.setText("")
+#if QT_CONFIG(tooltip)
+        self.btnAbout.setToolTip(QCoreApplication.translate("MainWindow", u"Vers\u00e3o, licen\u00e7as e avisos de terceiros", None))
+#endif // QT_CONFIG(tooltip)
+        self.btnAbout.setText(QCoreApplication.translate("MainWindow", u"Sobre", None))
 #if QT_CONFIG(tooltip)
         self.btnTheme.setToolTip(QCoreApplication.translate("MainWindow", u"Alterna entre tema claro e escuro", None))
 #endif // QT_CONFIG(tooltip)

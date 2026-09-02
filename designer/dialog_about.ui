@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogAbout</class>
+ <widget class="QDialog" name="DialogAbout">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>560</width><height>520</height></rect>
+  </property>
+  <property name="minimumSize">
+   <size><width>520</width><height>460</height></size>
+  </property>
+  <property name="windowTitle"><string>Sobre o Backup Maximus</string></property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin"><number>22</number></property>
+   <property name="topMargin"><number>20</number></property>
+   <property name="rightMargin"><number>22</number></property>
+   <property name="bottomMargin"><number>18</number></property>
+   <property name="spacing"><number>12</number></property>
+   <item>
+    <widget class="QLabel" name="lblTitle">
+     <property name="role" stdset="0"><string notr="true">title</string></property>
+     <property name="text"><string>Backup Maximus</string></property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="lblVersion">
+     <property name="role" stdset="0"><string notr="true">hint</string></property>
+     <property name="text"><string/></property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabs">
+     <property name="currentIndex"><number>0</number></property>
+     <widget class="QWidget" name="tabApp">
+      <attribute name="title"><string>Aplicativo</string></attribute>
+      <layout class="QVBoxLayout" name="appLayout">
+       <item>
+        <widget class="QTextBrowser" name="textApp">
+         <property name="openExternalLinks"><bool>true</bool></property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabThird">
+      <attribute name="title"><string>Componentes de terceiros</string></attribute>
+      <layout class="QVBoxLayout" name="thirdLayout">
+       <item>
+        <widget class="QTextBrowser" name="textThird">
+         <property name="openExternalLinks"><bool>true</bool></property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabSystem">
+      <attribute name="title"><string>Diagnóstico</string></attribute>
+      <layout class="QVBoxLayout" name="systemLayout">
+       <item>
+        <widget class="QTextBrowser" name="textSystem"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <property name="spacing"><number>8</number></property>
+     <item>
+      <widget class="QPushButton" name="btnLicenses">
+       <property name="toolTip"><string>Abre a pasta com os textos completos das licenças</string></property>
+       <property name="text"><string>Ver licenças</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCopy">
+       <property name="toolTip"><string>Copia o diagnóstico para enviar ao suporte</string></property>
+       <property name="text"><string>Copiar diagnóstico</string></property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="buttonSpacer">
+       <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+       <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnClose">
+       <property name="role" stdset="0"><string notr="true">accent</string></property>
+       <property name="text"><string>Fechar</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

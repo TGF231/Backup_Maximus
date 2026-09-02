@@ -43,6 +43,7 @@ FORMS = {
     "dialog_aliases": "Ui_AliasDialog",
     "dialog_cloud": "Ui_CloudDialog",
     "dialog_cloud_setup": "Ui_CloudSetupDialog",
+    "dialog_about": "Ui_DialogAbout",
 }
 
 
