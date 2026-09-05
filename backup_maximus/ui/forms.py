@@ -44,6 +44,7 @@ FORMS = {
     "dialog_cloud": "Ui_CloudDialog",
     "dialog_cloud_setup": "Ui_CloudSetupDialog",
     "dialog_about": "Ui_DialogAbout",
+    "dialog_profile": "Ui_ProfileDialog",
 }
 
 

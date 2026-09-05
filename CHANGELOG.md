@@ -41,6 +41,41 @@ uma na sua casa.
 
 ### Adicionado
 
+- **Instalador do Windows** (Inno Setup), publicado na release junto com a
+  versão portátil. Ele instala em Program Files, cria os atalhos, registra o
+  programa em "Aplicativos instalados" e remove a tarefa do lembrete ao
+  desinstalar. O conteúdo instalado é a build **em pasta**, o que cumpre a
+  LGPLv3 da Qt (DLLs substituíveis) e evita extrair 130 MB a cada execução.
+- **Configuração em `%LOCALAPPDATA%` quando instalado.** A escolha segue o
+  DPAPI, que cifra as senhas com a chave do usuário e da máquina: uma pasta
+  compartilhada guardaria segredos que ninguém mais consegue decifrar. Quem
+  usa a versão portátil não muda de comportamento — a cascata de
+  `paths.app_data_dir` só desvia quando o instalador deixa o `instalado.flag`,
+  ou quando a pasta do programa não aceita gravação.
+- **Exportar e importar configurações**, na aba Configurações. Um técnico que
+  instala em dez lojas configura uma vez e importa nas outras. O formato é o
+  próprio `.ini` do programa: legível, editável, sem um segundo leitor para
+  manter.
+- **Conjuntos modelo** distribuídos com o programa (PDV Expresso, servidor
+  Firebird, arquivos e pastas). São perfis comuns, embutidos — mesma leitura,
+  mesma importação, nenhum caminho de código separado.
+
+### Modificado
+
+- O botão **Nuvem…** deixou de abrir o cadastro por API e passou a listar as
+  pastas sincronizadas da máquina, marcando o envio direto como **EM BREVE**.
+  O interruptor é único (`cloud.ENVIO_POR_API`) e o assistente do rclone segue
+  testado, dormente, para voltar quando houver domínio verificado.
+
+### Segurança
+
+- **Nenhum segredo sai num perfil exportado**: senhas de banco, de rede e do
+  e-mail são removidas, e a tela lista o que precisará ser redigitado. Não é
+  só cautela — elas não decifrariam no destino, e campos preenchidos que não
+  funcionam só apareceriam como falha na primeira madrugada.
+- O hash da senha da interface também não viaja: importar um perfil não pode
+  trocar a senha de quem já usa a máquina.
+
 - **Release automática** pelo GitHub Actions: quando o `main` recebe uma
   versão que ainda não tem tag, o workflow testa, empacota nos dois formatos,
   audita o pacote e publica a release com as notas desta seção. O gatilho é a

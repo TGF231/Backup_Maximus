@@ -244,7 +244,7 @@
           <string>Nuvem…</string>
          </property>
          <property name="toolTip">
-          <string>Envio do zip para Google Drive, OneDrive, MEGA e outros.</string>
+          <string>Gravar o zip numa pasta sincronizada (OneDrive, Google Drive, Dropbox, MEGA)</string>
          </property>
         </widget>
        </item>

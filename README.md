@@ -126,13 +126,23 @@ O executável gerado pelo `build_exe.bat` já embute o Python e o Qt.
 
 ## Instalação
 
-### Opção A — executável único (recomendado para o cliente)
+### Opção A — instalador (recomendado para o cliente)
 
 ```bash
 build_exe.bat
 ```
 
-Gera `dist\BackupMaximus.exe`. Copie para a pasta definitiva, por exemplo
+Gera tres arquivos em `dist\`:
+
+| Arquivo | Para que serve |
+|---|---|
+| `BackupMaximus-<versao>-instalador.exe` | **O que se entrega ao cliente.** Instala em Program Files, cria atalhos e guarda a configuracao em `%LOCALAPPDATA%\Backup Maximus` |
+| `BackupMaximus.exe` | Versao portatil, para pen drive: guarda a configuracao ao lado do proprio arquivo |
+| `BackupMaximus\` | A mesma coisa em pasta, com as DLLs do Qt separadas — exigencia da LGPLv3 |
+
+O instalador precisa do Inno Setup 6 (`winget install JRSoftware.InnoSetup`); sem ele o build avisa e gera so os outros dois.
+
+Para a versao portatil, copie o `.exe` para a pasta definitiva, por exemplo
 `C:\BackupMaximus\`. Não exige Python na máquina do cliente.
 
 ### Opção B — direto do código-fonte
@@ -143,9 +153,18 @@ pip install PySide6
 
 Depois execute `BackupMaximus.pyw` (extensão `.pyw` = sem janela de console).
 
-> Configuração, logs e relatórios ficam **ao lado do executável**. Escolha uma pasta com
-> permissão de escrita — evite `C:\Program Files` sem ajustar permissões, ou defina a
-> variável de ambiente `BM_HOME` apontando para uma pasta gravável.
+> **Onde ficam configuração, logs e relatórios**, em ordem de prioridade:
+>
+> 1. `BM_HOME`, se a variável de ambiente estiver definida;
+> 2. ao lado do executável, se existir um `portatil.flag` ali;
+> 3. `%LOCALAPPDATA%\Backup Maximus`, se existir um `instalado.flag` — é o que o
+>    instalador cria;
+> 4. ao lado do executável, quando essa pasta aceita gravação (o caso da versão
+>    portátil e de quem roda do código-fonte);
+> 5. `%LOCALAPPDATA%\Backup Maximus`, quando não aceita.
+>
+> A pasta é do usuário, e não da máquina, porque as senhas são cifradas com DPAPI
+> no escopo do usuário: outro login não conseguiria decifrá-las nem tendo o arquivo.
 
 ---
 

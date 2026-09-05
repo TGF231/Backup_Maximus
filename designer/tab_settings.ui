@@ -319,6 +319,12 @@
         <property name="text"><string>Alterar senha da interface</string></property></widget></item>
        <item><widget class="QPushButton" name="btnShortcut">
         <property name="text"><string>Criar atalho na área de trabalho</string></property></widget></item>
+       <item><widget class="QPushButton" name="btnExportProfile">
+        <property name="toolTip"><string>Grava conjuntos e configurações num arquivo, para levar a outra máquina</string></property>
+        <property name="text"><string>Exportar configurações…</string></property></widget></item>
+       <item><widget class="QPushButton" name="btnImportProfile">
+        <property name="toolTip"><string>Traz conjuntos de um arquivo exportado ou de um modelo pronto</string></property>
+        <property name="text"><string>Importar / modelos…</string></property></widget></item>
        <item><spacer name="maintenanceSpacer">
         <property name="orientation"><enum>Qt::Horizontal</enum></property>
         <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>

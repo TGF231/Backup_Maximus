@@ -63,6 +63,12 @@ DATAS += [(os.path.join("licenses", nome), "licenses")
           for nome in sorted(os.listdir("licenses"))
           if nome.lower().endswith(".txt")]
 
+# Conjuntos modelo: perfis prontos que o usuario importa pela tela de
+# configuracoes. Sao .ini comuns, lidos pelo mesmo Config.load.
+DATAS += [(os.path.join("modelos", nome), "modelos")
+          for nome in sorted(os.listdir("modelos"))
+          if nome.lower().endswith(".ini")]
+
 a = Analysis(
     ['BackupMaximus.pyw'],
     pathex=[],

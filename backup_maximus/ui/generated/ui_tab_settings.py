@@ -333,6 +333,16 @@ class Ui_TabSettings(object):
 
         self.maintenanceLayout.addWidget(self.btnShortcut)
 
+        self.btnExportProfile = QPushButton(TabSettings)
+        self.btnExportProfile.setObjectName(u"btnExportProfile")
+
+        self.maintenanceLayout.addWidget(self.btnExportProfile)
+
+        self.btnImportProfile = QPushButton(TabSettings)
+        self.btnImportProfile.setObjectName(u"btnImportProfile")
+
+        self.maintenanceLayout.addWidget(self.btnImportProfile)
+
         self.maintenanceSpacer = QSpacerItem(1, 0, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.maintenanceLayout.addItem(self.maintenanceSpacer)
@@ -384,6 +394,14 @@ class Ui_TabSettings(object):
         self.lblSevenZipHint.setText("")
         self.btnChangePassword.setText(QCoreApplication.translate("TabSettings", u"Alterar senha da interface", None))
         self.btnShortcut.setText(QCoreApplication.translate("TabSettings", u"Criar atalho na \u00e1rea de trabalho", None))
+#if QT_CONFIG(tooltip)
+        self.btnExportProfile.setToolTip(QCoreApplication.translate("TabSettings", u"Grava conjuntos e configura\u00e7\u00f5es num arquivo, para levar a outra m\u00e1quina", None))
+#endif // QT_CONFIG(tooltip)
+        self.btnExportProfile.setText(QCoreApplication.translate("TabSettings", u"Exportar configura\u00e7\u00f5es\u2026", None))
+#if QT_CONFIG(tooltip)
+        self.btnImportProfile.setToolTip(QCoreApplication.translate("TabSettings", u"Traz conjuntos de um arquivo exportado ou de um modelo pronto", None))
+#endif // QT_CONFIG(tooltip)
+        self.btnImportProfile.setText(QCoreApplication.translate("TabSettings", u"Importar / modelos\u2026", None))
         pass
     # retranslateUi
 

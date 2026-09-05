@@ -98,8 +98,19 @@ jobs:
         # o ovo-e-galinha de extrair o pacote .7z do próprio 7-Zip.
         run: python vendor/baixar_ferramentas.py
 
+      - name: Instalar o Inno Setup
+        # O instalador e entregavel, nao conveniencia: e ele que poe os
+        # dados em %LOCALAPPDATA% e registra o programa em "Aplicativos
+        # instalados" do Windows.
+        run: choco install innosetup --no-progress -y
+
       - name: Empacotar
         run: .\build_exe.bat
+
+      - name: Conferir o instalador
+        # O build_exe.bat so avisa quando o Inno falta, para nao travar a
+        # maquina do desenvolvedor. Aqui a ausencia e erro.
+        run: python installer/gerar_instalador.py --conferir
 
       - name: Auditar o pacote
         # Redundante com o build_exe.bat de propósito: é a verificação que
@@ -114,6 +125,8 @@ jobs:
           $v = "${{ needs.verificar.outputs.versao }}"
           $exe = "BackupMaximus-$v.exe"
           $pasta = "BackupMaximus-$v-pasta.zip"
+          $inst = "dist\BackupMaximus-$v-instalador.exe"
+          if (-not (Test-Path $inst)) { throw "instalador ausente: $inst" }
           Copy-Item dist\BackupMaximus.exe $exe
           # A build em pasta não é opcional: a LGPLv3 da PySide6/Qt assegura ao
           # usuário o direito de substituir a biblioteca Qt, e no executável
@@ -121,7 +134,8 @@ jobs:
           Compress-Archive -Path dist\BackupMaximus\* -DestinationPath $pasta
           "exe=$exe" >> $env:GITHUB_OUTPUT
           "pasta=$pasta" >> $env:GITHUB_OUTPUT
-          Get-Item $exe, $pasta | Select-Object Name, @{n='MB';e={[math]::Round($_.Length/1MB,1)}}
+          "inst=$inst" >> $env:GITHUB_OUTPUT
+          Get-Item $inst, $exe, $pasta | Select-Object Name, @{n='MB';e={[math]::Round($_.Length/1MB,1)}}
 
       - name: Notas da release
         shell: bash
@@ -131,17 +145,22 @@ jobs:
 
           ---
 
-          ### Como instalar
+          ### Qual arquivo baixar
 
-          Baixe o `.exe`, copie para a pasta definitiva (ex.: `C:\BackupMaximus\`)
-          e execute. Não exige Python na máquina do cliente.
+          | Arquivo | Para que serve |
+          |---|---|
+          | `-instalador.exe` | **É este.** Instala o programa, cria os atalhos e guarda a configuração em `%LOCALAPPDATA%\Backup Maximus` |
+          | `BackupMaximus-<versão>.exe` | Versão portátil, para pen drive: não instala nada e guarda a configuração ao lado do próprio arquivo |
+          | `-pasta.zip` | O mesmo programa com as bibliotecas do Qt separadas |
+
+          Nenhum deles exige Python na máquina do cliente.
 
           ### Sobre o arquivo `-pasta.zip`
 
-          É o mesmo programa com as bibliotecas do Qt separadas. Ele existe para
-          cumprir a LGPLv3 da PySide6/Qt, que assegura ao usuário o direito de
-          substituir a biblioteca Qt por outra versão compatível. Para instalar,
-          use o `.exe`.
+          Ele existe para cumprir a LGPLv3 da PySide6/Qt, que assegura ao usuário
+          o direito de substituir a biblioteca Qt por outra versão compatível.
+          O instalador usa exatamente esse conteúdo, então quem instalar já tem
+          as DLLs do Qt separadas e substituíveis.
           RODAPE
 
       - name: Publicar
@@ -153,5 +172,6 @@ jobs:
             --title "Backup Maximus ${{ needs.verificar.outputs.versao }}" \
             --notes-file NOTAS.md \
             --target "$GITHUB_SHA" \
+            "${{ steps.artefatos.outputs.inst }}" \
             "${{ steps.artefatos.outputs.exe }}" \
             "${{ steps.artefatos.outputs.pasta }}"

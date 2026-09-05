@@ -56,6 +56,34 @@ class PathState(str, Enum):
     BAD = "bad"
 
 
+def _cloud_destination(provider: str, space: str) -> tuple[PathState, str]:
+    """Como anunciar um destino que um cliente de sincronização já espelha.
+
+    Enquanto o envio pela API está suspenso (`cloud.ENVIO_POR_API`), esta é a
+    via **recomendada** para levar o backup à nuvem — e não mais o plano B que
+    era quando a API funcionava.
+
+    Duas verdades competem aqui, e a escolha entre elas é de produto:
+
+    - É o caminho certo, e o operador acaba de fazer o que a tela pediu.
+    - A garantia é menor: o backup é dado como concluído quando o zip toca o
+      disco, e quem envia é o cliente de sincronização, depois, sem ninguém
+      conferir se chegou.
+
+    `space` já vem pronto (ex.: "12,4 GB livres no destino.") e pode ser
+    vazio; concatene com cuidado para não sobrar espaço solto.
+
+    Por ora fica no âmbar que já existia, para preservar a distinção entre
+    "gravado" e "chegou na nuvem". A escolha entre âmbar e verde é de produto e
+    segue em aberto — trocar aqui muda a tela inteira, e só aqui.
+    """
+    return PathState.WARN, (
+        f"Pasta do {provider} — é assim que o backup vai para a nuvem hoje. "
+        f"O backup conclui ao gravar o arquivo; o envio é feito depois pelo "
+        f"{provider}, então confirme lá que subiu. {space}"
+    ).strip()
+
+
 def validate(path: str, kind: PathKind) -> tuple[PathState, str]:
     """Avalia um caminho. Devolve (estado, mensagem para o usuário)."""
     path = path.strip()
@@ -88,13 +116,7 @@ def validate(path: str, kind: PathKind) -> tuple[PathState, str]:
             free = util.free_space(path)
             space = f"{util.format_bytes(free)} livres no destino." if free else ""
             if provider:
-                # O aviso importa: o backup termina quando o zip é gravado no
-                # disco, mas quem o envia é o cliente de sincronização, depois.
-                return PathState.WARN, (
-                    f"Pasta do {provider}. O backup conclui ao gravar o arquivo; "
-                    f"o envio à nuvem é feito depois pelo {provider} — confirme "
-                    f"lá que subiu. {space}"
-                ).strip()
+                return _cloud_destination(provider, space)
             return (PathState.OK, space) if space else (PathState.OK, "")
         parent = os.path.dirname(os.path.normpath(path)) or path
         if os.path.isdir(parent):

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ProfileDialog</class>
+ <widget class="QDialog" name="ProfileDialog">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>660</width><height>540</height></rect>
+  </property>
+  <property name="minimumSize">
+   <size><width>620</width><height>500</height></size>
+  </property>
+  <property name="windowTitle"><string>Importar configurações</string></property>
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin"><number>22</number></property>
+   <property name="topMargin"><number>20</number></property>
+   <property name="rightMargin"><number>22</number></property>
+   <property name="bottomMargin"><number>18</number></property>
+   <property name="spacing"><number>12</number></property>
+
+   <item>
+    <widget class="QLabel" name="lblOrigemTitle">
+     <property name="role" stdset="0"><string notr="true">section</string></property>
+     <property name="text"><string>DE ONDE VEM</string></property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="origemLayout">
+     <property name="spacing"><number>8</number></property>
+     <item>
+      <widget class="QComboBox" name="comboOrigem">
+       <property name="toolTip"><string>Um modelo que acompanha o programa, ou um arquivo exportado de outra máquina</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnBrowse">
+       <property name="text"><string>Escolher arquivo…</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <widget class="QLabel" name="lblConteudoTitle">
+     <property name="role" stdset="0"><string notr="true">section</string></property>
+     <property name="text"><string>O QUE HÁ DENTRO</string></property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTreeWidget" name="listing">
+     <property name="rootIsDecorated"><bool>false</bool></property>
+     <property name="alternatingRowColors"><bool>true</bool></property>
+     <property name="uniformRowHeights"><bool>true</bool></property>
+     <column><property name="text"><string>Conjunto</string></property></column>
+     <column><property name="text"><string>Itens</string></property></column>
+     <column><property name="text"><string>Destino</string></property></column>
+    </widget>
+   </item>
+
+   <item>
+    <widget class="QLabel" name="lblComoTitle">
+     <property name="role" stdset="0"><string notr="true">section</string></property>
+     <property name="text"><string>COMO APLICAR</string></property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="comoLayout">
+     <property name="horizontalSpacing"><number>10</number></property>
+     <property name="verticalSpacing"><number>6</number></property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblModo">
+       <property name="role" stdset="0"><string notr="true">field</string></property>
+       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="alignment"><set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignVCenter</set></property>
+       <property name="text"><string>Conjuntos</string></property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="comboModo"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QCheckBox" name="chkGerais">
+       <property name="text"><string>Trazer também empresa, e-mail e servidor de envio</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+
+   <item>
+    <widget class="QLabel" name="lblStatus">
+     <property name="role" stdset="0"><string notr="true">hint</string></property>
+     <property name="wordWrap"><bool>true</bool></property>
+     <property name="text"><string/></property>
+    </widget>
+   </item>
+
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <property name="spacing"><number>8</number></property>
+     <item>
+      <spacer name="buttonSpacer">
+       <property name="orientation"><enum>Qt::Orientation::Horizontal</enum></property>
+       <property name="sizeHint" stdset="0"><size><width>1</width><height>0</height></size></property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnImport">
+       <property name="role" stdset="0"><string notr="true">accent</string></property>
+       <property name="text"><string>Importar</string></property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnCancel">
+       <property name="text"><string>Cancelar</string></property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

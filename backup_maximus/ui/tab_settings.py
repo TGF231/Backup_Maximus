@@ -25,7 +25,7 @@ from PySide6.QtCore import QTime
 
 from .. import mailer, reminder
 from ..config import Config, NetCredential, protect_secret
-from . import forms, password, widgets
+from . import forms, password, profile_dialog, widgets
 from .pathedit import PathKind, PathState
 
 
@@ -115,6 +115,8 @@ class SettingsTab(QWidget):
         self.btn_test_mail.clicked.connect(self._test_email)
         self.btn_password.clicked.connect(self.password_change_requested.emit)
         self.btn_shortcut.clicked.connect(self.shortcut_requested.emit)
+        self.ui.btnExportProfile.clicked.connect(self._exportar_perfil)
+        self.ui.btnImportProfile.clicked.connect(self._importar_perfil)
 
     def _changed(self, *_args) -> None:
         if self._loading:
@@ -219,6 +221,22 @@ class SettingsTab(QWidget):
                           f"Verifique a caixa de {self.cfg.notify_email}.")
         else:
             password.error(self, "Falha no envio.", err)
+
+    # ------------------------------------------------ configurações prontas
+    def _exportar_perfil(self) -> None:
+        """Leva conjuntos e configurações para outra máquina.
+
+        As senhas ficam para trás de propósito: o DPAPI as cifra com a chave
+        deste usuário e desta máquina, então não decifrariam no destino.
+        """
+        profile_dialog.exportar(self.cfg, self.app_dir, self)
+
+    def _importar_perfil(self) -> None:
+        if profile_dialog.importar(self.cfg, self.app_dir, self):
+            self.dirty_changed.emit()
+            # Recarrega os campos: a importação pode ter trocado empresa,
+            # e-mail e servidor de envio por baixo da tela aberta.
+            self._load()
 
 
 class NetworkTab(QWidget):

@@ -583,7 +583,7 @@ class Ui_TabBackups(object):
         self.btnDestInfo.setText(QCoreApplication.translate("TabBackups", u"Espa\u00e7o e limpeza", None))
         self.btnCloud.setText(QCoreApplication.translate("TabBackups", u"Nuvem\u2026", None))
 #if QT_CONFIG(tooltip)
-        self.btnCloud.setToolTip(QCoreApplication.translate("TabBackups", u"Envio do zip para Google Drive, OneDrive, MEGA e outros.", None))
+        self.btnCloud.setToolTip(QCoreApplication.translate("TabBackups", u"Gravar o zip numa pasta sincronizada (OneDrive, Google Drive, Dropbox, MEGA)", None))
 #endif // QT_CONFIG(tooltip)
         self.btnDetectAliases.setText(QCoreApplication.translate("TabBackups", u"Detectar bancos do Firebird", None))
 #if QT_CONFIG(tooltip)

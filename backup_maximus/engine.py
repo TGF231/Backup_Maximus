@@ -99,8 +99,11 @@ def build_report(cfg: Config, run: RunResult, dev: sysinfo.DeviceInfo) -> str:
         if s.pruned:
             lines.append(f"        Retenção: {s.pruned} backup(s) antigo(s) removido(s), "
                          f"{util.format_bytes(s.pruned_bytes)} liberados")
-        if s.cloud_ok is not None:
-            mark = "enviado" if s.cloud_ok else "FALHOU"
+        # A linha aparece por haver mensagem, não por haver resultado: o
+        # envio suspenso não é sucesso nem falha, mas o operador precisa saber
+        # que o zip não foi para a nuvem.
+        if s.cloud_message:
+            mark = {True: "enviado", False: "FALHOU"}.get(s.cloud_ok, "nao enviado")
             lines.append(f"        Nuvem: {mark} — {s.cloud_message}")
             if s.cloud_pruned:
                 lines.append(f"        Nuvem: {s.cloud_pruned} antigo(s) removido(s)")
@@ -310,7 +313,17 @@ def _run_set(
         # 7) cópia na nuvem. Vem por último porque é a etapa mais lenta e a
         #    única que depende de rede: se falhar, o backup local continua
         #    válido e o relatório diz exatamente o que faltou.
-        if bset.cloud_remote.strip():
+        if bset.cloud_remote.strip() and not cloud.ENVIO_POR_API:
+            # Configuração de uma versão anterior, com o envio por API agora
+            # suspenso. Ignorar em silêncio seria pior: o operador continuaria
+            # acreditando que o zip está indo para a nuvem.
+            logger.warn(f"[{bset.name}] envio por API suspenso; "
+                        f"'{bset.cloud_remote}' foi ignorado.")
+            result.cloud_ok = None
+            result.cloud_message = (
+                "Envio pela API está em desenvolvimento — o zip ficou apenas "
+                "no destino local.")
+        elif bset.cloud_remote.strip():
             report(96, f"[{bset.name}] enviando para {bset.cloud_remote}...")
             upload = cloud.upload(
                 result.zip_path, bset.cloud_remote, bset.cloud_path,

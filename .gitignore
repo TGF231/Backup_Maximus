@@ -16,6 +16,7 @@ backup_maximus.ini
 x.ini
 *.ini
 !exemplos/*.ini
+!modelos/*.ini
 
 # Execução: relatórios e logs trazem nome da máquina, caminhos e dados da
 # empresa que rodou o backup.

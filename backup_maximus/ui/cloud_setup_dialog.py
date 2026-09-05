@@ -1,5 +1,10 @@
 """Assistente de cadastro de serviço de nuvem, sem console.
 
+DORMENTE: nenhuma tela abre este assistente hoje, porque `cloud.ENVIO_POR_API`
+está desligado — o Google exige um domínio verificado que a WalyTech ainda não
+tem. O código e os testes ficam de pé de propósito: quando o interruptor voltar
+a True, basta religar o botão que o abria. Apagar agora custaria refazer tudo.
+
 O formulário é montado a partir do que o rclone diz sobre cada serviço, então
 não há lista de campos escrita aqui para envelhecer a cada versão dele.
 

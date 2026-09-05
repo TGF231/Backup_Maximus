@@ -32,6 +32,31 @@ from . import logger, util
 
 #: Serviços que o rclone atende e que interessam aqui. O nome à esquerda é o
 #: identificador do backend no rclone (`rclone config` pergunta por ele).
+# ---------------------------------------------------------------- disponibilidade
+#: O envio pela API está **suspenso**, e este é o interruptor único.
+#:
+#: Motivo: o Google exige que o domínio informado na tela de consentimento seja
+#: verificado por registro DNS, o que só é possível com um domínio próprio. Sem
+#: isso o aplicativo não sai de "Teste", e em "Teste" o Google expira a
+#: credencial de renovação a cada 7 dias — o envio noturno pararia toda semana,
+#: que é a pior forma de um backup falhar: silenciosa e tardia.
+#:
+#: Enquanto isso, o caminho para a nuvem é apontar o **destino do conjunto**
+#: para a pasta de um cliente de sincronização instalado (OneDrive, Google
+#: Drive, Dropbox, MEGA). Ver `util.cloud_folders`.
+#:
+#: Para reativar, basta trocar para True: nada foi removido, e os testes de
+#: `cloud.py` e `cloud_setup.py` continuam cobrindo o código de envio.
+ENVIO_POR_API = False
+
+#: Frase única para a interface, para o motivo não ser reescrito em cada tela.
+MOTIVO_INDISPONIVEL = (
+    "O envio direto pela API do serviço está em desenvolvimento. Enquanto isso, "
+    "aponte o destino do conjunto para a pasta de um cliente de sincronização "
+    "instalado — o zip é enviado por ele."
+)
+
+
 KNOWN_PROVIDERS = {
     "drive": "Google Drive",
     "onedrive": "OneDrive",

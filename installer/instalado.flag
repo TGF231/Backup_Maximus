@@ -1,0 +1,17 @@
+Este arquivo é criado pelo instalador do Backup Maximus.
+
+A presença dele diz ao programa que ele foi INSTALADO, e não copiado como
+versão portátil. Com isso, a configuração, os logs e os relatórios passam a
+ficar em:
+
+    %LOCALAPPDATA%\Backup Maximus
+
+E não ao lado do executável — que aqui mora em Program Files, onde o Windows
+não permite gravar.
+
+Não apague este arquivo. Sem ele, o programa procuraria a configuração numa
+pasta protegida, não encontraria nada e abriria como se fosse a primeira
+execução, pedindo uma senha nova.
+
+Para forçar o modo portátil (dados ao lado do .exe), crie um arquivo chamado
+portatil.flag nesta mesma pasta. Ele tem prioridade.

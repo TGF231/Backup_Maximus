@@ -139,14 +139,68 @@ def _license_beside(tool: str, names: tuple[str, ...]) -> str:
     return ""
 
 
-def app_data_dir() -> str:
-    """Onde ficam configuração, logs e relatórios.
+#: Marcador criado pelo instalador ao lado do .exe. Sua presença diz que o
+#: programa foi instalado (tipicamente em Program Files, onde não se escreve) e
+#: que os dados pertencem ao perfil do usuário.
+INSTALLED_MARKER = "instalado.flag"
 
-    BM_HOME permite separar programa e dados — útil quando o programa mora em
-    Program Files (só leitura) e os dados precisam de pasta gravável.
+#: Marcador oposto, para quem quer a versão portátil num pen drive mesmo com o
+#: programa numa pasta gravável. Vence o automático.
+PORTABLE_MARKER = "portatil.flag"
+
+#: Nome da pasta em %LOCALAPPDATA%.
+APPDATA_FOLDER = "Backup Maximus"
+
+
+def _writable(directory: str) -> bool:
+    """Se dá para gravar ali de verdade — testando, não deduzindo.
+
+    `os.access(W_OK)` mente em vários casos no Windows: diz que sim para pastas
+    protegidas pelo UAC e para a virtualização de Program Files. Um arquivo
+    temporário é a única resposta confiável.
+    """
+    probe = os.path.join(directory, ".bm_write_test")
+    try:
+        with open(probe, "w", encoding="ascii") as fh:
+            fh.write("x")
+        os.unlink(probe)
+        return True
+    except OSError:
+        return False
+
+
+def local_appdata_dir() -> str:
+    r"""%LOCALAPPDATA%\Backup Maximus, criada se preciso."""
+    base = (os.environ.get("LOCALAPPDATA", "").strip()
+            or os.path.join(os.path.expanduser("~"), "AppData", "Local"))
+    path = os.path.join(base, APPDATA_FOLDER)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+def app_data_dir() -> str:
+    r"""Onde ficam configuração, logs e relatórios.
+
+    A ordem existe para não quebrar quem já usa o programa hoje. Um cliente com
+    a versão portátil numa pasta gravável continua com tudo ao lado do .exe; só
+    quem instalar pelo instalador é levado para o AppData.
+
+    1. `BM_HOME`   — decisão explícita de quem administra a máquina.
+    2. `portatil.flag` ao lado do .exe — decisão explícita de quem usa.
+    3. `instalado.flag` ao lado do .exe — escrito pelo instalador.
+    4. Pasta do programa, se der para gravar nela — o comportamento de sempre.
+    5. `%LOCALAPPDATA%\Backup Maximus` — o programa está em lugar protegido.
     """
     override = os.environ.get("BM_HOME", "").strip()
     if override:
         os.makedirs(override, exist_ok=True)
         return os.path.abspath(override)
-    return install_dir()
+
+    home = install_dir()
+    if os.path.isfile(os.path.join(home, PORTABLE_MARKER)):
+        return home
+    if os.path.isfile(os.path.join(home, INSTALLED_MARKER)):
+        return local_appdata_dir()
+    if _writable(home):
+        return home
+    return local_appdata_dir()
