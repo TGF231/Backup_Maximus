@@ -114,6 +114,10 @@ workflow de release existir, então não tem instalador nem executável anexados
   arrastasse para o pacote, o produto distribuído herdaria a GPL.
 - A tela "Sobre" não era compilada por falta de registro em `forms.FORMS`, e o
   build informava sucesso — daí o teste novo.
+- **A auditoria do pacote nunca verificou as licenças do vendor.** Desde o
+  PyInstaller 6, a build em pasta guarda os dados sob `_internal/`, e a
+  verificação comparava com `startswith("vendor/…")` — que nunca casava. Um
+  pacote sem o aviso MIT do rclone seria aprovado em silêncio.
 - **O download do 7-Zip apontava para versões removidas do site oficial.** O
   7-Zip apaga os pacotes antigos ao lançar uma versão nova, então a URL fixa
   envelheceu e o build quebrou sem ninguém ter mexido em nada — foi o que

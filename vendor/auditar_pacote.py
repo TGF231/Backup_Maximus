@@ -59,7 +59,11 @@ def auditar_pasta(pasta: str) -> list[str]:
         # A ferramenta pode não ter sido embutida; a licença só é exigida
         # quando o binário correspondente está lá.
         binario = os.path.dirname(alvo)
-        tem_binario = any(m.startswith(binario) and m.endswith(".exe")
+        # `in`, e nao `startswith`: desde o PyInstaller 6 a build em pasta
+        # guarda os dados sob `_internal/`, entao o caminho e
+        # `_internal/vendor/rclone/...`. Com startswith a verificacao nunca
+        # disparava, e um pacote sem o aviso MIT do rclone era aprovado.
+        tem_binario = any(binario in m and m.endswith(".exe")
                           for m in minusculas)
         if binario.startswith("vendor") and not tem_binario:
             continue
