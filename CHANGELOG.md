@@ -114,6 +114,12 @@ workflow de release existir, então não tem instalador nem executável anexados
   arrastasse para o pacote, o produto distribuído herdaria a GPL.
 - A tela "Sobre" não era compilada por falta de registro em `forms.FORMS`, e o
   build informava sucesso — daí o teste novo.
+- **O download do 7-Zip apontava para versões removidas do site oficial.** O
+  7-Zip apaga os pacotes antigos ao lançar uma versão nova, então a URL fixa
+  envelheceu e o build quebrou sem ninguém ter mexido em nada — foi o que
+  derrubou a primeira tentativa desta release. Agora a versão é descoberta na
+  página oficial e ordenada da mais nova para a mais velha, com uma lista
+  conhecida como plano B.
 - O UNC cadastrado na aba Rede só aparecia no seletor depois de fechar e
   reabrir o programa: a lista era copiada uma vez, em vez de lida a cada
   abertura.

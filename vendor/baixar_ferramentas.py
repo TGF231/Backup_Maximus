@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import re
 import shutil
 import sys
 import urllib.request
@@ -32,8 +33,9 @@ VENDOR = os.path.dirname(os.path.abspath(__file__))
 #: Origem oficial de cada ferramenta. Atualize a versão quando quiser subir.
 SOURCES = {
     "7zip": {
-        "url": "https://www.7-zip.org/a/7z2408-extra.7z",
-        "alt_url": "https://www.7-zip.org/a/7z2409-extra.7z",
+        # Descoberta em tempo de execucao; as fixas abaixo sao o plano B.
+        "url": "",
+        "alt_url": "",
         "note": ("Pacote '7-Zip Extra'. Se o .7z não puder ser aberto sem um "
                  "7-Zip já instalado, baixe manualmente e extraia 7za.exe "
                  "para vendor/7zip/."),
@@ -45,6 +47,42 @@ SOURCES = {
         "wanted": ("rclone.exe", "LICENSE.txt", "LICENSE", "COPYING"),
     },
 }
+
+
+
+#: Pagina oficial de downloads, de onde a versao atual e descoberta.
+_PAGINA_7ZIP = "https://www.7-zip.org/download.html"
+
+#: Plano B, da mais nova para a mais velha. O 7-Zip remove os pacotes antigos
+#: do servidor quando lanca uma versao, entao uma URL fixa envelhece e quebra o
+#: build sem ninguem ter mexido em nada — foi o que derrubou a primeira
+#: tentativa de release.
+_VERSOES_7ZIP = ("2602", "2601", "2600", "2501")
+
+
+def _urls_7zip() -> list[str]:
+    """URLs do pacote 'Extra', da mais provavel para a menos.
+
+    A primeira vem da pagina de downloads, que e a unica fonte que acompanha
+    o lancamento. Se a pagina mudar de formato ou estiver fora do ar, as
+    versoes conhecidas ainda dao conta.
+    """
+    versoes: set[str] = set(_VERSOES_7ZIP)
+    try:
+        pedido = urllib.request.Request(
+            _PAGINA_7ZIP, headers={"User-Agent": "BackupMaximus/vendor-fetch"})
+        with urllib.request.urlopen(pedido, timeout=30) as resposta:
+            html = resposta.read().decode("utf-8", "replace")
+        versoes |= set(re.findall(r"a/7z(\d+)-extra\.7z", html))
+    except Exception as exc:
+        print(f"  nao deu para ler a pagina de downloads ({exc}); "
+              f"usando as versoes conhecidas")
+
+    # A pagina lista versoes historicas junto com a atual, e nao em ordem.
+    # Ordenar pelo numero evita tentar a de 2016 antes da de agora.
+    ordenadas = sorted(versoes, key=int, reverse=True)
+    print(f"  7-Zip: tentando a partir da versao {ordenadas[0]}")
+    return [f"https://www.7-zip.org/a/7z{v}-extra.7z" for v in ordenadas]
 
 
 def _already_present(*names: str) -> bool:
@@ -139,8 +177,8 @@ def fetch_sevenzip() -> bool:
         return False
 
     archive = os.path.join(VENDOR, "_7zextra.7z")
-    if not (_download(SOURCES["7zip"]["url"], archive)
-            or _download(SOURCES["7zip"]["alt_url"], archive)):
+    if not any(_download(url, archive) for url in _urls_7zip()):
+        print("  Nenhuma versao do pacote Extra respondeu. Use a opcao (b).")
         return False
 
     os.makedirs(dest, exist_ok=True)
