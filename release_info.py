@@ -82,7 +82,12 @@ def conferir() -> list[str]:
         changelog = fh.read()
     nao_lancado = re.search(r"^##\s*\[Não lançado\][^\n]*\n(.*?)(?=^##\s|\Z)",
                             changelog, re.M | re.S)
-    if nao_lancado and nao_lancado.group(1).strip() not in ("", "Nada ainda."):
+    # A régua que separa as seções entra na captura e não é conteúdo. Sem
+    # descontá-la, "Nada ainda." nunca casaria e a verificação reprovaria
+    # sempre — um guarda que grita toda vez deixa de ser lido.
+    sobrou = (re.sub(r"^---\s*$", "", nao_lancado.group(1), flags=re.M).strip()
+              if nao_lancado else "")
+    if sobrou not in ("", "Nada ainda."):
         problemas.append(
             "há conteúdo em '## [Não lançado]' no CHANGELOG. Mova-o para a "
             f"seção da versão {v} antes de publicar, ou ele não aparecerá "

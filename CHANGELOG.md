@@ -39,67 +39,46 @@ uma na sua casa.
 
 ## [Não lançado]
 
+Nada ainda.
+
+---
+
+## [2.2.0] — 2026-10-13
+
+Primeira release publicada com artefatos. A 2.1.0 recebeu tag antes de o
+workflow de release existir, então não tem instalador nem executável anexados.
+
 ### Adicionado
 
 - **Instalador do Windows** (Inno Setup), publicado na release junto com a
-  versão portátil. Ele instala em Program Files, cria os atalhos, registra o
+  versão portátil. Instala em Program Files, cria os atalhos, registra o
   programa em "Aplicativos instalados" e remove a tarefa do lembrete ao
-  desinstalar. O conteúdo instalado é a build **em pasta**, o que cumpre a
-  LGPLv3 da Qt (DLLs substituíveis) e evita extrair 130 MB a cada execução.
+  desinstalar. O que ele instala é a build **em pasta**: isso cumpre a LGPLv3
+  da Qt (DLLs substituíveis) e evita extrair 130 MB a cada execução, num
+  programa chamado toda madrugada pelo Agendador de Tarefas.
 - **Configuração em `%LOCALAPPDATA%` quando instalado.** A escolha segue o
-  DPAPI, que cifra as senhas com a chave do usuário e da máquina: uma pasta
-  compartilhada guardaria segredos que ninguém mais consegue decifrar. Quem
-  usa a versão portátil não muda de comportamento — a cascata de
-  `paths.app_data_dir` só desvia quando o instalador deixa o `instalado.flag`,
-  ou quando a pasta do programa não aceita gravação.
+  DPAPI, que cifra as senhas no escopo do usuário: uma pasta compartilhada
+  guardaria segredos que nenhum outro login consegue decifrar. Quem usa a
+  versão portátil não muda de comportamento — a cascata de
+  `paths.app_data_dir` só desvia quando existe o `instalado.flag` ou quando a
+  pasta do programa não aceita gravação.
 - **Exportar e importar configurações**, na aba Configurações. Um técnico que
   instala em dez lojas configura uma vez e importa nas outras. O formato é o
   próprio `.ini` do programa: legível, editável, sem um segundo leitor para
-  manter.
+  manter em dia.
 - **Conjuntos modelo** distribuídos com o programa (PDV Expresso, servidor
   Firebird, arquivos e pastas). São perfis comuns, embutidos — mesma leitura,
   mesma importação, nenhum caminho de código separado.
-
-### Modificado
-
-- O botão **Nuvem…** deixou de abrir o cadastro por API e passou a listar as
-  pastas sincronizadas da máquina, marcando o envio direto como **EM BREVE**.
-  O interruptor é único (`cloud.ENVIO_POR_API`) e o assistente do rclone segue
-  testado, dormente, para voltar quando houver domínio verificado.
-
-### Segurança
-
-- **Nenhum segredo sai num perfil exportado**: senhas de banco, de rede e do
-  e-mail são removidas, e a tela lista o que precisará ser redigitado. Não é
-  só cautela — elas não decifrariam no destino, e campos preenchidos que não
-  funcionam só apareceriam como falha na primeira madrugada.
-- O hash da senha da interface também não viaja: importar um perfil não pode
-  trocar a senha de quem já usa a máquina.
-
-- **Release automática** pelo GitHub Actions: quando o `main` recebe uma
-  versão que ainda não tem tag, o workflow testa, empacota nos dois formatos,
-  audita o pacote e publica a release com as notas desta seção. O gatilho é a
-  ausência da tag, não a edição do arquivo — assim reexecutar não duplica
-  release e um comentário alterado não dispara build.
+- **Release automática** pelo GitHub Actions: quando o `main` recebe uma versão
+  que ainda não tem tag, o workflow testa, empacota nos três formatos, audita o
+  pacote e publica. O gatilho é a ausência da tag, não a edição do arquivo —
+  assim reexecutar não duplica release e um comentário alterado não dispara
+  build.
 - `release_info.py`, fonte única da versão e das notas para o workflow, com
   `--conferir` que recusa publicar sem seção no CHANGELOG.
-
-- **Aguardar unidade virou um seletor fechado**, sem digitação. Lista as
-  unidades com rótulo do volume, tipo e espaço livre — a letra sozinha não
-  distingue dois pen drives espetados. As unidades são reescaneadas a cada
-  abertura da lista.
-  - A unidade configurada continua listada mesmo **ausente**, marcada como
-    tal: configurar com o pen drive fora é o caso normal, e sem isso abrir a
-    tela apagaria a configuração do conjunto em silêncio.
-  - Caminhos **UNC entram pela aba Rede** e passam a aparecer na lista. É
-    onde a credencial já está cadastrada — esperar por um caminho de rede
-    sem poder acessá-lo só produziria falha na hora do backup. O seletor lê
-    os compartilhamentos a cada abertura, então um cadastro novo aparece sem
-    fechar o programa.
-
-- Tela **Sobre**, com versão, licenças de terceiros e diagnóstico copiável.
-  É o aviso visível que a LGPLv3 da Qt exige, e poupa o suporte de pedir
-  dados que o cliente digitaria errado.
+- **Tela Sobre**, com versão, licenças de terceiros e diagnóstico copiável. É o
+  aviso visível que a LGPLv3 da Qt exige, e poupa o suporte de pedir dados que
+  o cliente digitaria errado.
 - `vendor/auditar_pacote.py`, executado no fim do build: reprova o pacote se
   encontrar biblioteca copyleft forte ou se faltar a licença de algum
   componente embutido.
@@ -109,15 +88,44 @@ uma na sua casa.
   de substituir a biblioteca Qt que a LGPLv3 assegura.
 - Teste que exige que todo `designer/*.ui` esteja registrado em `forms.FORMS`.
 
+### Modificado
+
+- **Aguardar unidade virou um seletor fechado**, sem digitação. Lista as
+  unidades com rótulo do volume, tipo e espaço livre — a letra sozinha não
+  distingue dois pen drives espetados. As unidades são reescaneadas a cada
+  abertura da lista.
+  - A unidade configurada continua listada mesmo **ausente**, marcada como tal:
+    configurar com o pen drive fora é o caso normal, e sem isso abrir a tela
+    apagaria a configuração do conjunto em silêncio.
+  - Caminhos **UNC entram pela aba Rede** e passam a aparecer na lista. É onde
+    a credencial já está cadastrada — esperar por um caminho de rede sem poder
+    acessá-lo só produziria falha na hora do backup.
+- O botão **Nuvem…** deixou de abrir o cadastro por API e passou a listar as
+  pastas sincronizadas da máquina, marcando o envio direto como **EM BREVE**.
+  O interruptor é único (`cloud.ENVIO_POR_API`) e o assistente do rclone segue
+  testado, dormente, para voltar quando houver domínio verificado.
+
 ### Corrigido
 
-- O `build_exe.bat` repetia as opções na linha de comando e ignorava o
-  `.spec`, que existia sem efeito nenhum. Agora o `.spec` é a fonte única.
-- **PyQt6 (GPLv3) não estava excluída do empacotamento.** Ela está instalada
-  na máquina de desenvolvimento ao lado da PySide6; se um hook a arrastasse
-  para o pacote, o produto distribuído herdaria a GPL.
-- A tela "Sobre" não era compilada por falta de registro em `forms.FORMS`, e
-  o build informava sucesso — daí o teste novo.
+- O `build_exe.bat` repetia as opções na linha de comando e ignorava o `.spec`,
+  que existia sem efeito nenhum. Agora o `.spec` é a fonte única.
+- **PyQt6 (GPLv3) não estava excluída do empacotamento.** Ela costuma estar
+  instalada ao lado da PySide6 na máquina de desenvolvimento; se um hook a
+  arrastasse para o pacote, o produto distribuído herdaria a GPL.
+- A tela "Sobre" não era compilada por falta de registro em `forms.FORMS`, e o
+  build informava sucesso — daí o teste novo.
+- O UNC cadastrado na aba Rede só aparecia no seletor depois de fechar e
+  reabrir o programa: a lista era copiada uma vez, em vez de lida a cada
+  abertura.
+
+### Segurança
+
+- **Nenhum segredo sai num perfil exportado**: senhas de banco, de rede e do
+  e-mail são removidas, e a tela lista o que precisará ser redigitado. Não é só
+  cautela — elas não decifrariam no destino, e campos preenchidos que não
+  funcionam só apareceriam como falha na primeira madrugada.
+- O hash da senha da interface também não viaja: importar um perfil não pode
+  trocar a senha de quem já usa a máquina.
 
 ---
 

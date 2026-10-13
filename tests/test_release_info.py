@@ -97,6 +97,16 @@ class ConferirTest(unittest.TestCase):
                               "detalhe suficiente para avaliar.\n")
         self.assertEqual(release_info.conferir(), [])
 
+    def test_regua_entre_secoes_nao_conta_como_conteudo(self):
+        # A "---" que separa as secoes entra na captura. Sem desconta-la, a
+        # verificacao reprovaria todo CHANGELOG bem formado, e um guarda que
+        # grita sempre deixa de ser lido.
+        self._montar("2.1.0",
+                     "## [Não lançado]\n\nNada ainda.\n\n---\n\n"
+                     "## [2.1.0]\n\n- Uma mudança descrita com detalhe "
+                     "suficiente para avaliar.\n")
+        self.assertEqual(release_info.conferir(), [])
+
     def test_reprova_sem_secao_no_changelog(self):
         self._montar("3.0.0", "## [2.1.0]\n\n- Velha.\n")
         problemas = release_info.conferir()
