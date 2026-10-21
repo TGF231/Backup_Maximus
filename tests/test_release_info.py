@@ -146,10 +146,14 @@ class WorkflowTest(unittest.TestCase):
         self.assertIn("release_info.py --tag", self.texto)
 
     def test_nao_traz_a_versao_escrita_no_yaml(self):
-        # Uma terceira cópia da versão divergiria das outras duas.
-        self.assertIsNone(re.search(r"\bv?\d+\.\d+\.\d+\b",
-                                    re.sub(r"python-version: '[^']+'", "",
-                                           self.texto)))
+        # Uma terceira cópia da versão divergiria das outras duas. O que
+        # importa é o YAML executável: um comentário pode citar uma versão ao
+        # explicar por que um passo existe, e isso não entra no build.
+        util = []
+        for linha in self.texto.splitlines():
+            sem_comentario = re.sub(r"(^|\s)#.*$", "", linha)
+            util.append(re.sub(r"python-version: '[^']+'", "", sem_comentario))
+        self.assertIsNone(re.search(r"\bv?\d+\.\d+\.\d+\b", "\n".join(util)))
 
     def test_confere_o_changelog_antes_de_empacotar(self):
         self.assertIn("release_info.py --conferir", self.texto)

@@ -7,6 +7,7 @@
   BackupMaximus /check /quiet   idem, sem caixa de mensagem
   BackupMaximus /remind    mostra o lembrete de backup (usado pelo Agendador)
   BackupMaximus /version   imprime a versão e sai
+  BackupMaximus /autoteste carrega os formulários e sai (usado no build)
 
 Códigos de saída: 0 = tudo certo · 1 = houve falha · 2 = alerta disparado.
 """
@@ -57,6 +58,42 @@ def parse_flags(argv: list[str]) -> set[str]:
     return flags
 
 
+def _autoteste() -> int:
+    """Carrega todos os formulários e sai. Sem janela, sem configuração.
+
+    Existe para o build conseguir responder "o programa abre?" antes de
+    publicar. Os formulários são importados por `importlib` a partir do nome
+    do `.ui`, e import dinâmico é invisível para o PyInstaller: na 2.2.0 o
+    pacote `generated` ficou de fora, o executável foi empacotado, auditado e
+    instalado, e só falhou na primeira tela — na máquina do cliente.
+    """
+    try:
+        from PySide6.QtWidgets import QApplication
+        from .ui import forms
+    except ImportError as exc:
+        print(f"FALHOU: interface indisponivel: {exc}")
+        return 1
+
+    # Precisa de uma QApplication viva: as classes geradas sao widgets.
+    QApplication.instance() or QApplication([])
+
+    faltando = []
+    for nome in sorted(forms.FORMS):
+        try:
+            forms.load(nome)
+        except Exception as exc:
+            faltando.append(f"{nome}: {type(exc).__name__}: {exc}")
+
+    if faltando:
+        print("FALHOU: formularios que nao carregam:")
+        for linha in faltando:
+            print(f"  - {linha}")
+        return 1
+
+    print(f"FORMULARIOS OK ({len(forms.FORMS)})")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     flags = parse_flags(argv if argv is not None else sys.argv[1:])
     directory = app_dir()
@@ -71,6 +108,9 @@ def main(argv: list[str] | None = None) -> int:
         # conferirem o que está na máquina do cliente.
         print(f"Backup Maximus {__version__}")
         return 0
+
+    if "autoteste" in flags:
+        return _autoteste()
 
     if "check" in flags:
         alerted, message = engine.check_overdue(cfg)

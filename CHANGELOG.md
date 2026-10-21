@@ -43,6 +43,34 @@ Nada ainda.
 
 ---
 
+## [2.2.1] — 2026-10-21
+
+Correção urgente: a 2.2.0 instalava mas **não abria**.
+
+### Corrigido
+
+- **O programa não iniciava depois de instalado**, falhando ao carregar a
+  primeira tela com `No module named 'backup_maximus.ui.generated'`. Os
+  formulários da interface são carregados por `importlib` a partir do nome do
+  `.ui`, e o PyInstaller não segue import dinâmico: o pacote inteiro ficou de
+  fora do executável. O `.spec` passa a declará-los em `hiddenimports`.
+- **Os acentos chegavam corrompidos às notas da release.** O passo gravava com
+  `python … > NOTAS.md`, e no Windows o stdout redirecionado usa cp1252 — daí
+  `versão` virar `vers├úo`. O `release_info.py` ganhou `--saida`, que grava o
+  arquivo em UTF-8 sem passar pelo shell.
+
+### Adicionado
+
+- **`vendor/testar_pacote.py`, executado no build e no workflow**: roda o
+  executável gerado e verifica que ele abre e carrega os formulários. A
+  auditoria existente olha o conteúdo do pacote; esta olha o comportamento, e
+  a distinção custou uma release — a 2.2.0 foi empacotada, auditada, assinada
+  e instalada sem que nada tentasse executá-la.
+- Flag `/autoteste`, que carrega todos os formulários e sai sem abrir janela
+  nem tocar na configuração. É o que o teste de fumaça usa.
+
+---
+
 ## [2.2.0] — 2026-10-13
 
 Primeira release publicada com artefatos. A 2.1.0 recebeu tag antes de o

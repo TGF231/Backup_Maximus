@@ -7,6 +7,7 @@ GitHub Actions divergiria na primeira pressa.
     python release_info.py --versao    imprime 2.1.0
     python release_info.py --tag       imprime v2.1.0
     python release_info.py --notas     imprime a seção do CHANGELOG dessa versão
+    python release_info.py --notas --saida ARQ   grava a seção em UTF-8
     python release_info.py --conferir  valida que as duas fontes concordam
 
 O `--conferir` é o que roda antes de publicar: se o `__version__` subiu e
@@ -103,14 +104,25 @@ def main() -> int:
     grupo.add_argument("--tag", action="store_true")
     grupo.add_argument("--notas", action="store_true")
     grupo.add_argument("--conferir", action="store_true")
+    # Redirecionar a saída no Windows grava em cp1252, e os acentos chegam
+    # corrompidos às notas da release. Gravando aqui, a codificação é nossa.
+    ap.add_argument("--saida", default="",
+                    help="grava a saída neste arquivo, em UTF-8")
     args = ap.parse_args()
 
+    def emitir(texto: str) -> None:
+        if args.saida:
+            with open(args.saida, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(texto + "\n")
+        else:
+            print(texto)
+
     if args.versao:
-        print(versao())
+        emitir(versao())
     elif args.tag:
-        print(f"v{versao()}")
+        emitir(f"v{versao()}")
     elif args.notas:
-        print(notas() or f"Versão {versao()}.")
+        emitir(notas() or f"Versão {versao()}.")
     else:
         problemas = conferir()
         for p in problemas:

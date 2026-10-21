@@ -112,6 +112,12 @@ jobs:
         # maquina do desenvolvedor. Aqui a ausencia e erro.
         run: python installer/gerar_instalador.py --conferir
 
+      - name: O pacote abre?
+        # Auditar o conteudo nao responde se o programa funciona. A 2.2.0
+        # passou por todos os outros passos e nao abria na maquina do
+        # cliente.
+        run: python vendor/testar_pacote.py
+
       - name: Auditar o pacote
         # Redundante com o build_exe.bat de propósito: é a verificação que
         # impede uma biblioteca GPL de entrar num produto fechado, e ela não
@@ -140,7 +146,10 @@ jobs:
       - name: Notas da release
         shell: bash
         run: |
-          python release_info.py --notas > NOTAS.md
+          # --saida, e nao redirecionamento: no Windows o stdout
+          # redirecionado grava em cp1252 e os acentos chegam
+          # corrompidos as notas da release.
+          python release_info.py --notas --saida NOTAS.md
           cat >> NOTAS.md <<'RODAPE'
 
           ---

@@ -19,6 +19,7 @@ import os
 import re
 import sys
 
+from PyInstaller.utils.hooks import collect_submodules
 from PyInstaller.utils.win32.versioninfo import (
     VSVersionInfo, FixedFileInfo, StringFileInfo, StringTable, StringStruct,
     VarFileInfo, VarStruct,
@@ -74,7 +75,11 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=DATAS,
-    hiddenimports=[],
+    # Os formularios sao carregados por importlib a partir do nome do .ui
+    # (ver forms.load), e o PyInstaller nao segue import dinamico: sem esta
+    # linha o pacote `generated` fica de fora e o programa nao abre nem a
+    # tela de senha.
+    hiddenimports=collect_submodules("backup_maximus.ui.generated"),
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
