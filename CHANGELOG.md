@@ -52,8 +52,12 @@ uma na sua casa.
   Agora cada um liga quando produz efeito, e a dica diz o motivo quando não.
 - **O campo de horário do lembrete não aceitava digitação.** O `QTimeEdit`
   edita por seção: clicar e digitar não funciona, nem selecionar tudo. Virou
-  um campo comum, que aceita `8`, `800`, `8:0` ou `0800`, com um botão de
-  relógio ao lado para quem prefere ajustar com setas.
+  um campo comum, que aceita `8`, `800`, `8:0` ou `0800`.
+- O botão ao lado abre um **mostrador de relógio de verdade**: o primeiro
+  clique escolhe a hora e o mostrador passa sozinho para os minutos, o
+  segundo fecha. As 24 horas ocupam dois anéis — de fora `00` e `13`–`23`, de
+  dentro `12` e `1`–`11` —, então o ponteiro aponta para o mesmo lugar de um
+  relógio de parede e a volta da tarde fica por fora.
 - O rótulo "Alertar se sem backup há" aparecia cortado. A coluna de rótulos
   das Configurações estava a 1 px do limite no vizinho mais longo; passou a
   ter folga real.

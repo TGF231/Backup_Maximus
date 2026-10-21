@@ -15,10 +15,11 @@ from __future__ import annotations
 from PySide6.QtCore import QTime, Qt, Signal
 from PySide6.QtGui import QIcon, QPainter, QPen, QPixmap
 from PySide6.QtWidgets import (
-    QHBoxLayout, QLineEdit, QMenu, QTimeEdit, QToolButton, QWidget, QWidgetAction,
+    QHBoxLayout, QLabel, QLineEdit, QMenu, QToolButton, QVBoxLayout, QWidget,
+    QWidgetAction,
 )
 
-from . import theme
+from . import relogio, theme
 
 #: Usado quando o texto não dá para interpretar de jeito nenhum.
 PADRAO = "22:00"
@@ -95,13 +96,13 @@ class HoraEdit(QWidget):
         self.botao.setCursor(Qt.PointingHandCursor)
 
         self._menu = QMenu(self)
-        self._seletor = QTimeEdit(self._menu)
-        self._seletor.setDisplayFormat("HH:mm")
-        self._seletor.setButtonSymbols(QTimeEdit.UpDownArrows)
-        self._seletor.timeChanged.connect(self._do_seletor)
+        self._painel = _PainelRelogio(self._menu)
+        self._painel.escolhido.connect(self._do_relogio)
+        self._painel.fechou.connect(self._menu.hide)
         acao = QWidgetAction(self._menu)
-        acao.setDefaultWidget(self._seletor)
+        acao.setDefaultWidget(self._painel)
         self._menu.addAction(acao)
+        self._menu.aboutToShow.connect(self._preparar_painel)
         self.botao.setMenu(self._menu)
 
         layout = QHBoxLayout(self)
@@ -136,19 +137,90 @@ class HoraEdit(QWidget):
         self._sincronizar_seletor(hora)
         self.valueChanged.emit(hora)
 
-    def _do_seletor(self, tempo: QTime) -> None:
-        hora = tempo.toString("HH:mm")
+    def _do_relogio(self, hora: str) -> None:
         if hora == normalizar(self.edit.text()):
             return
         self.edit.setText(hora)
         self.valueChanged.emit(hora)
 
+    def _preparar_painel(self) -> None:
+        """O mostrador abre sempre nas horas, mostrando o valor atual."""
+        self._painel.definir(self.value())
+
     def _sincronizar_seletor(self, hora: str) -> None:
-        self._seletor.blockSignals(True)
-        self._seletor.setTime(QTime.fromString(hora, "HH:mm"))
-        self._seletor.blockSignals(False)
+        self._painel.definir(hora)
 
     def setEnabled(self, on: bool) -> None:  # noqa: N802 (API do Qt)
         super().setEnabled(on)
         self.edit.setEnabled(on)
         self.botao.setEnabled(on)
+
+
+class _PainelRelogio(QWidget):
+    """Cabeçalho `HH : MM` sobre o mostrador, como no seletor do Android.
+
+    O cabeçalho não é enfeite: é ele que diz qual parte está sendo escolhida e
+    permite voltar para a hora depois de passar aos minutos, sem fechar e
+    reabrir.
+    """
+
+    escolhido = Signal(str)
+    fechou = Signal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.relogio = relogio.Relogio(self)
+        self.relogio.mudou.connect(self._atualizar)
+        self.relogio.modo_mudou.connect(lambda _m: self._pintar_cabecalho())
+        self.relogio.concluido.connect(self.fechou)
+
+        self.lbl_hora = QLabel("22", self)
+        self.lbl_min = QLabel("00", self)
+        for rotulo, modo in ((self.lbl_hora, relogio.HORA),
+                             (self.lbl_min, relogio.MINUTO)):
+            rotulo.setAlignment(Qt.AlignCenter)
+            rotulo.setCursor(Qt.PointingHandCursor)
+            rotulo.setFixedWidth(46)
+            rotulo.mousePressEvent = (
+                lambda _e, m=modo: self.relogio.definir_modo(m))
+
+        separador = QLabel(":", self)
+        separador.setAlignment(Qt.AlignCenter)
+
+        topo = QHBoxLayout()
+        topo.setContentsMargins(0, 0, 0, 0)
+        topo.setSpacing(2)
+        topo.addStretch(1)
+        topo.addWidget(self.lbl_hora)
+        topo.addWidget(separador)
+        topo.addWidget(self.lbl_min)
+        topo.addStretch(1)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(10, 8, 10, 10)
+        layout.setSpacing(6)
+        layout.addLayout(topo)
+        layout.addWidget(self.relogio)
+        self.setFixedSize(236, 272)
+        self._pintar_cabecalho()
+
+    def definir(self, hora_texto: str) -> None:
+        hora, _, minuto = (normalizar(hora_texto) or PADRAO).partition(":")
+        self.relogio.definir(int(hora), int(minuto))
+        self.relogio.definir_modo(relogio.HORA)
+        self._atualizar(int(hora), int(minuto))
+
+    def _atualizar(self, hora: int, minuto: int) -> None:
+        self.lbl_hora.setText(f"{hora:02d}")
+        self.lbl_min.setText(f"{minuto:02d}")
+        self._pintar_cabecalho()
+        self.escolhido.emit(f"{hora:02d}:{minuto:02d}")
+
+    def _pintar_cabecalho(self) -> None:
+        for rotulo, modo in ((self.lbl_hora, relogio.HORA),
+                             (self.lbl_min, relogio.MINUTO)):
+            ativo = self.relogio.modo is modo
+            rotulo.setProperty("role", "clockOn" if ativo else "clockOff")
+            estilo = rotulo.style()
+            estilo.unpolish(rotulo)
+            estilo.polish(rotulo)

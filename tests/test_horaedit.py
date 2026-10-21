@@ -97,12 +97,29 @@ class HoraEditTest(unittest.TestCase):
         campo._arrumar()
         self.assertEqual(vistos, ["06:15"])
 
-    def test_seletor_acompanha_o_que_foi_digitado(self):
+    def test_relogio_acompanha_o_que_foi_digitado(self):
         # Abrir o relógio depois de digitar não pode mostrar outro horário.
         campo = self._campo()
         campo.edit.setText("1745")
         campo._arrumar()
-        self.assertEqual(campo._seletor.time().toString("HH:mm"), "17:45")
+        campo._preparar_painel()
+        self.assertEqual((campo._painel.relogio.hora,
+                          campo._painel.relogio.minuto), (17, 45))
+
+    def test_relogio_devolve_o_horario_escolhido(self):
+        campo = self._campo()
+        campo.setValue("22:00")
+        campo._painel.definir("22:00")
+        campo._painel._atualizar(6, 15)
+        self.assertEqual(campo.value(), "06:15")
+
+    def test_relogio_abre_sempre_nas_horas(self):
+        # Reabrir no modo minuto deixaria o usuário sem como trocar a hora.
+        from backup_maximus.ui.relogio import HORA, MINUTO
+        campo = self._campo()
+        campo._painel.relogio.definir_modo(MINUTO)
+        campo._preparar_painel()
+        self.assertIs(campo._painel.relogio.modo, HORA)
 
 
 if __name__ == "__main__":

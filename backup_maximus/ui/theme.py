@@ -174,6 +174,11 @@ QLabel[role="hintOk"] {{ color: {p.ok}; font-size: 8pt; }}
 QLabel[role="hintBad"] {{ color: {p.bad}; font-size: 8pt; }}
 QLabel[role="footer"] {{ color: {p.ink_3}; font-family: {FONT_MONO}; font-size: 8pt; }}
 QLabel[role="bigStatus"] {{ font-size: 11pt; }}
+/* Cabecalho do seletor de horario: a parte ativa e a que o clique edita. */
+QLabel[role="clockOn"] {{ color: {p.on_accent}; background: {p.accent};
+    border-radius: 4px; font-size: 13pt; font-weight: 600; padding: 2px 0; }}
+QLabel[role="clockOff"] {{ color: {p.ink_2}; background: {p.surface_2};
+    border-radius: 4px; font-size: 13pt; padding: 2px 0; }}
 QLabel[role="mono"] {{ font-family: {FONT_MONO}; color: {p.ink_3}; font-size: 8pt; }}
 
 /* ------------------------------------------------------------- botões */
