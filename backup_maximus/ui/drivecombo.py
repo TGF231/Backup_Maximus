@@ -57,8 +57,18 @@ class DriveCombo(QComboBox):
     isso como caminho, e um texto com rótulo e tamanho não existiria em disco.
     """
 
+    #: Larguras em caracteres: a da caixa fechada e a mínima do popup.
+    #: Um QComboBox se dimensiona pelo item mais largo, e os itens aqui trazem
+    #: caminho, rótulo do volume e espaço livre. Sem limite, um volume de nome
+    #: comprido ou um UNC longo empurrariam o formulário inteiro para fora da
+    #: janela — o campo deve caber no layout, não o layout no campo.
+    LARGURA_CAIXA = 18
+    LARGURA_POPUP = 46
+
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setSizeAdjustPolicy(QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        self.setMinimumContentsLength(self.LARGURA_CAIXA)
         #: De onde vêm os caminhos UNC. É uma função, e não uma lista copiada,
         #: porque a aba Rede pode receber um compartilhamento novo enquanto
         #: esta tela já existe — com a cópia, ele só apareceria depois de
@@ -131,6 +141,15 @@ class DriveCombo(QComboBox):
         # Reconstrói a cada abertura, como pedido: entre abrir a tela e abrir a
         # lista, o pen drive costuma ser espetado justamente para escolhê-lo.
         self.refresh()
+        # A caixa fechada é estreita para não ditar a largura do formulário,
+        # mas a lista aberta é livre: é nela que se lê o rótulo do volume para
+        # distinguir dois pen drives.
+        metricas = self.view().fontMetrics()
+        largura = max(
+            [metricas.horizontalAdvance(self.itemText(i)) + 40
+             for i in range(self.count())]
+            + [metricas.horizontalAdvance("x") * self.LARGURA_POPUP])
+        self.view().setMinimumWidth(largura)
         super().showPopup()
 
     # ---------------------------------------------------------------- valor

@@ -19,6 +19,29 @@ from .. import logger
 from ..config import BackupItem, BackupSet, Config, ItemType, NetCredential
 
 
+
+#: Fontes em que o layout foi desenhado, na ordem em que o tema as pede.
+#: A medição só vale numa delas: a largura de um campo é a largura do texto,
+#: e um substituto genérico chega a ser o dobro.
+FONTES_DO_PROJETO = ("Segoe UI", "Noto Sans")
+
+
+def fonte_disponivel() -> str:
+    """Qual das fontes do projeto existe aqui, ou string vazia.
+
+    Sem nenhuma delas não dá para medir nada: a plataforma `offscreen`, por
+    exemplo, não traz banco de fontes e substitui tudo por uma Sans Serif bem
+    mais larga. Medir ali reprovaria um layout correto — e, pior, aprovaria um
+    errado se o substituto fosse estreito.
+    """
+    from PySide6.QtGui import QFontDatabase
+    familias = set(QFontDatabase.families())
+    for nome in FONTES_DO_PROJETO:
+        if nome in familias:
+            return nome
+    return ""
+
+
 def _sample_config() -> Config:
     """Configuração cheia o bastante para o layout mostrar o pior caso."""
     cfg = Config()
@@ -70,6 +93,17 @@ def _measure(window, verbose: bool) -> bool:
 
 def check(verbose: bool = True) -> bool:
     app = QApplication.instance() or QApplication([])
+
+    fonte = fonte_disponivel()
+    if not fonte:
+        # Não é aprovação nem reprovação: é a constatação de que aqui não há
+        # como medir. Quem chama decide — o main avisa, o teste pula.
+        if verbose:
+            print("Nenhuma fonte do projeto disponivel "
+                  f"({', '.join(FONTES_DO_PROJETO)}).")
+            print("Sem elas a medicao usa um substituto de outra largura e nao")
+            print("diz nada sobre o layout real. Rode numa sessao grafica.")
+        return True
     from .app import MainWindow, apply_theme
 
     apply_theme(False)

@@ -1210,6 +1210,13 @@ class TestLayoutFits(unittest.TestCase):
             self.skipTest("sem servidor grafico")
 
         from backup_maximus.ui import fitcheck
+        from PySide6.QtWidgets import QApplication
+        QApplication.instance() or QApplication([])
+        if not fitcheck.fonte_disponivel():
+            # Sem a fonte do projeto a medicao usa um substituto de outra
+            # largura: reprovaria um layout correto. E o caso do runner
+            # headless, onde o Qt nao tem banco de fontes.
+            self.skipTest("sem as fontes do projeto; medicao nao seria real")
         self.assertTrue(
             fitcheck.check(verbose=False),
             "Algum painel corta ou precisa rolar. Rode "

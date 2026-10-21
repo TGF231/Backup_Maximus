@@ -114,6 +114,16 @@ workflow de release existir, então não tem instalador nem executável anexados
   arrastasse para o pacote, o produto distribuído herdaria a GPL.
 - A tela "Sobre" não era compilada por falta de registro em `forms.FORMS`, e o
   build informava sucesso — daí o teste novo.
+- **O seletor de unidade podia estourar a largura do formulário.** Um
+  `QComboBox` se dimensiona pelo item mais largo, e os itens trazem caminho,
+  rótulo do volume e espaço livre — um volume de nome comprido empurraria os
+  campos para fora da janela. A caixa fechada passa a ter largura fixa e a
+  lista aberta continua larga, que é onde se lê o rótulo.
+- **A verificação de layout media com a fonte errada em ambiente sem tela.**
+  Sem banco de fontes, o Qt substitui a Segoe UI por uma Sans Serif quase o
+  dobro da largura, e a medição reprovava um layout correto. Agora o
+  `fitcheck` detecta a ausência e recusa medir, em vez de dar um veredito
+  sobre uma fonte que o programa nunca usa.
 - **A auditoria do pacote nunca verificou as licenças do vendor.** Desde o
   PyInstaller 6, a build em pasta guarda os dados sob `_internal/`, e a
   verificação comparava com `startswith("vendor/…")` — que nunca casava. Um
