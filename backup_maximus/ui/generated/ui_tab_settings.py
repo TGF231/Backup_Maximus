@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tab_settings.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.1
+## Created by: Qt User Interface Compiler version 6.11.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -18,8 +18,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QFrame,
     QGridLayout, QHBoxLayout, QLabel, QLineEdit,
     QPushButton, QSizePolicy, QSpacerItem, QSpinBox,
-    QTimeEdit, QVBoxLayout, QWidget)
+    QVBoxLayout, QWidget)
 
+from backup_maximus.ui.horaedit import HoraEdit
 from backup_maximus.ui.pathedit import PathEdit
 
 class Ui_TabSettings(object):
@@ -45,8 +46,8 @@ class Ui_TabSettings(object):
         self.lblCompany = QLabel(TabSettings)
         self.lblCompany.setObjectName(u"lblCompany")
         self.lblCompany.setProperty(u"role", u"field")
-        self.lblCompany.setMinimumSize(QSize(124, 0))
-        self.lblCompany.setMaximumSize(QSize(124, 16777215))
+        self.lblCompany.setMinimumSize(QSize(136, 0))
+        self.lblCompany.setMaximumSize(QSize(136, 16777215))
         self.lblCompany.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridIdent.addWidget(self.lblCompany, 0, 0, 1, 1)
@@ -59,8 +60,8 @@ class Ui_TabSettings(object):
         self.lblEmail = QLabel(TabSettings)
         self.lblEmail.setObjectName(u"lblEmail")
         self.lblEmail.setProperty(u"role", u"field")
-        self.lblEmail.setMinimumSize(QSize(124, 0))
-        self.lblEmail.setMaximumSize(QSize(124, 16777215))
+        self.lblEmail.setMinimumSize(QSize(136, 0))
+        self.lblEmail.setMaximumSize(QSize(136, 16777215))
         self.lblEmail.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridIdent.addWidget(self.lblEmail, 1, 0, 1, 1)
@@ -73,8 +74,8 @@ class Ui_TabSettings(object):
         self.lblTimeout = QLabel(TabSettings)
         self.lblTimeout.setObjectName(u"lblTimeout")
         self.lblTimeout.setProperty(u"role", u"field")
-        self.lblTimeout.setMinimumSize(QSize(124, 0))
-        self.lblTimeout.setMaximumSize(QSize(124, 16777215))
+        self.lblTimeout.setMinimumSize(QSize(136, 0))
+        self.lblTimeout.setMaximumSize(QSize(136, 16777215))
         self.lblTimeout.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridIdent.addWidget(self.lblTimeout, 2, 0, 1, 1)
@@ -99,8 +100,8 @@ class Ui_TabSettings(object):
         self.lblReminder = QLabel(TabSettings)
         self.lblReminder.setObjectName(u"lblReminder")
         self.lblReminder.setProperty(u"role", u"field")
-        self.lblReminder.setMinimumSize(QSize(124, 0))
-        self.lblReminder.setMaximumSize(QSize(124, 16777215))
+        self.lblReminder.setMinimumSize(QSize(136, 0))
+        self.lblReminder.setMaximumSize(QSize(136, 16777215))
         self.lblReminder.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridIdent.addWidget(self.lblReminder, 5, 0, 1, 1)
@@ -108,11 +109,10 @@ class Ui_TabSettings(object):
         self.reminderLayout = QHBoxLayout()
         self.reminderLayout.setSpacing(10)
         self.reminderLayout.setObjectName(u"reminderLayout")
-        self.timeReminder = QTimeEdit(TabSettings)
+        self.timeReminder = HoraEdit(TabSettings)
         self.timeReminder.setObjectName(u"timeReminder")
         self.timeReminder.setMinimumSize(QSize(96, 0))
-        self.timeReminder.setMaximumSize(QSize(96, 16777215))
-        self.timeReminder.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.timeReminder.setMaximumSize(QSize(120, 16777215))
 
         self.reminderLayout.addWidget(self.timeReminder)
 
@@ -166,8 +166,8 @@ class Ui_TabSettings(object):
         self.lblSmtpHost = QLabel(TabSettings)
         self.lblSmtpHost.setObjectName(u"lblSmtpHost")
         self.lblSmtpHost.setProperty(u"role", u"field")
-        self.lblSmtpHost.setMinimumSize(QSize(124, 0))
-        self.lblSmtpHost.setMaximumSize(QSize(124, 16777215))
+        self.lblSmtpHost.setMinimumSize(QSize(136, 0))
+        self.lblSmtpHost.setMaximumSize(QSize(136, 16777215))
         self.lblSmtpHost.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridSmtp.addWidget(self.lblSmtpHost, 0, 0, 1, 1)
@@ -191,8 +191,8 @@ class Ui_TabSettings(object):
         self.lblSmtpUser = QLabel(TabSettings)
         self.lblSmtpUser.setObjectName(u"lblSmtpUser")
         self.lblSmtpUser.setProperty(u"role", u"field")
-        self.lblSmtpUser.setMinimumSize(QSize(124, 0))
-        self.lblSmtpUser.setMaximumSize(QSize(124, 16777215))
+        self.lblSmtpUser.setMinimumSize(QSize(136, 0))
+        self.lblSmtpUser.setMaximumSize(QSize(136, 16777215))
         self.lblSmtpUser.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridSmtp.addWidget(self.lblSmtpUser, 1, 0, 1, 1)
@@ -211,8 +211,8 @@ class Ui_TabSettings(object):
         self.lblSmtpFrom = QLabel(TabSettings)
         self.lblSmtpFrom.setObjectName(u"lblSmtpFrom")
         self.lblSmtpFrom.setProperty(u"role", u"field")
-        self.lblSmtpFrom.setMinimumSize(QSize(124, 0))
-        self.lblSmtpFrom.setMaximumSize(QSize(124, 16777215))
+        self.lblSmtpFrom.setMinimumSize(QSize(136, 0))
+        self.lblSmtpFrom.setMaximumSize(QSize(136, 16777215))
         self.lblSmtpFrom.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridSmtp.addWidget(self.lblSmtpFrom, 2, 0, 1, 1)
@@ -268,8 +268,8 @@ class Ui_TabSettings(object):
         self.lblSevenZip = QLabel(TabSettings)
         self.lblSevenZip.setObjectName(u"lblSevenZip")
         self.lblSevenZip.setProperty(u"role", u"field")
-        self.lblSevenZip.setMinimumSize(QSize(124, 0))
-        self.lblSevenZip.setMaximumSize(QSize(124, 16777215))
+        self.lblSevenZip.setMinimumSize(QSize(136, 0))
+        self.lblSevenZip.setMaximumSize(QSize(136, 16777215))
         self.lblSevenZip.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridZip.addWidget(self.lblSevenZip, 0, 0, 1, 1)
@@ -292,8 +292,8 @@ class Ui_TabSettings(object):
         self.lblRclone = QLabel(TabSettings)
         self.lblRclone.setObjectName(u"lblRclone")
         self.lblRclone.setProperty(u"role", u"field")
-        self.lblRclone.setMinimumSize(QSize(124, 0))
-        self.lblRclone.setMaximumSize(QSize(124, 16777215))
+        self.lblRclone.setMinimumSize(QSize(136, 0))
+        self.lblRclone.setMaximumSize(QSize(136, 16777215))
         self.lblRclone.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridZip.addWidget(self.lblRclone, 1, 0, 1, 1)
@@ -372,7 +372,9 @@ class Ui_TabSettings(object):
         self.spinTimeout.setSuffix(QCoreApplication.translate("TabSettings", u" horas", None))
         self.lblAlertHint.setText("")
         self.lblReminder.setText(QCoreApplication.translate("TabSettings", u"Lembrar backup \u00e0s", None))
-        self.timeReminder.setDisplayFormat(QCoreApplication.translate("TabSettings", u"HH:mm", None))
+#if QT_CONFIG(tooltip)
+        self.timeReminder.setToolTip(QCoreApplication.translate("TabSettings", u"Digite o horario (ex.: 0800) ou use o botao de relogio", None))
+#endif // QT_CONFIG(tooltip)
         self.chkReminder.setText(QCoreApplication.translate("TabSettings", u"Mostrar lembrete di\u00e1rio", None))
         self.lblReminderHint.setText("")
         self.chkSendReport.setText(QCoreApplication.translate("TabSettings", u"Enviar relat\u00f3rio por e-mail a cada backup", None))

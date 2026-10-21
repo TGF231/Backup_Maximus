@@ -39,7 +39,24 @@ uma na sua casa.
 
 ## [Não lançado]
 
-Nada ainda.
+### Corrigido
+
+- **A senha do Firebird passa a ser `masterkey` quando o campo está vazio.**
+  SYSDBA/masterkey é o par de fábrica, e exigir que fosse digitado significava
+  backup que falha de madrugada por um campo em branco — sendo que o campo em
+  branco já era a intenção de "usar o padrão". Vale para o `gbak` e o `gstat`.
+- **"Manter últimos" e "Aguardar segundos" pareciam não funcionar.** O
+  primeiro fica desligado fora do modo Completo (no Incremental há um zip só,
+  sobrescrito), e o segundo não tinha efeito nenhum sem uma unidade escolhida
+  — mas ficava editável, convidando a configurar algo que nunca seria lido.
+  Agora cada um liga quando produz efeito, e a dica diz o motivo quando não.
+- **O campo de horário do lembrete não aceitava digitação.** O `QTimeEdit`
+  edita por seção: clicar e digitar não funciona, nem selecionar tudo. Virou
+  um campo comum, que aceita `8`, `800`, `8:0` ou `0800`, com um botão de
+  relógio ao lado para quem prefere ajustar com setas.
+- O rótulo "Alertar se sem backup há" aparecia cortado. A coluna de rótulos
+  das Configurações estava a 1 px do limite no vizinho mais longo; passou a
+  ter folga real.
 
 ---
 

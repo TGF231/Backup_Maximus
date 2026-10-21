@@ -21,7 +21,6 @@ from PySide6.QtWidgets import (
     QAbstractItemView, QFileDialog, QListWidgetItem, QWidget,
 )
 
-from PySide6.QtCore import QTime
 
 from .. import mailer, reminder
 from ..config import Config, NetCredential, protect_secret
@@ -89,9 +88,7 @@ class SettingsTab(QWidget):
         self.sevenzip.setText(cfg.sevenzip_path)
         self.rclone.setText(cfg.rclone_path)
         self.reminder_on.setChecked(cfg.reminder_enabled)
-        hour, _, minute = cfg.reminder_time.partition(":")
-        self.reminder_time.setTime(
-            QTime(int(hour or 22), int(minute or 0)))
+        self.reminder_time.setValue(cfg.reminder_time)
         self._loading = False
         self._update_alert_hint()
         self._update_reminder_hint()
@@ -102,7 +99,7 @@ class SettingsTab(QWidget):
         for edit in (self.company, self.email, self.smtp_host, self.smtp_user,
                      self.smtp_pass, self.smtp_from, self.sevenzip, self.rclone):
             edit.textChanged.connect(self._changed)
-        self.reminder_time.timeChanged.connect(self._changed)
+        self.reminder_time.valueChanged.connect(self._changed)
         self.reminder_on.toggled.connect(self._changed)
         self.timeout.valueChanged.connect(self._changed)
         self.smtp_port.valueChanged.connect(self._changed)
@@ -136,7 +133,7 @@ class SettingsTab(QWidget):
         cfg.sevenzip_path = self.sevenzip.text().strip()
         cfg.rclone_path = self.rclone.text().strip()
         cfg.reminder_enabled = self.reminder_on.isChecked()
-        cfg.reminder_time = self.reminder_time.time().toString("HH:mm")
+        cfg.reminder_time = self.reminder_time.value()
         self._update_alert_hint()
         self._update_reminder_hint()
         self.dirty_changed.emit()
@@ -170,7 +167,7 @@ class SettingsTab(QWidget):
                 "Sem lembrete. A tarefa é removida do Agendador ao salvar."
             )
             return
-        when = self.reminder_time.time().toString("HH:mm")
+        when = self.reminder_time.value()
         installed = reminder.task_installed()
         self.reminder_hint.setText(
             f"Todo dia às {when} aparece uma notificação — e ela é dispensada "

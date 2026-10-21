@@ -38,8 +38,8 @@
      <item row="0" column="0">
       <widget class="QLabel" name="lblCompany">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Nome da empresa</string></property>
       </widget>
@@ -51,8 +51,8 @@
      <item row="1" column="0">
       <widget class="QLabel" name="lblEmail">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>E-mail de notificações</string></property>
       </widget>
@@ -66,8 +66,8 @@
      <item row="2" column="0">
       <widget class="QLabel" name="lblTimeout">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Alertar se sem backup há</string></property>
       </widget>
@@ -93,8 +93,8 @@
      <item row="5" column="0">
       <widget class="QLabel" name="lblReminder">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Lembrar backup às</string></property>
       </widget>
@@ -103,11 +103,10 @@
       <layout class="QHBoxLayout" name="reminderLayout">
        <property name="spacing"><number>10</number></property>
        <item>
-        <widget class="QTimeEdit" name="timeReminder">
+        <widget class="HoraEdit" name="timeReminder">
          <property name="minimumSize"><size><width>96</width><height>0</height></size></property>
-         <property name="maximumSize"><size><width>96</width><height>16777215</height></size></property>
-         <property name="displayFormat"><string>HH:mm</string></property>
-         <property name="buttonSymbols"><enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum></property>
+         <property name="maximumSize"><size><width>120</width><height>16777215</height></size></property>
+         <property name="toolTip"><string>Digite o horario (ex.: 0800) ou use o botao de relogio</string></property>
         </widget>
        </item>
        <item>
@@ -163,8 +162,8 @@
      <item row="0" column="0">
       <widget class="QLabel" name="lblSmtpHost">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Servidor / porta</string></property>
       </widget>
@@ -188,8 +187,8 @@
      <item row="1" column="0">
       <widget class="QLabel" name="lblSmtpUser">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Usuário / senha</string></property>
       </widget>
@@ -206,8 +205,8 @@
      <item row="2" column="0">
       <widget class="QLabel" name="lblSmtpFrom">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Remetente (De)</string></property>
       </widget>
@@ -259,8 +258,8 @@
      <item row="0" column="0">
       <widget class="QLabel" name="lblSevenZip">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Caminho do 7z.exe</string></property>
       </widget>
@@ -284,8 +283,8 @@
      <item row="1" column="0">
       <widget class="QLabel" name="lblRclone">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Caminho do rclone.exe</string></property>
       </widget>
@@ -348,6 +347,11 @@
    <class>PathEdit</class>
    <extends>QLineEdit</extends>
    <header>backup_maximus.ui.pathedit</header>
+  </customwidget>
+  <customwidget>
+   <class>HoraEdit</class>
+   <extends>QWidget</extends>
+   <header>backup_maximus.ui.horaedit</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -447,8 +447,34 @@ class BackupsTab(QWidget):
         # visível aqui: esconder o mecanismo é aceitável, esconder o efeito não.
         self.set_hint.setText(
             f"{self.set_hint.text()}  {cloud_dialog.summary(bset)}")
-        # Retenção só faz sentido quando há vários arquivos para reter.
-        self.set_keep_last.setEnabled(bset is not None and mode is SetMode.FULL)
+        self._sync_campos_dependentes(bset, mode)
+
+    def _sync_campos_dependentes(self, bset, mode) -> None:
+        """Liga cada campo só quando ele muda alguma coisa — e explica quando não.
+
+        Um campo editável que não produz efeito e um campo desligado sem
+        motivo visível dão o mesmo resultado prático: o usuário conclui que
+        está quebrado. Os dois casos existiam aqui.
+        """
+        # Retenção só faz sentido quando há vários arquivos para reter: no
+        # modo incremental existe um zip fixo, que é sobrescrito.
+        retem = bset is not None and mode is SetMode.FULL
+        self.set_keep_last.setEnabled(retem)
+        self.set_keep_last.setToolTip(
+            "Quantos .zip manter no destino, apagando os mais antigos."
+            if retem else
+            "Só no modo Completo. No Incremental existe um único zip, "
+            "atualizado a cada execução — não há cópias antigas a manter.")
+
+        # O prazo só conta quando há unidade a esperar. Sem ela, o backup
+        # começa imediatamente e o número aqui nunca é consultado.
+        espera = bset is not None and bool(bset.wait_for_path)
+        self.set_wait_secs.setEnabled(espera)
+        self.set_wait_secs.setToolTip(
+            "Quanto esperar a unidade aparecer. 0 = espera sem limite."
+            if espera else
+            "Escolha uma unidade em 'Aguardar unidade' para este prazo "
+            "valer. Sem unidade, o backup começa na hora.")
 
     def _update_buttons(self) -> None:
         has_set = self._current_set() is not None

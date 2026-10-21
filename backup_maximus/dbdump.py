@@ -18,6 +18,21 @@ from .config import BackupItem, ItemType
 from . import util
 
 
+#: Credenciais padrão do Firebird. SYSDBA/masterkey é o par que vem de fábrica
+#: e que a esmagadora maioria das instalações mantém — inclusive o PDV que
+#: este programa nasceu para copiar. Exigir que fossem digitadas significava
+#: um backup que falha na madrugada por um campo em branco, e o campo em
+#: branco já era a intenção de "usar o padrão".
+FIREBIRD_USER_PADRAO = "SYSDBA"
+FIREBIRD_SENHA_PADRAO = "masterkey"
+
+
+def firebird_credenciais(item) -> tuple[str, str]:
+    """(usuário, senha) do item, completados com o padrão do Firebird."""
+    return (item.user or FIREBIRD_USER_PADRAO,
+            item.password or FIREBIRD_SENHA_PADRAO)
+
+
 def _search_tool(exe: str, extra_dirs: list[str]) -> str:
     for directory in extra_dirs:
         candidate = os.path.join(directory, exe)
@@ -67,10 +82,9 @@ def _firebird(item: BackupItem, out_file: str) -> tuple[bool, str]:
         except OSError:
             pass
 
-    args = [gbak, "-b", "-g", "-t", conn, out_file, "-user", item.user or "SYSDBA"]
-    password = item.password
-    if password:
-        args += ["-password", password]
+    usuario, senha = firebird_credenciais(item)
+    args = [gbak, "-b", "-g", "-t", conn, out_file,
+            "-user", usuario, "-password", senha]
 
     code, out = util.run_process(args)
     if code != 0 or not os.path.isfile(out_file):
@@ -165,9 +179,8 @@ def test_connection(item: BackupItem) -> tuple[bool, str]:
         # gstat -h lê apenas o cabeçalho do banco: autentica sem tocar nos dados.
         gstat = os.path.join(os.path.dirname(tool), "gstat.exe")
         if os.path.isfile(gstat):
-            args = [gstat, "-h", conn, "-user", item.user or "SYSDBA"]
-            if item.password:
-                args += ["-password", item.password]
+            usuario, senha = firebird_credenciais(item)
+            args = [gstat, "-h", conn, "-user", usuario, "-password", senha]
             code, out = util.run_process(args, timeout=30)
             return (code == 0), ("Conexao OK" if code == 0 else util.truncate(out, 300))
         return True, "gstat.exe nao encontrado; gbak localizado em " + tool
