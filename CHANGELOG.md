@@ -39,6 +39,14 @@ uma na sua casa.
 
 ## [Não lançado]
 
+Nada ainda.
+
+---
+
+## [2.2.2] — 2026-10-21
+
+Correções de uso na tela de configuração, a partir de relatos de campo.
+
 ### Corrigido
 
 - **A senha do Firebird passa a ser `masterkey` quando o campo está vazio.**

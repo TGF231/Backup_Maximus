@@ -11,4 +11,4 @@ vira esse zip.
 #:   MENOR    recurso novo, configuração antiga continua válida
 #:   CORREÇÃO só conserto, sem recurso novo
 #: O procedimento de lançamento está no CHANGELOG.md.
-__version__ = "2.2.1"
+__version__ = "2.2.2"
