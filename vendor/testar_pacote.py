@@ -21,6 +21,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIST = os.path.join(RAIZ, "dist")
@@ -42,9 +43,15 @@ def _versao_esperada() -> str:
 
 
 def _rodar(exe: str, *args: str) -> tuple[int, str]:
+    # BM_HOME desvia logs e configuração para um temporário. Sem isso o
+    # programa grava ao lado do próprio .exe — dentro de dist/ —, e o
+    # instalador leva esses arquivos para a máquina do cliente junto com o
+    # resto da pasta.
+    ambiente = dict(os.environ, BM_HOME=tempfile.mkdtemp(prefix="bm_teste_"))
     try:
         r = subprocess.run([exe, *args], capture_output=True, text=True,
-                           encoding="utf-8", errors="replace", timeout=TIMEOUT)
+                           encoding="utf-8", errors="replace", timeout=TIMEOUT,
+                           env=ambiente)
     except subprocess.TimeoutExpired:
         return 1, f"nao respondeu em {TIMEOUT:.0f}s"
     except OSError as exc:

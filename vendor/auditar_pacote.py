@@ -22,6 +22,16 @@ DIST = os.path.join(RAIZ, "dist")
 #: GPLv3: num produto distribuído fechado, ela contamina tudo.
 PROIBIDOS = ("pyqt5", "pyqt6", "qt5core", "sip.")
 
+#: Arquivos da maquina de build que nao podem viajar com o pacote. Rodar o
+#: .exe dentro de dist/ cria logs ali; um .ini esquecido levaria o nome da
+#: empresa, os caminhos da rede e o hash da senha de quem compilou.
+#: Pastas de execucao, comparadas por SEGMENTO do caminho: o caminho no pacote
+#: e relativo, entao procurar "/logs/" nunca casaria com "logs/x.log".
+PASTAS_DE_EXECUCAO = ("logs", "reports", "staging")
+
+#: Arquivos que carregam dados de quem compilou.
+ARQUIVOS_VAZADOS = ("backup_maximus.ini", "rclone.conf", ".fbk", ".gbk")
+
 #: Licenças que a distribuição precisa carregar, e de quem.
 LICENCAS = {
     "licenses/LGPL-3.0.txt": "PySide6/Qt (LGPLv3)",
@@ -53,6 +63,21 @@ def auditar_pasta(pasta: str) -> list[str]:
                 f"biblioteca copyleft no pacote ({proibido}): "
                 + ", ".join(achados[:3])
                 + (f" e mais {len(achados) - 3}" if len(achados) > 3 else ""))
+
+    for pasta in PASTAS_DE_EXECUCAO:
+        achados = [a for a, m in zip(arquivos, minusculas)
+                   if pasta in m.split("/")[:-1]]
+        if achados:
+            problemas.append(
+                f"pasta de execucao no pacote ({pasta}/): "
+                + ", ".join(achados[:3]))
+
+    for marca in ARQUIVOS_VAZADOS:
+        achados = [a for a, m in zip(arquivos, minusculas) if m.endswith(marca)]
+        if achados:
+            problemas.append(
+                f"arquivo da maquina de build no pacote: "
+                + ", ".join(achados[:3]))
 
     for relativo, dono in LICENCAS.items():
         alvo = relativo.lower()

@@ -67,7 +67,12 @@ Name: "desktopicon"; Description: "Criar atalho na área de trabalho"; \
 [Files]
 ; A build em pasta inteira, incluindo as DLLs do Qt, o 7-Zip, o rclone e os
 ; textos das licenças que precisam acompanhar a distribuição.
+; Excludes: rodar o .exe dentro de dist/ cria logs ali, e sem o filtro eles
+; viajariam para a maquina do cliente junto com nome de maquina, caminhos e
+; nome da empresa de quem compilou. Os modelos nao sao afetados: o filtro casa
+; o nome do arquivo, e backup_maximus.ini e so aquele.
 Source: "..\dist\BackupMaximus\*"; DestDir: "{app}"; \
+  Excludes: "logs\*,reports\*,staging\*,backup_maximus.ini,rclone.conf"; \
   Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; Marcador que leva a configuração para %LOCALAPPDATA%. Sem ele o programa

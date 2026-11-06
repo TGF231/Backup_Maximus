@@ -43,6 +43,25 @@ Nada ainda.
 
 ---
 
+## [2.2.3] — 2026-11-06
+
+### Corrigido
+
+- **O instalador podia levar arquivos da máquina de compilação para o
+  cliente.** Rodar o executável dentro de `dist/` cria uma pasta `logs/` ali,
+  e o instalador copiava `dist\BackupMaximus\*` inteiro — um log de verdade
+  teria levado nome de máquina, caminhos de rede e nome da empresa de quem
+  compilou. Agora o instalador exclui `logs`, `reports`, `staging`, o `.ini`
+  de configuração e o `rclone.conf`, e o teste de fumaça roda o executável
+  com `BM_HOME` apontado para um temporário, para não criar esses arquivos
+  em primeiro lugar.
+- A auditoria do pacote passou a reprovar qualquer um desses arquivos. A
+  comparação é por **segmento de caminho**: os caminhos no pacote são
+  relativos, então procurar `/logs/` nunca casaria com `logs/x.log` — a
+  primeira versão do guarda aprovava um pacote contaminado.
+
+---
+
 ## [2.2.2] — 2026-10-21
 
 Correções de uso na tela de configuração, a partir de relatos de campo.
