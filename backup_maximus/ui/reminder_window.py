@@ -38,7 +38,7 @@ def _app_icon() -> QIcon:
     painter.setRenderHint(QPainter.Antialiasing)
     painter.setBrush(QColor(palette.accent))
     painter.setPen(Qt.NoPen)
-    painter.drawRoundedRect(3, 3, 26, 26, 6, 6)
+    painter.drawRoundedRect(3, 3, 26, 26, 4, 4)
     painter.setBrush(QColor(palette.on_accent))
     for row in range(3):
         painter.drawRoundedRect(8, 9 + row * 6, 16, 3, 1, 1)
@@ -76,7 +76,6 @@ class ReminderWindow(QWidget):
         title = QLabel(headline)
         title.setProperty("role", "bigStatus")
         title.setWordWrap(True)
-        title.setStyleSheet(f"color: {theme.current().accent}; font-weight: 600;")
         layout.addWidget(title)
 
         body = QLabel(detail)
@@ -115,7 +114,7 @@ class ReminderWindow(QWidget):
         if self._left <= 0:
             self.close()
             return
-        self.countdown.setText(f"Esta janela fecha sozinha em {self._left}s.")
+        self.countdown.setText(f"Esta janela fecha sozinha em {self._left} s.")
 
     def _run(self) -> None:
         self.ran = True

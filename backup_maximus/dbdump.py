@@ -33,6 +33,22 @@ def firebird_credenciais(item) -> tuple[str, str]:
             item.password or FIREBIRD_SENHA_PADRAO)
 
 
+def senha_ilegivel(item) -> str:
+    """Aviso quando há senha gravada que esta conta não decifra, ou ''.
+
+    Substituir por `masterkey` nesse caso seria o pior dos mundos: o backup
+    falharia por autenticação e o relatório culparia o banco, quando o
+    problema é a conta do Windows que gravou a senha.
+    """
+    from .config import secret_ilegivel
+    if not secret_ilegivel(item.password_enc):
+        return ""
+    return (f"A senha gravada para '{item.name}' foi cifrada por outro "
+            f"usuario do Windows e nao pode ser lida por este. Reabra as "
+            f"configuracoes com o mesmo usuario que executa o backup e "
+            f"digite a senha de novo.")
+
+
 def _search_tool(exe: str, extra_dirs: list[str]) -> str:
     for directory in extra_dirs:
         candidate = os.path.join(directory, exe)
@@ -82,6 +98,9 @@ def _firebird(item: BackupItem, out_file: str) -> tuple[bool, str]:
         except OSError:
             pass
 
+    aviso = senha_ilegivel(item)
+    if aviso:
+        return False, aviso
     usuario, senha = firebird_credenciais(item)
     args = [gbak, "-b", "-g", "-t", conn, out_file,
             "-user", usuario, "-password", senha]

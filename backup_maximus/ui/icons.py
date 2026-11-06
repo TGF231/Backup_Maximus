@@ -78,16 +78,16 @@ def _chevron(width: int, height: int, color: str) -> QPixmap:
 
 def paths(palette: "Palette") -> dict[str, str]:
     """Gera (uma vez por paleta) e devolve os caminhos dos ícones."""
-    cached = _cache.get(palette.name)
+    cached = _cache.get(palette.nome)
     if cached is not None:
         return cached
 
-    suffix = palette.name
+    suffix = palette.nome
     art = {
         "check": _save(f"check_{suffix}.png", _checkmark(14, palette.on_accent)),
-        "chevron": _save(f"chevron_{suffix}.png", _chevron(12, 12, palette.ink_2)),
+        "chevron": _save(f"chevron_{suffix}.png", _chevron(12, 12, palette.ink2)),
         "chevron_off": _save(f"chevron_off_{suffix}.png",
-                             _chevron(12, 12, palette.ink_3)),
+                             _chevron(12, 12, palette.ink3)),
     }
-    _cache[palette.name] = art
+    _cache[palette.nome] = art
     return art

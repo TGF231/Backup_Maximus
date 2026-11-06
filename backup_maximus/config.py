@@ -88,6 +88,20 @@ def unprotect_secret(enc_b64: str) -> str:
     return plain.decode("utf-8", "replace") if plain else ""
 
 
+def secret_ilegivel(enc_b64: str) -> bool:
+    """Há um segredo gravado, mas esta conta do Windows não o abre.
+
+    O DPAPI cifra no escopo do usuário. Uma senha gravada com o programa
+    aberto como Administrador — o que acontece quando alguém mexe em
+    Program Files — não é decifrável pelo usuário que roda o backup à noite.
+
+    Sem distinguir isso de "campo vazio", a tela afirma que a senha está
+    guardada e o backup falha por autenticação, sem ninguém relacionar as
+    duas coisas com a conta do Windows.
+    """
+    return bool(enc_b64) and not unprotect_secret(enc_b64)
+
+
 def sha256_hex(data: str) -> str:
     return hashlib.sha256(data.encode("utf-8")).hexdigest()
 

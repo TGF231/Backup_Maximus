@@ -23,7 +23,7 @@ DOT_MUTED = "muted"
 
 def _dot_color(kind: str) -> str:
     p = theme.current()
-    return {DOT_OK: p.ok, DOT_BAD: p.bad}.get(kind, p.ink_3)
+    return {DOT_OK: p.ok, DOT_BAD: p.bad}.get(kind, p.ink3)
 
 
 def dot_icon(kind: str, size: int = 10) -> QIcon:
@@ -44,6 +44,15 @@ def dot_icon(kind: str, size: int = 10) -> QIcon:
     painter.drawEllipse(1, 1, size - 2, size - 2)
     painter.end()
     return QIcon(pixmap)
+
+
+def muted_color() -> QColor:
+    """Tinta de item desligado nas listas, da paleta ativa.
+
+    Cor de item é pixel decidido em Python — a folha de estilo não a alcança.
+    Quem a usa precisa remontar a lista ao trocar de tema (`refresh_all`).
+    """
+    return QColor(theme.current().ink3)
 
 
 def set_role(widget: QWidget, role: str) -> QWidget:

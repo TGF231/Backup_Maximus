@@ -90,7 +90,15 @@ def _autoteste() -> int:
             print(f"  - {linha}")
         return 1
 
-    print(f"FORMULARIOS OK ({len(forms.FORMS)})")
+    # As fontes vao como dado, fora do import: o PyInstaller nao as acha
+    # sozinho. Sem elas a janela abre, mas com um substituto mais largo que
+    # corta campos medidos no Designer.
+    from .ui import theme
+    if not theme.carregar_fontes():
+        print(f"FALHOU: fontes do MegUI ausentes em {theme.FONTES_DIR}")
+        return 1
+
+    print(f"FORMULARIOS OK ({len(forms.FORMS)}) - FONTES OK")
     return 0
 
 
@@ -106,7 +114,32 @@ def main(argv: list[str] | None = None) -> int:
     if "version" in flags:
         # Sem interface e sem log: serve para o instalador e para o suporte
         # conferirem o que está na máquina do cliente.
+        #
+        # Imprime também ONDE os dados moram. Descobrir isso exigia abrir o
+        # programa e ler a tela Sobre, e quando a configuração "some" o que
+        # se precisa saber é exatamente qual arquivo ele está lendo — foi o
+        # que faltou para diagnosticar uma senha perdida num cliente.
+        from .paths import (INSTALLED_MARKER, PORTABLE_MARKER, app_data_dir,
+                            install_dir)
+        casa = install_dir()
+        dados = app_data_dir()
+        if os.environ.get("BM_HOME", "").strip():
+            motivo = "BM_HOME"
+        elif os.path.isfile(os.path.join(casa, PORTABLE_MARKER)):
+            motivo = PORTABLE_MARKER
+        elif os.path.isfile(os.path.join(casa, INSTALLED_MARKER)):
+            motivo = INSTALLED_MARKER
+        elif dados == casa:
+            motivo = "pasta do programa (gravavel)"
+        else:
+            motivo = "pasta do programa nao aceita gravacao"
+
+        ini = Config.default_path(dados)
         print(f"Backup Maximus {__version__}")
+        print(f"Programa : {casa}")
+        print(f"Dados    : {dados}  ({motivo})")
+        print(f"Config   : {ini}  "
+              f"{'existe' if os.path.isfile(ini) else 'AUSENTE'}")
         return 0
 
     if "autoteste" in flags:

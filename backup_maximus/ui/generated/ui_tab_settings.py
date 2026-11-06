@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tab_settings.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.2
+## Created by: Qt User Interface Compiler version 6.11.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -242,6 +242,8 @@ class Ui_TabSettings(object):
 
         self.gridSmtp.addLayout(self.smtpActionsLayout, 3, 1, 1, 3)
 
+        self.gridSmtp.setColumnStretch(1, 3)
+        self.gridSmtp.setColumnStretch(3, 1)
 
         self.rootLayout.addLayout(self.gridSmtp)
 

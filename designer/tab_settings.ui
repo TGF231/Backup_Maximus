@@ -153,7 +153,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridSmtp">
+    <layout class="QGridLayout" name="gridSmtp" columnstretch="0,3,0,1">
      <property name="horizontalSpacing"><number>8</number></property>
      <property name="verticalSpacing"><number>7</number></property>
      <property name="leftMargin"><number>0</number></property>

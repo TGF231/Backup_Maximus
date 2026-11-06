@@ -18,7 +18,7 @@ from PySide6.QtWidgets import QApplication, QWidget
 
 from ..config import Config
 from ..engine import Phase, RunResult, run_backups
-from . import forms, theme
+from . import forms, theme, widgets
 
 
 class _Worker(QObject):
@@ -125,10 +125,8 @@ class ProgressWindow(QWidget):
         elapsed = int(time.monotonic() - self._started)
         self.label_time.setText(f"Concluído em {elapsed} s")
         self.label_status.setText(result.summary)
-        palette = theme.current()
-        self.label_status.setStyleSheet(
-            f"color: {palette.ok if result.all_ok else palette.bad}; font-weight: 600;"
-        )
+        widgets.set_role(self.label_status,
+                         "statusOk" if result.all_ok else "statusBad")
 
         # A falha se anuncia em três canais: cor da barra, texto e o título da
         # janela — que é o que a pessoa lê com a janela minimizada.

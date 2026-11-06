@@ -157,12 +157,10 @@ class DestinationDialog(QDialog):
     def _reload(self) -> None:
         report = retention.inspect(self.bset)
         self.ui.listing.clear()
-        palette = theme.current()
 
         if not report.reachable:
             self.ui.lblSummary.setText("Destino indisponível")
-            self.ui.lblSummary.setStyleSheet(
-                f"color: {palette.warn}; font-weight: 600;")
+            widgets.set_role(self.ui.lblSummary, "statusWarn")
             self.ui.lblDetail.setText(report.message)
             self.ui.lblPolicy.setText("")
             self.ui.btnPrune.setEnabled(False)
@@ -174,9 +172,9 @@ class DestinationDialog(QDialog):
             f"{util.format_bytes(report.free_bytes)} livres de "
             f"{util.format_bytes(report.total_bytes)}  ({pct_free:.0f}% livre)"
         )
-        color = (palette.ok if pct_free > 15
-                 else palette.warn if pct_free > 5 else palette.bad)
-        self.ui.lblSummary.setStyleSheet(f"color: {color}; font-weight: 600;")
+        widgets.set_role(self.ui.lblSummary,
+                         "statusOk" if pct_free > 15
+                         else "statusWarn" if pct_free > 5 else "statusBad")
         self.ui.lblDetail.setText(
             f"{report.destination} · {len(report.backups)} backup(s) deste conjunto "
             f"ocupando {util.format_bytes(report.used_bytes)}"
@@ -194,7 +192,7 @@ class DestinationDialog(QDialog):
             node.setIcon(0, widgets.dot_icon(
                 widgets.DOT_BAD if doomed else widgets.DOT_OK))
             if doomed:
-                node.setForeground(3, Qt.gray)
+                node.setForeground(3, widgets.muted_color())
             self.ui.listing.addTopLevelItem(node)
 
         if self.bset.mode is not SetMode.FULL:

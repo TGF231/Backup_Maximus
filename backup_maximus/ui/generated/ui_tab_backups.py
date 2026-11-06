@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tab_backups.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.2
+## Created by: Qt User Interface Compiler version 6.11.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -106,14 +106,12 @@ class Ui_TabBackups(object):
 
         self.btnItemUp = QPushButton(TabBackups)
         self.btnItemUp.setObjectName(u"btnItemUp")
-        self.btnItemUp.setMaximumSize(QSize(44, 16777215))
         self.btnItemUp.setProperty(u"role", u"tiny")
 
         self.itemButtonsLayout.addWidget(self.btnItemUp)
 
         self.btnItemDown = QPushButton(TabBackups)
         self.btnItemDown.setObjectName(u"btnItemDown")
-        self.btnItemDown.setMaximumSize(QSize(44, 16777215))
         self.btnItemDown.setProperty(u"role", u"tiny")
 
         self.itemButtonsLayout.addWidget(self.btnItemDown)
@@ -576,9 +574,9 @@ class Ui_TabBackups(object):
         self.btnItemNew.setText(QCoreApplication.translate("TabBackups", u"+ Item", None))
         self.btnItemDup.setText(QCoreApplication.translate("TabBackups", u"Duplicar", None))
         self.btnItemDel.setText(QCoreApplication.translate("TabBackups", u"Excluir", None))
-        self.btnItemUp.setText(QCoreApplication.translate("TabBackups", u"\u2191", None))
-        self.btnItemDown.setText(QCoreApplication.translate("TabBackups", u"\u2193", None))
-        self.btnRun.setText(QCoreApplication.translate("TabBackups", u"\u25b6  Executar backup agora", None))
+        self.btnItemUp.setText(QCoreApplication.translate("TabBackups", u"Subir", None))
+        self.btnItemDown.setText(QCoreApplication.translate("TabBackups", u"Descer", None))
+        self.btnRun.setText(QCoreApplication.translate("TabBackups", u"Executar backup agora", None))
         self.btnPreview.setText(QCoreApplication.translate("TabBackups", u"Pr\u00e9via da \u00e1rvore", None))
         self.btnDestInfo.setText(QCoreApplication.translate("TabBackups", u"Espa\u00e7o e limpeza", None))
         self.btnCloud.setText(QCoreApplication.translate("TabBackups", u"Nuvem\u2026", None))

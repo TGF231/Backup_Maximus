@@ -83,7 +83,7 @@ class AliasDialog(QDialog):
             node.setIcon(0, widgets.dot_icon(
                 widgets.DOT_OK if alias.exists else widgets.DOT_BAD))
             if not alias.exists:
-                node.setForeground(2, Qt.gray)
+                node.setForeground(2, widgets.muted_color())
                 node.setToolTip(0, "O arquivo não foi encontrado neste computador. "
                                    "Pode ser um banco em outro servidor.")
             node.setData(0, _ROLE_ALIAS, alias)

@@ -20,10 +20,11 @@ from ..config import BackupItem, BackupSet, Config, ItemType, NetCredential
 
 
 
-#: Fontes em que o layout foi desenhado, na ordem em que o tema as pede.
-#: A medição só vale numa delas: a largura de um campo é a largura do texto,
-#: e um substituto genérico chega a ser o dobro.
-FONTES_DO_PROJETO = ("Segoe UI", "Noto Sans")
+#: Fonte em que o layout foi desenhado. A medição só vale nela: a largura de um
+#: campo é a largura do texto, e um substituto genérico chega a ser o dobro.
+#: Desde o MegUI ela é embarcada no pacote, então existe em qualquer máquina —
+#: inclusive no runner headless, que não tem fonte de sistema nenhuma.
+FONTES_DO_PROJETO = ("Atkinson Hyperlegible Next",)
 
 
 def fonte_disponivel() -> str:
@@ -35,6 +36,8 @@ def fonte_disponivel() -> str:
     errado se o substituto fosse estreito.
     """
     from PySide6.QtGui import QFontDatabase
+    from . import theme
+    theme.carregar_fontes()
     familias = set(QFontDatabase.families())
     for nome in FONTES_DO_PROJETO:
         if nome in familias:
@@ -102,7 +105,7 @@ def check(verbose: bool = True) -> bool:
             print("Nenhuma fonte do projeto disponivel "
                   f"({', '.join(FONTES_DO_PROJETO)}).")
             print("Sem elas a medicao usa um substituto de outra largura e nao")
-            print("diz nada sobre o layout real. Rode numa sessao grafica.")
+            print("diz nada sobre o layout real. Confira backup_maximus/ui/fonts.")
         return True
     from .app import MainWindow, apply_theme
 

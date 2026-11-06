@@ -135,12 +135,14 @@ class Relogio(QWidget):
     def _desenhar_ponteiro(self, pintor, centro, raio, posicao, total) -> None:
         p = theme.current()
         destino = self._ponto(centro, raio, posicao, total)
-        caneta = QPen(QColor(p.accent))
-        caneta.setWidth(2)
+        # O ponteiro é linha: accent_linha, que no escuro mantém 3:1 sobre o
+        # mostrador. O acento puro fica só para a ação primária da tela.
+        caneta = QPen(QColor(p.accent_linha))
+        caneta.setWidthF(1.5)
         pintor.setPen(caneta)
         pintor.drawLine(centro, destino)
         pintor.setPen(Qt.NoPen)
-        pintor.setBrush(QColor(p.accent))
+        pintor.setBrush(QColor(p.accent_linha))
         pintor.drawEllipse(centro, 3, 3)
 
     def _desenhar_numero(self, pintor, centro, raio, posicao, total,
@@ -149,22 +151,25 @@ class Relogio(QWidget):
         meio = self._ponto(centro, raio, posicao, total)
         caixa = QRect(meio.x() - 13, meio.y() - 13, 26, 26)
 
+        # Estados do MegUI: selecionado = accent_soft com linha accent_linha
+        # e o texto preservado por cima; hover = um passo de superfície.
         if ativo:
-            pintor.setPen(Qt.NoPen)
-            pintor.setBrush(QColor(p.accent))
+            pintor.setPen(QPen(QColor(p.accent_linha), 1))
+            pintor.setBrush(QColor(p.accent_soft))
             pintor.drawEllipse(caixa)
         elif self._sob_cursor == (posicao, pequeno is False):
             pintor.setPen(Qt.NoPen)
-            pintor.setBrush(QColor(p.accent_soft))
+            pintor.setBrush(QColor(p.surface2))
             pintor.drawEllipse(caixa)
 
         if not texto:
             return
         fonte = QFont(self.font())
         fonte.setPointSize(8 if pequeno else 9)
+        fonte.setBold(ativo)
         pintor.setFont(fonte)
-        pintor.setPen(QColor(p.on_accent if ativo
-                             else (p.ink_3 if pequeno else p.ink)))
+        pintor.setPen(QColor(p.ink if ativo
+                             else (p.ink3 if pequeno else p.ink)))
         pintor.drawText(caixa, Qt.AlignCenter, texto)
 
     # --------------------------------------------------------------- mouse

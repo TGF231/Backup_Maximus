@@ -43,6 +43,33 @@ Nada ainda.
 
 ---
 
+## [3.0.0] — 2026-11-06
+
+Versão maior pela nova identidade visual, não pela configuração: o `.ini` é o
+mesmo da 2.x. Atualizar por cima mantém conjuntos, itens e senhas.
+
+### Alterado
+- Interface no design system **MegUI**, a assinatura visual dos aplicativos da
+  família: acento vermelho-escuro de marca, neutros azulados, raio máximo de
+  4px, fontes Atkinson Hyperlegible Next e Mono embarcadas (legíveis em `0`/`O`,
+  `1`/`l`, `5`/`S`) e um único botão de acento por tela — na janela principal,
+  *Executar backup agora*. *Salvar tudo* e *Entrar e autorizar no navegador*
+  passam a botões comuns.
+- No tema escuro, foco, aba ativa, caixa marcada e ponteiro do relógio usam um
+  tom de linha com contraste suficiente sobre o fundo escuro.
+- Botões de ordem dos itens dizem *Subir* e *Descer*, em vez de setas.
+
+### Corrigido
+- Senha do Firebird gravada por **outro usuário do Windows** (por exemplo, com o
+  programa aberto como Administrador) não é mais tratada como campo vazio: a tela
+  avisa "gravada por outro usuário do Windows — redigite" e o backup recusa com
+  essa explicação, em vez de tentar `masterkey` e falhar por autenticação.
+
+### Adicionado
+- `/version` informa onde ficam o programa, os dados e o `.ini`.
+
+---
+
 ## [2.2.3] — 2026-11-06
 
 ### Corrigido

@@ -15,7 +15,7 @@ from PySide6.QtWidgets import (
     QAbstractItemView, QFileDialog, QListWidgetItem, QWidget,
 )
 
-from .. import cloud, dbdump
+from .. import cloud, config, dbdump
 from ..config import BackupItem, BackupSet, Config, ItemType, SetMode
 from . import (
     alias_dialog, cloud_dialog, forms, password, preview, widgets,
@@ -276,7 +276,7 @@ class BackupsTab(QWidget):
                  else widgets.DOT_OK)
             ))
             if not bset.enabled:
-                entry.setForeground(Qt.gray)
+                entry.setForeground(widgets.muted_color())
             self.list_sets.addItem(entry)
         if 0 <= self.cur_set < self.list_sets.count():
             self.list_sets.setCurrentRow(self.cur_set)
@@ -290,12 +290,12 @@ class BackupsTab(QWidget):
         if bset:
             for item in bset.items:
                 where = widgets.elide_left(item.subfolder or "(raiz)", 26)
-                entry = QListWidgetItem(f"{item.name}  →  {where}")
+                entry = QListWidgetItem(f"{item.name}  ·  {where}")
                 entry.setIcon(widgets.dot_icon(
                     widgets.DOT_MUTED if not item.enabled else widgets.DOT_OK
                 ))
                 if not item.enabled:
-                    entry.setForeground(Qt.gray)
+                    entry.setForeground(widgets.muted_color())
                 entry.setToolTip(
                     f"{item.type.label}\nOrigem: {item.source}\n"
                     f"Vai para: {item.subfolder or '(raiz do zip)'}"
@@ -338,9 +338,18 @@ class BackupsTab(QWidget):
         self.item_user.setText(item.user)
         # Senha nunca volta para a tela em claro: campo vazio mantém a gravada.
         self.item_pass.setText("")
-        self.item_pass.setPlaceholderText(
-            "•••••• (gravada)" if item.password_enc else ""
-        )
+        # "Gravada" e "utilizável" não são a mesma coisa: o DPAPI cifra no
+        # escopo do usuário do Windows, e uma senha salva com o programa
+        # aberto por outra conta continua no arquivo sem poder ser lida.
+        # Dizer só "gravada" faria o operador confiar numa senha que o
+        # backup noturno não consegue usar.
+        if not item.password_enc:
+            dica = ""
+        elif config.secret_ilegivel(item.password_enc):
+            dica = "gravada por outro usuário do Windows — redigite"
+        else:
+            dica = "•••••• (gravada)"
+        self.item_pass.setPlaceholderText(dica)
         self.item_tool.setText(item.tool_path)
         self.item_enabled.setChecked(item.enabled)
         self._loading = False

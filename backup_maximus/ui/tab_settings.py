@@ -148,8 +148,8 @@ class SettingsTab(QWidget):
             )
         else:
             self.alert_hint.setText(
-                f"Rotina diária às 22:00 → {hours} h dá {hours - 24} h de folga "
-                f"antes de reclamar."
+                f"Com rotina diária às 22:00, o limite de {hours} h deixa "
+                f"{hours - 24} h de folga antes do alerta."
             )
 
     def _show_sevenzip_state(self, state: PathState, message: str) -> None:

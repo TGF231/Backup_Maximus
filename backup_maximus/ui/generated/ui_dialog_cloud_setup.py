@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'dialog_cloud_setup.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.2
+## Created by: Qt User Interface Compiler version 6.11.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -113,7 +113,6 @@ class Ui_CloudSetupDialog(object):
 
         self.btnAuthorize = QPushButton(self.pageOauth)
         self.btnAuthorize.setObjectName(u"btnAuthorize")
-        self.btnAuthorize.setProperty(u"role", u"accent")
 
         self.oauthLayout.addWidget(self.btnAuthorize)
 

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main_window.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.2
+## Created by: Qt User Interface Compiler version 6.11.1
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -85,7 +85,6 @@ class Ui_MainWindow(object):
 
         self.btnSave = QPushButton(self.footerBar)
         self.btnSave.setObjectName(u"btnSave")
-        self.btnSave.setProperty(u"role", u"accent")
 
         self.footerLayout.addWidget(self.btnSave)
 

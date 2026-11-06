@@ -64,6 +64,13 @@ DATAS += [(os.path.join("licenses", nome), "licenses")
           for nome in sorted(os.listdir("licenses"))
           if nome.lower().endswith(".txt")]
 
+# Fontes do MegUI (OFL). Moram junto do codigo da interface, que as procura ao
+# lado de theme.py; sem elas o Qt troca por uma fonte mais larga e campos cortam.
+DATAS += [(os.path.join("backup_maximus", "ui", "fonts", nome),
+           os.path.join("backup_maximus", "ui", "fonts"))
+          for nome in sorted(os.listdir(os.path.join("backup_maximus", "ui", "fonts")))
+          if nome.lower().endswith((".ttf", ".txt"))]
+
 # Conjuntos modelo: perfis prontos que o usuario importa pela tela de
 # configuracoes. Sao .ini comuns, lidos pelo mesmo Config.load.
 DATAS += [(os.path.join("modelos", nome), "modelos")

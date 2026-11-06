@@ -38,6 +38,9 @@ LICENCAS = {
     "licenses/GPL-3.0.txt": "referida pela LGPLv3",
     "vendor/rclone/License.txt": "rclone (MIT)",
     "vendor/7zip/License.txt": "7-Zip (LGPL)",
+    # A OFL exige o texto junto de toda copia das fontes. Sem `vendor/` no
+    # caminho, e exigida sempre: a interface nao abre sem as fontes.
+    "backup_maximus/ui/fonts/OFL.txt": "fontes Atkinson Hyperlegible (OFL)",
 }
 
 
