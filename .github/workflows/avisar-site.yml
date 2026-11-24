@@ -1,0 +1,19 @@
+name: Avisar o site
+
+# Publicou um release aqui, o site (TGF231.github.io) reconstrói na hora,
+# em vez de esperar a varredura diária dele.
+on:
+  release:
+    types: [published]
+
+jobs:
+  avisar:
+    runs-on: ubuntu-latest
+    # Sem o secret SITE_DISPATCH o passo é pulado — o workflow não falha,
+    # e a varredura diária do site continua pegando o release de qualquer jeito.
+    env:
+      GH_TOKEN: ${{ secrets.SITE_DISPATCH }}
+    steps:
+      - name: Disparar rebuild do site
+        if: env.GH_TOKEN != ''
+        run: gh api repos/TGF231/TGF231.github.io/dispatches -f event_type=refresh
