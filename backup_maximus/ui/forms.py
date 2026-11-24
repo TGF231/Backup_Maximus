@@ -49,10 +49,13 @@ FORMS = {
 
 
 def _uic_command() -> list[str] | None:
-    """Como invocar o compilador de .ui, se ele existir nesta máquina."""
-    exe = shutil.which("pyside6-uic")
-    if exe:
-        return [exe]
+    """Como invocar o compilador de .ui, se ele existir nesta máquina.
+
+    Primeiro o `uic` que vem dentro da PySide6 em uso: é da mesma versão do
+    Qt que vai carregar o formulário. O `pyside6-uic` do PATH fica por último,
+    porque pode ser de outro Python — um interpretador removido deixa o
+    lançador para trás, e ele falha sem mensagem nenhuma.
+    """
     try:
         import PySide6
         candidate = os.path.join(os.path.dirname(PySide6.__file__), "uic.exe")
@@ -60,6 +63,9 @@ def _uic_command() -> list[str] | None:
             return [candidate, "-g", "python"]
     except ImportError:
         pass
+    exe = shutil.which("pyside6-uic")
+    if exe:
+        return [exe]
     return None
 
 

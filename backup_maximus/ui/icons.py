@@ -57,7 +57,15 @@ def _checkmark(size: int, color: str) -> QPixmap:
     return pixmap
 
 
-def _chevron(width: int, height: int, color: str) -> QPixmap:
+# O "v" aberto para baixo, em coordenadas proporcionais; "cima" é a mesma
+# forma invertida, para as setas do campo numérico.
+_PONTAS = {
+    "baixo": ((0.22, 0.38), (0.50, 0.66), (0.78, 0.38)),
+    "cima": ((0.22, 0.62), (0.50, 0.34), (0.78, 0.62)),
+}
+
+
+def _chevron(width: int, height: int, color: str, direcao: str = "baixo") -> QPixmap:
     pixmap = QPixmap(width, height)
     pixmap.fill(Qt.transparent)
     painter = QPainter(pixmap)
@@ -67,11 +75,8 @@ def _chevron(width: int, height: int, color: str) -> QPixmap:
     pen.setCapStyle(Qt.RoundCap)
     pen.setJoinStyle(Qt.RoundJoin)
     painter.setPen(pen)
-    painter.drawPolyline(QPolygonF([
-        QPointF(width * 0.22, height * 0.38),
-        QPointF(width * 0.50, height * 0.66),
-        QPointF(width * 0.78, height * 0.38),
-    ]))
+    painter.drawPolyline(QPolygonF([QPointF(width * x, height * y)
+                                    for x, y in _PONTAS[direcao]]))
     painter.end()
     return pixmap
 
@@ -89,5 +94,12 @@ def paths(palette: "Palette") -> dict[str, str]:
         "chevron_off": _save(f"chevron_off_{suffix}.png",
                              _chevron(12, 12, palette.ink3)),
     }
+    # Setas do campo numérico: sem elas o Qt desenha as do estilo nativo,
+    # pretas nos dois temas.
+    for direcao in ("cima", "baixo"):
+        for sufixo, cor in (("", palette.ink2), ("_off", palette.ink3)):
+            chave = f"seta_{direcao}{sufixo}"
+            art[chave] = _save(f"{chave}_{suffix}.png",
+                               _chevron(10, 10, cor, direcao))
     _cache[palette.nome] = art
     return art

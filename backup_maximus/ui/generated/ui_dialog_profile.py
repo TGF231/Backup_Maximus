@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'dialog_profile.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.1
+## Created by: Qt User Interface Compiler version 6.12.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -79,8 +79,8 @@ class Ui_ProfileDialog(object):
         self.lblModo = QLabel(ProfileDialog)
         self.lblModo.setObjectName(u"lblModo")
         self.lblModo.setProperty(u"role", u"field")
-        self.lblModo.setMinimumSize(QSize(124, 0))
-        self.lblModo.setMaximumSize(QSize(124, 16777215))
+        self.lblModo.setMinimumSize(QSize(140, 0))
+        self.lblModo.setMaximumSize(QSize(140, 16777215))
         self.lblModo.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignVCenter)
 
         self.comoLayout.addWidget(self.lblModo, 0, 0, 1, 1)

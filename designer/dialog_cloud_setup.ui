@@ -22,8 +22,8 @@
      <item row="0" column="0">
       <widget class="QLabel" name="lblProvider">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>140</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>140</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Serviço</string></property>
       </widget>
@@ -35,8 +35,8 @@
      <item row="1" column="0">
       <widget class="QLabel" name="lblName">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>140</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>140</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Nome interno</string></property>
       </widget>
@@ -163,8 +163,8 @@
           <item row="0" column="0">
            <widget class="QLabel" name="lblKeyId">
             <property name="role" stdset="0"><string notr="true">field</string></property>
-            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="minimumSize"><size><width>140</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>140</width><height>16777215</height></size></property>
             <property name="alignment"><set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignVCenter</set></property>
             <property name="text"><string>ID do cliente</string></property>
            </widget>
@@ -177,8 +177,8 @@
           <item row="1" column="0">
            <widget class="QLabel" name="lblKeySecret">
             <property name="role" stdset="0"><string notr="true">field</string></property>
-            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="minimumSize"><size><width>140</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>140</width><height>16777215</height></size></property>
             <property name="alignment"><set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignVCenter</set></property>
             <property name="text"><string>Segredo do cliente</string></property>
            </widget>

@@ -43,6 +43,37 @@ Nada ainda.
 
 ---
 
+## [3.1.0] — 2026-11-24
+
+### Adicionado
+- **Servidor do SQL Server em lista**: o campo *Servidor* oferece as instâncias
+  instaladas na máquina (lidas do registro a cada abertura), como
+  `localhost\SQL2019`. Continua aceitando um servidor remoto digitado.
+- **Bancos do Firebird sem digitar**: no item Firebird, o botão *…* da origem
+  lista os aliases dos `aliases.conf`/`databases.conf` encontrados, com o
+  caminho e se o arquivo existe; *Procurar arquivo .fdb…* continua no fim. Com
+  um único alias registrado e a origem vazia, ele é preenchido sozinho.
+
+### Alterado
+- Interface no **MegUI 2.0**: fontes Inter e JetBrains Mono embarcadas, botões e
+  abas em pílula, campos preenchidos sem borda (anel só no foco), cartões com
+  canto de 12px e densidade compacta. A janela abre em 1200×800 (mínimo
+  1140×735).
+- Item novo de SQL Server vem sem porta: instância nomeada e Express usam porta
+  dinâmica.
+
+### Corrigido
+- **Manter últimos** volta a funcionar como campo de quantidade: tem setas, 0 se
+  lê *Todos*, e no modo Incremental fica desligado com a explicação na tela — antes
+  voltava a ficar editável sem efeito ao abrir o conjunto.
+- **SQL Server**: com porta preenchida e o servidor sem responder nela (o "tempo
+  limite do logon expirou"), o programa tenta o mesmo endereço sem a porta e, se
+  conectar, avisa para apagá-la do item. Quando nada conecta, a mensagem lista as
+  instâncias encontradas na máquina.
+- Campos numéricos das Configurações (alerta, porta SMTP) ganharam setas.
+
+---
+
 ## [3.0.0] — 2026-11-06
 
 Versão maior pela nova identidade visual, não pela configuração: o `.ini` é o

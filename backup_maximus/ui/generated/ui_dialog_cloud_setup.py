@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'dialog_cloud_setup.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.1
+## Created by: Qt User Interface Compiler version 6.12.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -37,8 +37,8 @@ class Ui_CloudSetupDialog(object):
         self.lblProvider = QLabel(CloudSetupDialog)
         self.lblProvider.setObjectName(u"lblProvider")
         self.lblProvider.setProperty(u"role", u"field")
-        self.lblProvider.setMinimumSize(QSize(124, 0))
-        self.lblProvider.setMaximumSize(QSize(124, 16777215))
+        self.lblProvider.setMinimumSize(QSize(140, 0))
+        self.lblProvider.setMaximumSize(QSize(140, 16777215))
         self.lblProvider.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridTop.addWidget(self.lblProvider, 0, 0, 1, 1)
@@ -51,8 +51,8 @@ class Ui_CloudSetupDialog(object):
         self.lblName = QLabel(CloudSetupDialog)
         self.lblName.setObjectName(u"lblName")
         self.lblName.setProperty(u"role", u"field")
-        self.lblName.setMinimumSize(QSize(124, 0))
-        self.lblName.setMaximumSize(QSize(124, 16777215))
+        self.lblName.setMinimumSize(QSize(140, 0))
+        self.lblName.setMaximumSize(QSize(140, 16777215))
         self.lblName.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridTop.addWidget(self.lblName, 1, 0, 1, 1)
@@ -170,8 +170,8 @@ class Ui_CloudSetupDialog(object):
         self.lblKeyId = QLabel(self.keyBox)
         self.lblKeyId.setObjectName(u"lblKeyId")
         self.lblKeyId.setProperty(u"role", u"field")
-        self.lblKeyId.setMinimumSize(QSize(124, 0))
-        self.lblKeyId.setMaximumSize(QSize(124, 16777215))
+        self.lblKeyId.setMinimumSize(QSize(140, 0))
+        self.lblKeyId.setMaximumSize(QSize(140, 16777215))
         self.lblKeyId.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignVCenter)
 
         self.keyLayout.addWidget(self.lblKeyId, 0, 0, 1, 1)
@@ -184,8 +184,8 @@ class Ui_CloudSetupDialog(object):
         self.lblKeySecret = QLabel(self.keyBox)
         self.lblKeySecret.setObjectName(u"lblKeySecret")
         self.lblKeySecret.setProperty(u"role", u"field")
-        self.lblKeySecret.setMinimumSize(QSize(124, 0))
-        self.lblKeySecret.setMaximumSize(QSize(124, 16777215))
+        self.lblKeySecret.setMinimumSize(QSize(140, 0))
+        self.lblKeySecret.setMaximumSize(QSize(140, 16777215))
         self.lblKeySecret.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignVCenter)
 
         self.keyLayout.addWidget(self.lblKeySecret, 1, 0, 1, 1)

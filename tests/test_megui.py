@@ -86,16 +86,35 @@ class FolhaDeEstiloTest(unittest.TestCase):
             cls.folhas.append(theme.stylesheet())
         theme.set_dark(False)
 
-    def test_dois_pesos(self):
+    def test_tres_pesos(self):
+        from backup_maximus.ui.megui_tokens import PESOS
         for folha in self.folhas:
-            pesos = set(re.findall(r"font-weight:\s*(\w+)", folha))
-            self.assertLessEqual(pesos, {"400", "700"})
+            pesos = {int(p) for p in re.findall(r"font-weight:\s*(\d+)", folha)}
+            self.assertLessEqual(pesos, set(PESOS))
+            self.assertNotRegex(folha, r"font-weight:\s*(bold|normal)")
 
-    def test_raio_maximo_4px(self):
+    def test_raios_saem_dos_tokens(self):
+        # Pílula = metade da altura de controle; o resto, os raios do MegUI.
+        # O progresso arredonda o trilho de 16px, fora do controle padrão.
+        from backup_maximus.ui.megui_tokens import DENSIDADES, RAIOS
+        validos = {RAIOS["base"], RAIOS["campo"], RAIOS["cartao"],
+                   DENSIDADES[self.theme.DENSIDADE]["alturaControle"] // 2, 4, 7, 8, 0}
         for folha in self.folhas:
-            raios = [int(r) for r in re.findall(r"radius:\s*(\d+)px", folha)]
+            raios = {int(r) for r in re.findall(r"radius:\s*(\d+)px", folha)}
             self.assertTrue(raios)
-            self.assertLessEqual(max(raios), 4)
+            self.assertLessEqual(raios, validos)
+
+    def test_spinbox_com_setas_do_tema(self):
+        # Sem a imagem, o Qt desenha a seta nativa — preta nos dois temas.
+        for folha in self.folhas:
+            self.assertIn("QSpinBox::up-arrow", folha)
+            self.assertIn("QSpinBox::down-arrow", folha)
+
+    def test_nenhum_campo_numerico_sem_setas(self):
+        achados = [os.path.basename(u)
+                   for u in glob.glob(os.path.join(DESIGNER, "*.ui"))
+                   if "NoButtons" in _ler(u)]
+        self.assertEqual(achados, [])
 
     def test_sem_sombra_nem_gradiente(self):
         for folha in self.folhas:

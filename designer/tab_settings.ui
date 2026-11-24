@@ -38,8 +38,8 @@
      <item row="0" column="0">
       <widget class="QLabel" name="lblCompany">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>176</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>176</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Nome da empresa</string></property>
       </widget>
@@ -51,8 +51,8 @@
      <item row="1" column="0">
       <widget class="QLabel" name="lblEmail">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>176</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>176</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>E-mail de notificações</string></property>
       </widget>
@@ -66,8 +66,8 @@
      <item row="2" column="0">
       <widget class="QLabel" name="lblTimeout">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>176</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>176</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Alertar se sem backup há</string></property>
       </widget>
@@ -76,7 +76,6 @@
       <widget class="QSpinBox" name="spinTimeout">
        <property name="minimumSize"><size><width>120</width><height>0</height></size></property>
        <property name="maximumSize"><size><width>120</width><height>16777215</height></size></property>
-       <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
        <property name="minimum"><number>1</number></property>
        <property name="maximum"><number>8760</number></property>
        <property name="suffix"><string> horas</string></property>
@@ -93,8 +92,8 @@
      <item row="5" column="0">
       <widget class="QLabel" name="lblReminder">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>176</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>176</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Lembrar backup às</string></property>
       </widget>
@@ -162,8 +161,8 @@
      <item row="0" column="0">
       <widget class="QLabel" name="lblSmtpHost">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>176</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>176</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Servidor / porta</string></property>
       </widget>
@@ -178,7 +177,6 @@
       <widget class="QSpinBox" name="spinSmtpPort">
        <property name="minimumSize"><size><width>96</width><height>0</height></size></property>
        <property name="maximumSize"><size><width>96</width><height>16777215</height></size></property>
-       <property name="buttonSymbols"><enum>QAbstractSpinBox::NoButtons</enum></property>
        <property name="minimum"><number>1</number></property>
        <property name="maximum"><number>65535</number></property>
       </widget>
@@ -187,8 +185,8 @@
      <item row="1" column="0">
       <widget class="QLabel" name="lblSmtpUser">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>176</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>176</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Usuário / senha</string></property>
       </widget>
@@ -205,8 +203,8 @@
      <item row="2" column="0">
       <widget class="QLabel" name="lblSmtpFrom">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>176</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>176</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Remetente (De)</string></property>
       </widget>
@@ -258,8 +256,8 @@
      <item row="0" column="0">
       <widget class="QLabel" name="lblSevenZip">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>176</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>176</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Caminho do 7z.exe</string></property>
       </widget>
@@ -274,8 +272,8 @@
      <item row="0" column="4">
       <widget class="QPushButton" name="btnBrowseSevenZip">
        <property name="role" stdset="0"><string notr="true">tiny</string></property>
-       <property name="minimumSize"><size><width>30</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>30</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>36</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>36</width><height>16777215</height></size></property>
        <property name="text"><string>…</string></property>
       </widget>
      </item>
@@ -283,8 +281,8 @@
      <item row="1" column="0">
       <widget class="QLabel" name="lblRclone">
        <property name="role" stdset="0"><string notr="true">field</string></property>
-       <property name="minimumSize"><size><width>136</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>136</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>176</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>176</width><height>16777215</height></size></property>
        <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
        <property name="text"><string>Caminho do rclone.exe</string></property>
       </widget>
@@ -299,8 +297,8 @@
      <item row="1" column="4">
       <widget class="QPushButton" name="btnBrowseRclone">
        <property name="role" stdset="0"><string notr="true">tiny</string></property>
-       <property name="minimumSize"><size><width>30</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>30</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>36</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>36</width><height>16777215</height></size></property>
        <property name="text"><string>…</string></property>
       </widget>
      </item>

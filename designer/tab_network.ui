@@ -51,8 +51,8 @@
 
      <item>
       <widget class="QWidget" name="credPanel">
-       <property name="minimumSize"><size><width>380</width><height>0</height></size></property>
-       <property name="maximumSize"><size><width>380</width><height>16777215</height></size></property>
+       <property name="minimumSize"><size><width>460</width><height>0</height></size></property>
+       <property name="maximumSize"><size><width>460</width><height>16777215</height></size></property>
        <layout class="QVBoxLayout" name="credLayout">
         <property name="leftMargin"><number>0</number></property>
         <property name="topMargin"><number>0</number></property>
@@ -70,8 +70,8 @@
           <item row="0" column="0">
            <widget class="QLabel" name="lblUnc">
             <property name="role" stdset="0"><string notr="true">field</string></property>
-            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="minimumSize"><size><width>140</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>140</width><height>16777215</height></size></property>
             <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
             <property name="text"><string>Compartilhamento</string></property>
            </widget>
@@ -86,8 +86,8 @@
           <item row="1" column="0">
            <widget class="QLabel" name="lblNetUser">
             <property name="role" stdset="0"><string notr="true">field</string></property>
-            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="minimumSize"><size><width>140</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>140</width><height>16777215</height></size></property>
             <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
             <property name="text"><string>Usuário</string></property>
            </widget>
@@ -101,8 +101,8 @@
           <item row="2" column="0">
            <widget class="QLabel" name="lblNetPass">
             <property name="role" stdset="0"><string notr="true">field</string></property>
-            <property name="minimumSize"><size><width>124</width><height>0</height></size></property>
-            <property name="maximumSize"><size><width>124</width><height>16777215</height></size></property>
+            <property name="minimumSize"><size><width>140</width><height>0</height></size></property>
+            <property name="maximumSize"><size><width>140</width><height>16777215</height></size></property>
             <property name="alignment"><set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set></property>
             <property name="text"><string>Senha</string></property>
            </widget>

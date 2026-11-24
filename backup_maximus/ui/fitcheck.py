@@ -24,7 +24,7 @@ from ..config import BackupItem, BackupSet, Config, ItemType, NetCredential
 #: campo é a largura do texto, e um substituto genérico chega a ser o dobro.
 #: Desde o MegUI ela é embarcada no pacote, então existe em qualquer máquina —
 #: inclusive no runner headless, que não tem fonte de sistema nenhuma.
-FONTES_DO_PROJETO = ("Atkinson Hyperlegible Next",)
+FONTES_DO_PROJETO = ("Inter",)
 
 
 def fonte_disponivel() -> str:

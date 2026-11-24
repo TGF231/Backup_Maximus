@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tab_settings.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.1
+## Created by: Qt User Interface Compiler version 6.12.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QFrame,
-    QGridLayout, QHBoxLayout, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QSpacerItem, QSpinBox,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QFrame, QGridLayout,
+    QHBoxLayout, QLabel, QLineEdit, QPushButton,
+    QSizePolicy, QSpacerItem, QSpinBox, QVBoxLayout,
+    QWidget)
 
 from backup_maximus.ui.horaedit import HoraEdit
 from backup_maximus.ui.pathedit import PathEdit
@@ -46,8 +46,8 @@ class Ui_TabSettings(object):
         self.lblCompany = QLabel(TabSettings)
         self.lblCompany.setObjectName(u"lblCompany")
         self.lblCompany.setProperty(u"role", u"field")
-        self.lblCompany.setMinimumSize(QSize(136, 0))
-        self.lblCompany.setMaximumSize(QSize(136, 16777215))
+        self.lblCompany.setMinimumSize(QSize(176, 0))
+        self.lblCompany.setMaximumSize(QSize(176, 16777215))
         self.lblCompany.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridIdent.addWidget(self.lblCompany, 0, 0, 1, 1)
@@ -60,8 +60,8 @@ class Ui_TabSettings(object):
         self.lblEmail = QLabel(TabSettings)
         self.lblEmail.setObjectName(u"lblEmail")
         self.lblEmail.setProperty(u"role", u"field")
-        self.lblEmail.setMinimumSize(QSize(136, 0))
-        self.lblEmail.setMaximumSize(QSize(136, 16777215))
+        self.lblEmail.setMinimumSize(QSize(176, 0))
+        self.lblEmail.setMaximumSize(QSize(176, 16777215))
         self.lblEmail.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridIdent.addWidget(self.lblEmail, 1, 0, 1, 1)
@@ -74,8 +74,8 @@ class Ui_TabSettings(object):
         self.lblTimeout = QLabel(TabSettings)
         self.lblTimeout.setObjectName(u"lblTimeout")
         self.lblTimeout.setProperty(u"role", u"field")
-        self.lblTimeout.setMinimumSize(QSize(136, 0))
-        self.lblTimeout.setMaximumSize(QSize(136, 16777215))
+        self.lblTimeout.setMinimumSize(QSize(176, 0))
+        self.lblTimeout.setMaximumSize(QSize(176, 16777215))
         self.lblTimeout.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridIdent.addWidget(self.lblTimeout, 2, 0, 1, 1)
@@ -84,7 +84,6 @@ class Ui_TabSettings(object):
         self.spinTimeout.setObjectName(u"spinTimeout")
         self.spinTimeout.setMinimumSize(QSize(120, 0))
         self.spinTimeout.setMaximumSize(QSize(120, 16777215))
-        self.spinTimeout.setButtonSymbols(QAbstractSpinBox.NoButtons)
         self.spinTimeout.setMinimum(1)
         self.spinTimeout.setMaximum(8760)
 
@@ -100,8 +99,8 @@ class Ui_TabSettings(object):
         self.lblReminder = QLabel(TabSettings)
         self.lblReminder.setObjectName(u"lblReminder")
         self.lblReminder.setProperty(u"role", u"field")
-        self.lblReminder.setMinimumSize(QSize(136, 0))
-        self.lblReminder.setMaximumSize(QSize(136, 16777215))
+        self.lblReminder.setMinimumSize(QSize(176, 0))
+        self.lblReminder.setMaximumSize(QSize(176, 16777215))
         self.lblReminder.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridIdent.addWidget(self.lblReminder, 5, 0, 1, 1)
@@ -166,8 +165,8 @@ class Ui_TabSettings(object):
         self.lblSmtpHost = QLabel(TabSettings)
         self.lblSmtpHost.setObjectName(u"lblSmtpHost")
         self.lblSmtpHost.setProperty(u"role", u"field")
-        self.lblSmtpHost.setMinimumSize(QSize(136, 0))
-        self.lblSmtpHost.setMaximumSize(QSize(136, 16777215))
+        self.lblSmtpHost.setMinimumSize(QSize(176, 0))
+        self.lblSmtpHost.setMaximumSize(QSize(176, 16777215))
         self.lblSmtpHost.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridSmtp.addWidget(self.lblSmtpHost, 0, 0, 1, 1)
@@ -182,7 +181,6 @@ class Ui_TabSettings(object):
         self.spinSmtpPort.setObjectName(u"spinSmtpPort")
         self.spinSmtpPort.setMinimumSize(QSize(96, 0))
         self.spinSmtpPort.setMaximumSize(QSize(96, 16777215))
-        self.spinSmtpPort.setButtonSymbols(QAbstractSpinBox.NoButtons)
         self.spinSmtpPort.setMinimum(1)
         self.spinSmtpPort.setMaximum(65535)
 
@@ -191,8 +189,8 @@ class Ui_TabSettings(object):
         self.lblSmtpUser = QLabel(TabSettings)
         self.lblSmtpUser.setObjectName(u"lblSmtpUser")
         self.lblSmtpUser.setProperty(u"role", u"field")
-        self.lblSmtpUser.setMinimumSize(QSize(136, 0))
-        self.lblSmtpUser.setMaximumSize(QSize(136, 16777215))
+        self.lblSmtpUser.setMinimumSize(QSize(176, 0))
+        self.lblSmtpUser.setMaximumSize(QSize(176, 16777215))
         self.lblSmtpUser.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridSmtp.addWidget(self.lblSmtpUser, 1, 0, 1, 1)
@@ -211,8 +209,8 @@ class Ui_TabSettings(object):
         self.lblSmtpFrom = QLabel(TabSettings)
         self.lblSmtpFrom.setObjectName(u"lblSmtpFrom")
         self.lblSmtpFrom.setProperty(u"role", u"field")
-        self.lblSmtpFrom.setMinimumSize(QSize(136, 0))
-        self.lblSmtpFrom.setMaximumSize(QSize(136, 16777215))
+        self.lblSmtpFrom.setMinimumSize(QSize(176, 0))
+        self.lblSmtpFrom.setMaximumSize(QSize(176, 16777215))
         self.lblSmtpFrom.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridSmtp.addWidget(self.lblSmtpFrom, 2, 0, 1, 1)
@@ -270,8 +268,8 @@ class Ui_TabSettings(object):
         self.lblSevenZip = QLabel(TabSettings)
         self.lblSevenZip.setObjectName(u"lblSevenZip")
         self.lblSevenZip.setProperty(u"role", u"field")
-        self.lblSevenZip.setMinimumSize(QSize(136, 0))
-        self.lblSevenZip.setMaximumSize(QSize(136, 16777215))
+        self.lblSevenZip.setMinimumSize(QSize(176, 0))
+        self.lblSevenZip.setMaximumSize(QSize(176, 16777215))
         self.lblSevenZip.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridZip.addWidget(self.lblSevenZip, 0, 0, 1, 1)
@@ -286,16 +284,16 @@ class Ui_TabSettings(object):
         self.btnBrowseSevenZip = QPushButton(TabSettings)
         self.btnBrowseSevenZip.setObjectName(u"btnBrowseSevenZip")
         self.btnBrowseSevenZip.setProperty(u"role", u"tiny")
-        self.btnBrowseSevenZip.setMinimumSize(QSize(30, 0))
-        self.btnBrowseSevenZip.setMaximumSize(QSize(30, 16777215))
+        self.btnBrowseSevenZip.setMinimumSize(QSize(36, 0))
+        self.btnBrowseSevenZip.setMaximumSize(QSize(36, 16777215))
 
         self.gridZip.addWidget(self.btnBrowseSevenZip, 0, 4, 1, 1)
 
         self.lblRclone = QLabel(TabSettings)
         self.lblRclone.setObjectName(u"lblRclone")
         self.lblRclone.setProperty(u"role", u"field")
-        self.lblRclone.setMinimumSize(QSize(136, 0))
-        self.lblRclone.setMaximumSize(QSize(136, 16777215))
+        self.lblRclone.setMinimumSize(QSize(176, 0))
+        self.lblRclone.setMaximumSize(QSize(176, 16777215))
         self.lblRclone.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridZip.addWidget(self.lblRclone, 1, 0, 1, 1)
@@ -310,8 +308,8 @@ class Ui_TabSettings(object):
         self.btnBrowseRclone = QPushButton(TabSettings)
         self.btnBrowseRclone.setObjectName(u"btnBrowseRclone")
         self.btnBrowseRclone.setProperty(u"role", u"tiny")
-        self.btnBrowseRclone.setMinimumSize(QSize(30, 0))
-        self.btnBrowseRclone.setMaximumSize(QSize(30, 16777215))
+        self.btnBrowseRclone.setMinimumSize(QSize(36, 0))
+        self.btnBrowseRclone.setMaximumSize(QSize(36, 16777215))
 
         self.gridZip.addWidget(self.btnBrowseRclone, 1, 4, 1, 1)
 

@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tab_network.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.1
+## Created by: Qt User Interface Compiler version 6.12.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -60,8 +60,8 @@ class Ui_TabNetwork(object):
 
         self.credPanel = QWidget(TabNetwork)
         self.credPanel.setObjectName(u"credPanel")
-        self.credPanel.setMinimumSize(QSize(380, 0))
-        self.credPanel.setMaximumSize(QSize(380, 16777215))
+        self.credPanel.setMinimumSize(QSize(460, 0))
+        self.credPanel.setMaximumSize(QSize(460, 16777215))
         self.credLayout = QVBoxLayout(self.credPanel)
         self.credLayout.setSpacing(7)
         self.credLayout.setObjectName(u"credLayout")
@@ -74,8 +74,8 @@ class Ui_TabNetwork(object):
         self.lblUnc = QLabel(self.credPanel)
         self.lblUnc.setObjectName(u"lblUnc")
         self.lblUnc.setProperty(u"role", u"field")
-        self.lblUnc.setMinimumSize(QSize(124, 0))
-        self.lblUnc.setMaximumSize(QSize(124, 16777215))
+        self.lblUnc.setMinimumSize(QSize(140, 0))
+        self.lblUnc.setMaximumSize(QSize(140, 16777215))
         self.lblUnc.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridCred.addWidget(self.lblUnc, 0, 0, 1, 1)
@@ -89,8 +89,8 @@ class Ui_TabNetwork(object):
         self.lblNetUser = QLabel(self.credPanel)
         self.lblNetUser.setObjectName(u"lblNetUser")
         self.lblNetUser.setProperty(u"role", u"field")
-        self.lblNetUser.setMinimumSize(QSize(124, 0))
-        self.lblNetUser.setMaximumSize(QSize(124, 16777215))
+        self.lblNetUser.setMinimumSize(QSize(140, 0))
+        self.lblNetUser.setMaximumSize(QSize(140, 16777215))
         self.lblNetUser.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridCred.addWidget(self.lblNetUser, 1, 0, 1, 1)
@@ -103,8 +103,8 @@ class Ui_TabNetwork(object):
         self.lblNetPass = QLabel(self.credPanel)
         self.lblNetPass.setObjectName(u"lblNetPass")
         self.lblNetPass.setProperty(u"role", u"field")
-        self.lblNetPass.setMinimumSize(QSize(124, 0))
-        self.lblNetPass.setMaximumSize(QSize(124, 16777215))
+        self.lblNetPass.setMinimumSize(QSize(140, 0))
+        self.lblNetPass.setMaximumSize(QSize(140, 16777215))
         self.lblNetPass.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.gridCred.addWidget(self.lblNetPass, 2, 0, 1, 1)

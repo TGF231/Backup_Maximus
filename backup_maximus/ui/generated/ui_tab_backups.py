@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'tab_backups.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.11.1
+## Created by: Qt User Interface Compiler version 6.12.0
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -15,14 +15,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QCheckBox, QComboBox,
-    QFrame, QGridLayout, QHBoxLayout, QLabel,
-    QLineEdit, QListWidget, QListWidgetItem, QPushButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QSpinBox,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFrame,
+    QGridLayout, QHBoxLayout, QLabel, QLineEdit,
+    QListWidget, QListWidgetItem, QPushButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QSpinBox, QVBoxLayout,
+    QWidget)
 
 from backup_maximus.ui.drivecombo import DriveCombo
 from backup_maximus.ui.pathedit import PathEdit
+from backup_maximus.ui.servidorcombo import ServidorCombo
 
 class Ui_TabBackups(object):
     def setupUi(self, TabBackups):
@@ -190,12 +191,12 @@ class Ui_TabBackups(object):
         self.gridSet = QGridLayout()
         self.gridSet.setObjectName(u"gridSet")
         self.gridSet.setHorizontalSpacing(8)
-        self.gridSet.setVerticalSpacing(5)
+        self.gridSet.setVerticalSpacing(4)
         self.gridSet.setContentsMargins(0, -1, 0, -1)
         self.lblSetName = QLabel(self.rightContents)
         self.lblSetName.setObjectName(u"lblSetName")
-        self.lblSetName.setMinimumSize(QSize(124, 0))
-        self.lblSetName.setMaximumSize(QSize(124, 16777215))
+        self.lblSetName.setMinimumSize(QSize(140, 0))
+        self.lblSetName.setMaximumSize(QSize(140, 16777215))
         self.lblSetName.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblSetName.setProperty(u"role", u"field")
 
@@ -208,8 +209,8 @@ class Ui_TabBackups(object):
 
         self.lblSetDest = QLabel(self.rightContents)
         self.lblSetDest.setObjectName(u"lblSetDest")
-        self.lblSetDest.setMinimumSize(QSize(124, 0))
-        self.lblSetDest.setMaximumSize(QSize(124, 16777215))
+        self.lblSetDest.setMinimumSize(QSize(140, 0))
+        self.lblSetDest.setMaximumSize(QSize(140, 16777215))
         self.lblSetDest.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblSetDest.setProperty(u"role", u"field")
 
@@ -224,16 +225,16 @@ class Ui_TabBackups(object):
 
         self.btnBrowseDest = QPushButton(self.rightContents)
         self.btnBrowseDest.setObjectName(u"btnBrowseDest")
-        self.btnBrowseDest.setMinimumSize(QSize(30, 0))
-        self.btnBrowseDest.setMaximumSize(QSize(30, 16777215))
+        self.btnBrowseDest.setMinimumSize(QSize(36, 0))
+        self.btnBrowseDest.setMaximumSize(QSize(36, 16777215))
         self.btnBrowseDest.setProperty(u"role", u"tiny")
 
         self.gridSet.addWidget(self.btnBrowseDest, 1, 4, 1, 1)
 
         self.lblSetMode = QLabel(self.rightContents)
         self.lblSetMode.setObjectName(u"lblSetMode")
-        self.lblSetMode.setMinimumSize(QSize(124, 0))
-        self.lblSetMode.setMaximumSize(QSize(124, 16777215))
+        self.lblSetMode.setMinimumSize(QSize(140, 0))
+        self.lblSetMode.setMaximumSize(QSize(140, 16777215))
         self.lblSetMode.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblSetMode.setProperty(u"role", u"field")
 
@@ -253,17 +254,16 @@ class Ui_TabBackups(object):
 
         self.spinKeepLast = QSpinBox(self.rightContents)
         self.spinKeepLast.setObjectName(u"spinKeepLast")
-        self.spinKeepLast.setMinimumSize(QSize(96, 0))
-        self.spinKeepLast.setMaximumSize(QSize(96, 16777215))
-        self.spinKeepLast.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.spinKeepLast.setMinimumSize(QSize(112, 0))
+        self.spinKeepLast.setMaximumSize(QSize(112, 16777215))
         self.spinKeepLast.setMaximum(999)
 
         self.gridSet.addWidget(self.spinKeepLast, 2, 3, 1, 1)
 
         self.lblSetStaging = QLabel(self.rightContents)
         self.lblSetStaging.setObjectName(u"lblSetStaging")
-        self.lblSetStaging.setMinimumSize(QSize(124, 0))
-        self.lblSetStaging.setMaximumSize(QSize(124, 16777215))
+        self.lblSetStaging.setMinimumSize(QSize(140, 0))
+        self.lblSetStaging.setMaximumSize(QSize(140, 16777215))
         self.lblSetStaging.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblSetStaging.setProperty(u"role", u"field")
 
@@ -278,16 +278,16 @@ class Ui_TabBackups(object):
 
         self.btnBrowseStaging = QPushButton(self.rightContents)
         self.btnBrowseStaging.setObjectName(u"btnBrowseStaging")
-        self.btnBrowseStaging.setMinimumSize(QSize(30, 0))
-        self.btnBrowseStaging.setMaximumSize(QSize(30, 16777215))
+        self.btnBrowseStaging.setMinimumSize(QSize(36, 0))
+        self.btnBrowseStaging.setMaximumSize(QSize(36, 16777215))
         self.btnBrowseStaging.setProperty(u"role", u"tiny")
 
         self.gridSet.addWidget(self.btnBrowseStaging, 3, 4, 1, 1)
 
         self.lblSetWait = QLabel(self.rightContents)
         self.lblSetWait.setObjectName(u"lblSetWait")
-        self.lblSetWait.setMinimumSize(QSize(124, 0))
-        self.lblSetWait.setMaximumSize(QSize(124, 16777215))
+        self.lblSetWait.setMinimumSize(QSize(140, 0))
+        self.lblSetWait.setMaximumSize(QSize(140, 16777215))
         self.lblSetWait.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblSetWait.setProperty(u"role", u"field")
 
@@ -300,9 +300,9 @@ class Ui_TabBackups(object):
 
         self.spinWaitSecs = QSpinBox(self.rightContents)
         self.spinWaitSecs.setObjectName(u"spinWaitSecs")
-        self.spinWaitSecs.setMinimumSize(QSize(96, 0))
-        self.spinWaitSecs.setMaximumSize(QSize(96, 16777215))
-        self.spinWaitSecs.setButtonSymbols(QAbstractSpinBox.ButtonSymbols.NoButtons)
+        self.spinWaitSecs.setMinimumSize(QSize(112, 0))
+        self.spinWaitSecs.setMaximumSize(QSize(112, 16777215))
+        self.spinWaitSecs.setSingleStep(30)
         self.spinWaitSecs.setMaximum(86400)
 
         self.gridSet.addWidget(self.spinWaitSecs, 4, 3, 1, 1)
@@ -362,12 +362,12 @@ class Ui_TabBackups(object):
         self.gridItem = QGridLayout()
         self.gridItem.setObjectName(u"gridItem")
         self.gridItem.setHorizontalSpacing(8)
-        self.gridItem.setVerticalSpacing(5)
+        self.gridItem.setVerticalSpacing(4)
         self.gridItem.setContentsMargins(0, -1, 0, -1)
         self.lblItemName = QLabel(self.rightContents)
         self.lblItemName.setObjectName(u"lblItemName")
-        self.lblItemName.setMinimumSize(QSize(124, 0))
-        self.lblItemName.setMaximumSize(QSize(124, 16777215))
+        self.lblItemName.setMinimumSize(QSize(140, 0))
+        self.lblItemName.setMaximumSize(QSize(140, 16777215))
         self.lblItemName.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblItemName.setProperty(u"role", u"field")
 
@@ -380,8 +380,8 @@ class Ui_TabBackups(object):
 
         self.lblItemType = QLabel(self.rightContents)
         self.lblItemType.setObjectName(u"lblItemType")
-        self.lblItemType.setMinimumSize(QSize(124, 0))
-        self.lblItemType.setMaximumSize(QSize(124, 16777215))
+        self.lblItemType.setMinimumSize(QSize(140, 0))
+        self.lblItemType.setMaximumSize(QSize(140, 16777215))
         self.lblItemType.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblItemType.setProperty(u"role", u"field")
 
@@ -399,8 +399,8 @@ class Ui_TabBackups(object):
 
         self.lblItemSource = QLabel(self.rightContents)
         self.lblItemSource.setObjectName(u"lblItemSource")
-        self.lblItemSource.setMinimumSize(QSize(124, 0))
-        self.lblItemSource.setMaximumSize(QSize(124, 16777215))
+        self.lblItemSource.setMinimumSize(QSize(140, 0))
+        self.lblItemSource.setMaximumSize(QSize(140, 16777215))
         self.lblItemSource.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblItemSource.setProperty(u"role", u"field")
 
@@ -415,16 +415,16 @@ class Ui_TabBackups(object):
 
         self.btnBrowseSource = QPushButton(self.rightContents)
         self.btnBrowseSource.setObjectName(u"btnBrowseSource")
-        self.btnBrowseSource.setMinimumSize(QSize(30, 0))
-        self.btnBrowseSource.setMaximumSize(QSize(30, 16777215))
+        self.btnBrowseSource.setMinimumSize(QSize(36, 0))
+        self.btnBrowseSource.setMaximumSize(QSize(36, 16777215))
         self.btnBrowseSource.setProperty(u"role", u"tiny")
 
         self.gridItem.addWidget(self.btnBrowseSource, 2, 4, 1, 1)
 
         self.lblItemSubfolder = QLabel(self.rightContents)
         self.lblItemSubfolder.setObjectName(u"lblItemSubfolder")
-        self.lblItemSubfolder.setMinimumSize(QSize(124, 0))
-        self.lblItemSubfolder.setMaximumSize(QSize(124, 16777215))
+        self.lblItemSubfolder.setMinimumSize(QSize(140, 0))
+        self.lblItemSubfolder.setMaximumSize(QSize(140, 16777215))
         self.lblItemSubfolder.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblItemSubfolder.setProperty(u"role", u"field")
 
@@ -438,8 +438,8 @@ class Ui_TabBackups(object):
 
         self.lblItemOutput = QLabel(self.rightContents)
         self.lblItemOutput.setObjectName(u"lblItemOutput")
-        self.lblItemOutput.setMinimumSize(QSize(124, 0))
-        self.lblItemOutput.setMaximumSize(QSize(124, 16777215))
+        self.lblItemOutput.setMinimumSize(QSize(140, 0))
+        self.lblItemOutput.setMaximumSize(QSize(140, 16777215))
         self.lblItemOutput.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblItemOutput.setProperty(u"role", u"field")
 
@@ -453,14 +453,14 @@ class Ui_TabBackups(object):
 
         self.lblItemHost = QLabel(self.rightContents)
         self.lblItemHost.setObjectName(u"lblItemHost")
-        self.lblItemHost.setMinimumSize(QSize(124, 0))
-        self.lblItemHost.setMaximumSize(QSize(124, 16777215))
+        self.lblItemHost.setMinimumSize(QSize(140, 0))
+        self.lblItemHost.setMaximumSize(QSize(140, 16777215))
         self.lblItemHost.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblItemHost.setProperty(u"role", u"field")
 
         self.gridItem.addWidget(self.lblItemHost, 5, 0, 1, 1)
 
-        self.editItemHost = QLineEdit(self.rightContents)
+        self.editItemHost = ServidorCombo(self.rightContents)
         self.editItemHost.setObjectName(u"editItemHost")
         self.editItemHost.setProperty(u"mono", u"true")
 
@@ -476,8 +476,8 @@ class Ui_TabBackups(object):
 
         self.lblItemUser = QLabel(self.rightContents)
         self.lblItemUser.setObjectName(u"lblItemUser")
-        self.lblItemUser.setMinimumSize(QSize(124, 0))
-        self.lblItemUser.setMaximumSize(QSize(124, 16777215))
+        self.lblItemUser.setMinimumSize(QSize(140, 0))
+        self.lblItemUser.setMaximumSize(QSize(140, 16777215))
         self.lblItemUser.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblItemUser.setProperty(u"role", u"field")
 
@@ -496,8 +496,8 @@ class Ui_TabBackups(object):
 
         self.lblItemTool = QLabel(self.rightContents)
         self.lblItemTool.setObjectName(u"lblItemTool")
-        self.lblItemTool.setMinimumSize(QSize(124, 0))
-        self.lblItemTool.setMaximumSize(QSize(124, 16777215))
+        self.lblItemTool.setMinimumSize(QSize(140, 0))
+        self.lblItemTool.setMaximumSize(QSize(140, 16777215))
         self.lblItemTool.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
         self.lblItemTool.setProperty(u"role", u"field")
 
@@ -512,8 +512,8 @@ class Ui_TabBackups(object):
 
         self.btnBrowseTool = QPushButton(self.rightContents)
         self.btnBrowseTool.setObjectName(u"btnBrowseTool")
-        self.btnBrowseTool.setMinimumSize(QSize(30, 0))
-        self.btnBrowseTool.setMaximumSize(QSize(30, 16777215))
+        self.btnBrowseTool.setMinimumSize(QSize(36, 0))
+        self.btnBrowseTool.setMaximumSize(QSize(36, 16777215))
         self.btnBrowseTool.setProperty(u"role", u"tiny")
 
         self.gridItem.addWidget(self.btnBrowseTool, 7, 4, 1, 1)
@@ -594,8 +594,10 @@ class Ui_TabBackups(object):
         self.lblSetMode.setText(QCoreApplication.translate("TabBackups", u"Modo", None))
         self.lblKeepLast.setText(QCoreApplication.translate("TabBackups", u"Manter \u00faltimos", None))
 #if QT_CONFIG(tooltip)
-        self.spinKeepLast.setToolTip(QCoreApplication.translate("TabBackups", u"0 = manter todos os arquivos. S\u00f3 se aplica ao modo Completo.", None))
+        self.spinKeepLast.setToolTip(QCoreApplication.translate("TabBackups", u"Quantos .zip manter no destino. Todos = n\u00e3o apaga nenhum.", None))
 #endif // QT_CONFIG(tooltip)
+        self.spinKeepLast.setSpecialValueText(QCoreApplication.translate("TabBackups", u"Todos", None))
+        self.spinKeepLast.setSuffix(QCoreApplication.translate("TabBackups", u" zips", None))
         self.lblSetStaging.setText(QCoreApplication.translate("TabBackups", u"Pasta de montagem", None))
         self.editSetStaging.setPlaceholderText(QCoreApplication.translate("TabBackups", u"vazio = <pasta do app>\\staging\\<nome do conjunto>", None))
         self.btnBrowseStaging.setText(QCoreApplication.translate("TabBackups", u"\u2026", None))
@@ -603,7 +605,8 @@ class Ui_TabBackups(object):
 #if QT_CONFIG(tooltip)
         self.comboSetWait.setToolTip(QCoreApplication.translate("TabBackups", u"Unidades do computador, relidas cada vez que a lista \u00e9 aberta. Caminhos de rede aparecem aqui depois de cadastrados na aba Rede.", None))
 #endif // QT_CONFIG(tooltip)
-        self.spinWaitSecs.setSuffix(QCoreApplication.translate("TabBackups", u" seg", None))
+        self.spinWaitSecs.setSpecialValueText(QCoreApplication.translate("TabBackups", u"Sem limite", None))
+        self.spinWaitSecs.setSuffix(QCoreApplication.translate("TabBackups", u" s", None))
         self.lblSetHint.setText("")
         self.lblSetDestHint.setText("")
         self.chkKeepStaging.setText(QCoreApplication.translate("TabBackups", u"Manter a pasta de montagem (mais r\u00e1pido)", None))

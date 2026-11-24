@@ -85,7 +85,7 @@ class HoraEdit(QWidget):
         self.edit.setInputMask("99:99")
         self.edit.setMaxLength(5)
         self.edit.setAlignment(Qt.AlignCenter)
-        self.edit.setFixedWidth(58)
+        self.edit.setFixedWidth(72)
         self.edit.editingFinished.connect(self._arrumar)
 
         self.botao = QToolButton(self)

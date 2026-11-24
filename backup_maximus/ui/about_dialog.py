@@ -71,9 +71,10 @@ compactar. <a href="https://www.7-zip.org/">7-zip.org</a></p>
 <p>Ambos são executados como programas independentes, e não são vinculados a
 este aplicativo.</p>
 <hr>
-<p><b>Atkinson Hyperlegible Next e Mono</b> — SIL Open Font License 1.1.
-Copyright © 2020-2024 The Atkinson Hyperlegible Next Project Authors (Braille
-Institute). A licença acompanha as fontes, na pasta do programa.</p>
+<p><b>Inter</b> — SIL Open Font License 1.1. Copyright © 2016 The Inter
+Project Authors.<br><b>JetBrains Mono</b> — SIL Open Font License 1.1.
+Copyright © 2020 The JetBrains Mono Project Authors. As licenças acompanham
+as fontes, na pasta do programa.</p>
 <hr>
 <p><b>Python</b> — Python Software Foundation License.
 <a href="https://www.python.org/">python.org</a></p>

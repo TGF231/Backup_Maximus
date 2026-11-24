@@ -111,6 +111,91 @@ def _firebird(item: BackupItem, out_file: str) -> tuple[bool, str]:
     return True, ""
 
 
+# ------------------------------------------------------------- SQL Server
+def instancias_sql_locais() -> list[str]:
+    r"""Instâncias do SQL Server instaladas neste computador, pelo registro.
+
+    "MSSQLSERVER" é a instância padrão (endereço só `localhost`); as outras são
+    nomeadas (`localhost\NOME`). Lê as duas visões do registro porque um
+    SQL Server de 32 bits num Windows de 64 grava na outra.
+    """
+    try:
+        import winreg
+    except ImportError:
+        return []
+    achadas: list[str] = []
+    chave = r"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL"
+    for visao in (winreg.KEY_WOW64_64KEY, winreg.KEY_WOW64_32KEY):
+        try:
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, chave, 0,
+                                winreg.KEY_READ | visao) as k:
+                i = 0
+                while True:
+                    try:
+                        nome = winreg.EnumValue(k, i)[0]
+                    except OSError:
+                        break
+                    if nome not in achadas:
+                        achadas.append(nome)
+                    i += 1
+        except OSError:
+            continue
+    return achadas
+
+
+def endereco_sql(nome_instancia: str, host: str = "localhost") -> str:
+    """Como o sqlcmd chama a instância: a padrão não leva o nome."""
+    if nome_instancia.upper() == "MSSQLSERVER":
+        return host
+    return host + "\\" + nome_instancia
+
+
+def _servidores_sql(item: BackupItem) -> list[str]:
+    """Endereços a tentar, na ordem.
+
+    Com porta, o sqlcmd vai direto por TCP naquela porta. O SQL Server Express
+    e as instâncias nomeadas usam porta dinâmica — ou nem têm TCP ligado — e
+    aí a tentativa só expira ("O tempo limite do logon expirou"). Por isso,
+    se houver porta, tenta-se também sem ela: o cliente do SQL Server resolve
+    a instância pelo SQL Browser ou por memória compartilhada.
+    """
+    base = item.host.strip() or "localhost"
+    if item.port.strip():
+        return [f"{base},{item.port.strip()}", base]
+    return [base]
+
+
+def _sqlcmd(item: BackupItem, tool: str, query: str,
+            timeout: float | None = None) -> tuple[int, str, str]:
+    """Roda a consulta tentando cada endereço. Devolve (código, saída, endereço)."""
+    code, out, usado = 1, "", ""
+    for servidor in _servidores_sql(item):
+        args = [tool, "-S", servidor, "-b", "-l", "15", "-Q", query]
+        args += (["-U", item.user, "-P", item.password] if item.user else ["-E"])
+        code, out = util.run_process(args, timeout=timeout)
+        usado = servidor
+        if code == 0:
+            break
+    return code, out, usado
+
+
+def _dica_sql(item: BackupItem, usado: str) -> str:
+    """O que fazer quando nenhum endereço respondeu."""
+    partes = []
+    if item.port.strip():
+        partes.append(f"Tentado com a porta {item.port.strip()} e sem ela.")
+    locais = instancias_sql_locais()
+    host = (item.host.strip() or "localhost")
+    local = host.split("\\")[0].lower() in ("localhost", ".", "(local)", "127.0.0.1")
+    if local and locais:
+        nomes = ", ".join(endereco_sql(n) for n in locais)
+        partes.append(f"Instâncias neste computador: {nomes}. Use uma delas em Servidor.")
+    else:
+        partes.append("Confira o nome da instância (ex.: SERVIDOR\\SQLEXPRESS) e se o "
+                      "serviço SQL Server está em execução.")
+    return " ".join(partes)
+
+
 def _sqlserver(item: BackupItem, out_file: str) -> tuple[bool, str]:
     sqlcmd = find_tool(item)
     if not sqlcmd:
@@ -124,19 +209,10 @@ def _sqlserver(item: BackupItem, out_file: str) -> tuple[bool, str]:
     query = (f"BACKUP DATABASE [{database}] TO DISK=N'{target}' "
              f"WITH COPY_ONLY, INIT, CHECKSUM")
 
-    server = item.host or "localhost"
-    if item.port:
-        server += f",{item.port}"
-
-    args = [sqlcmd, "-S", server, "-b", "-Q", query]
-    if item.user:
-        args += ["-U", item.user, "-P", item.password]
-    else:
-        args += ["-E"]  # autenticação Windows
-
-    code, out = util.run_process(args)
+    code, out, usado = _sqlcmd(item, sqlcmd, query)
     if code != 0 or not os.path.isfile(out_file):
-        return False, f"sqlcmd/BACKUP DATABASE falhou (rc={code}): {util.truncate(out)}"
+        return False, (f"sqlcmd/BACKUP DATABASE falhou em {usado} (rc={code}): "
+                       f"{util.truncate(out)} {_dica_sql(item, usado)}").strip()
     return True, ""
 
 
@@ -205,13 +281,17 @@ def test_connection(item: BackupItem) -> tuple[bool, str]:
         return True, "gstat.exe nao encontrado; gbak localizado em " + tool
 
     if item.type is ItemType.SQLSERVER:
-        server = item.host or "localhost"
-        if item.port:
-            server += f",{item.port}"
-        args = [tool, "-S", server, "-b", "-Q", "SELECT 1"]
-        args += (["-U", item.user, "-P", item.password] if item.user else ["-E"])
-        code, out = util.run_process(args, timeout=30)
-        return (code == 0), ("Conexao OK" if code == 0 else util.truncate(out, 300))
+        code, out, usado = _sqlcmd(item, tool, "SELECT 1", timeout=30)
+        if code == 0:
+            if item.port.strip() and usado != _servidores_sql(item)[0]:
+                return True, (f"Conexão OK em {usado}, sem a porta {item.port.strip()}: "
+                              "nessa porta o servidor não responde. Apague a porta "
+                              "do item para o backup não perder tempo com ela.")
+            return True, f"Conexão OK em {usado}."
+        # A dica vem primeiro: a caixa de mensagem corta o texto longo, e a
+        # saída do sqlcmd é longa e genérica.
+        return False, (_dica_sql(item, usado) + "\n\n"
+                       + util.truncate(out, 300)).strip()
 
     if item.type is ItemType.MYSQL:
         args = [tool, "--no-data", "--result-file=NUL"]

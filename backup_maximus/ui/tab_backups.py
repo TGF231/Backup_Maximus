@@ -12,10 +12,11 @@ import os
 
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
-    QAbstractItemView, QFileDialog, QListWidgetItem, QWidget,
+    QAbstractItemView, QFileDialog, QListWidgetItem, QMenu, QWidget,
 )
 
 from .. import cloud, config, dbdump
+from .. import firebird_aliases as fbal
 from ..config import BackupItem, BackupSet, Config, ItemType, SetMode
 from . import (
     alias_dialog, cloud_dialog, forms, password, preview, widgets,
@@ -30,12 +31,27 @@ _MODE_ORDER = [SetMode.INCREMENTAL, SetMode.FULL]
 #: o tipo, nunca sobrescrevendo o que o usuário já digitou.
 _DEFAULT_CONNECTION = {
     ItemType.FIREBIRD: ("LOCALHOST", "3050", "SYSDBA"),
-    ItemType.SQLSERVER: ("localhost", "1433", ""),
+    # Sem porta: o Express e as instâncias nomeadas usam porta dinâmica, e
+    # 1433 fixo forçava uma conexão TCP que só expirava.
+    ItemType.SQLSERVER: ("localhost", "", ""),
     ItemType.MYSQL: ("localhost", "3306", "root"),
 }
 
+def _servidores_sql_locais() -> list[str]:
+    """Endereços das instâncias do SQL Server instaladas aqui."""
+    return [dbdump.endereco_sql(n) for n in dbdump.instancias_sql_locais()]
+
+
+#: O que o campo Servidor oferece em cada tipo. Firebird e MySQL quase sempre
+#: rodam no próprio servidor; o SQL Server tem instâncias com nome.
+_FONTES_SERVIDOR = {
+    ItemType.FIREBIRD: lambda: ["LOCALHOST"],
+    ItemType.SQLSERVER: _servidores_sql_locais,
+    ItemType.MYSQL: lambda: ["localhost"],
+}
+
 _SOURCE_HINTS = {
-    ItemType.FIREBIRD: "Origem: alias ou caminho do .fdb (ex.: PDVEXPRESSO)",
+    ItemType.FIREBIRD: "Origem: alias ou caminho do .fdb — o botão … lista os bancos registrados",
     ItemType.SQLSERVER: "Origem: nome do banco no SQL Server",
     ItemType.MYSQL: "Origem: nome do banco no MySQL",
     ItemType.DBF: "Origem: arquivo .dbf ou pasta que os contém",
@@ -173,11 +189,47 @@ class BackupsTab(QWidget):
         if chosen:
             edit.setText(os.path.normpath(chosen))
 
+    def _menu_aliases_firebird(self) -> bool:
+        """Mostra os bancos registrados nos aliases.conf/databases.conf.
+
+        Devolve True se o menu foi mostrado (a escolha já foi aplicada ou a
+        pessoa fechou o menu); False se não há alias nenhum e o seletor de
+        arquivo deve abrir direto.
+        """
+        aliases = fbal.discover()
+        if not aliases:
+            return False
+        menu = QMenu(self)
+        for alias in aliases:
+            acao = menu.addAction(
+                f"{alias.name}  ·  {alias.path}  ({alias.status}) — "
+                f"{alias.instance.label}")
+            acao.setData(alias.name)
+        menu.addSeparator()
+        procurar = menu.addAction("Procurar arquivo .fdb…")
+        botao = self.ui.btnBrowseSource
+        escolha = menu.exec(botao.mapToGlobal(botao.rect().bottomLeft()))
+        if escolha is procurar:
+            return False
+        if escolha is not None:
+            self.item_source.setText(escolha.data())
+        return True
+
+    def _autopreencher_firebird(self) -> None:
+        """Item Firebird novo, com um só banco registrado: já vem escolhido."""
+        if self.item_source.text().strip():
+            return
+        aliases = fbal.discover()
+        if len(aliases) == 1:
+            self.item_source.setText(aliases[0].name)
+
     def _browse_source(self) -> None:
         """Origem pode ser arquivo ou pasta; o tipo do item decide o diálogo."""
         item_type = _TYPE_ORDER[self.item_type.currentIndex()]
         start = self.item_source.text().strip() or self.app_dir
         if item_type is ItemType.FIREBIRD:
+            if self._menu_aliases_firebird():
+                return
             chosen, _ = QFileDialog.getOpenFileName(
                 self, "Escolher banco Firebird", start,
                 "Banco Firebird (*.fdb *.gdb);;Todos os arquivos (*.*)")
@@ -319,8 +371,11 @@ class BackupsTab(QWidget):
         self.set_keep.setChecked(bset.keep_staging)
         self.set_enabled.setChecked(bset.enabled)
         self._loading = False
-        self._update_set_hint()
+        # Primeiro liga o painel inteiro, depois desliga o que não se aplica
+        # ao modo. Na ordem inversa o "Manter últimos" voltava a ficar
+        # editável no Incremental, onde o valor é ignorado.
         self._set_panel_enabled(self._current_set() is not None)
+        self._update_set_hint()
         self.set_dest_hint.setText("")
         self.set_dest.validate_now()
 
@@ -411,12 +466,14 @@ class BackupsTab(QWidget):
                 f"vazio = <nome do item>{item_type.dump_ext}"
             )
             host, port, user = _DEFAULT_CONNECTION.get(item_type, ("", "", ""))
+            self.item_host.set_fonte(_FONTES_SERVIDOR.get(item_type, lambda: []))
             self.item_host.setPlaceholderText(host)
             self.item_port.setPlaceholderText(port)
             self.item_user.setPlaceholderText(user)
         else:
             self.item_tool.setPlaceholderText("não se aplica a arquivos/pastas")
             self.item_output.setPlaceholderText("não se aplica a arquivos/pastas")
+            self.item_host.set_fonte(lambda: [])
             self.item_host.setPlaceholderText("não se aplica")
             self.item_port.setPlaceholderText("")
             self.item_user.setPlaceholderText("")
@@ -428,6 +485,11 @@ class BackupsTab(QWidget):
         trocar o tipo por engano não apagar uma configuração pronta.
         """
         host, port, user = _DEFAULT_CONNECTION.get(item_type, ("", "", ""))
+        if item_type is ItemType.SQLSERVER:
+            # O backup roda no servidor: a primeira instância instalada aqui é
+            # um palpite melhor que "localhost", que só existe se houver a
+            # instância padrão.
+            host = (_servidores_sql_locais() or [host])[0]
         for value, field in ((host, self.item_host), (port, self.item_port),
                              (user, self.item_user)):
             if value and not field.text().strip():
@@ -450,7 +512,8 @@ class BackupsTab(QWidget):
         else:
             example = os.path.join(dest, f"{name}.zip")
             self.set_hint.setText(
-                f"Mantém {example} — um único arquivo, atualizado a cada execução."
+                f"Mantém {example} — um único arquivo, atualizado a cada execução; "
+                f"não há cópias antigas, por isso 'Manter últimos' fica desligado."
             )
         # O destino em nuvem fica num diálogo, mas o que ele faz continua
         # visível aqui: esconder o mecanismo é aceitável, esconder o efeito não.
@@ -480,7 +543,7 @@ class BackupsTab(QWidget):
         espera = bset is not None and bool(bset.wait_for_path)
         self.set_wait_secs.setEnabled(espera)
         self.set_wait_secs.setToolTip(
-            "Quanto esperar a unidade aparecer. 0 = espera sem limite."
+            "Quanto esperar a unidade aparecer. Sem limite = espera até ela aparecer."
             if espera else
             "Escolha uma unidade em 'Aguardar unidade' para este prazo "
             "valer. Sem unidade, o backup começa na hora.")
@@ -544,7 +607,10 @@ class BackupsTab(QWidget):
 
     def _on_type_changed(self) -> None:
         if not self._loading and self._current_item() is not None:
-            self._fill_connection_defaults(_TYPE_ORDER[self.item_type.currentIndex()])
+            item_type = _TYPE_ORDER[self.item_type.currentIndex()]
+            self._fill_connection_defaults(item_type)
+            if item_type is ItemType.FIREBIRD:
+                self._autopreencher_firebird()
         self._apply_type_hints()
         self._item_field_changed()
 

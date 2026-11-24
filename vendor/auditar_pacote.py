@@ -40,7 +40,8 @@ LICENCAS = {
     "vendor/7zip/License.txt": "7-Zip (LGPL)",
     # A OFL exige o texto junto de toda copia das fontes. Sem `vendor/` no
     # caminho, e exigida sempre: a interface nao abre sem as fontes.
-    "backup_maximus/ui/fonts/OFL.txt": "fontes Atkinson Hyperlegible (OFL)",
+    "backup_maximus/ui/fonts/Inter-OFL.txt": "fonte Inter (OFL)",
+    "backup_maximus/ui/fonts/JetBrainsMono-OFL.txt": "fonte JetBrains Mono (OFL)",
 }
 
 
